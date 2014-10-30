@@ -23,7 +23,7 @@ Platform.prototype.render = function(ctx){
 
 };
 
-Platform.prototype.groundMe(entity){
+Platform.prototype.groundMe = function (entity){
 	entity.velY = 0;
 	entity.cy=util.clampRange(this.cy,topBoundary,this.cy);
 

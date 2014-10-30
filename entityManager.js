@@ -88,7 +88,8 @@ deferredSetup : function () {
 },
 
 init: function() {
-    this._spawnPlayer();
+	this._spawnPlayer({cx : 20,
+					   cy : g_canvas.height - 30});
 },
 
 _spawnPlayer : function(descr) {

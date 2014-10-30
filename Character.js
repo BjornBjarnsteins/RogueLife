@@ -7,9 +7,9 @@ Character = function(descr)
 };
 
 Character.prototype = new Entity();
-Character.prototype.halfHeight=15;
-Character.prototype.halfWidth=5;
-Character.prototype.cy=g_canvas.height+this.halfHeight;
+Character.prototype.halfHeight=40;
+Character.prototype.halfWidth=20;
+Character.prototype.cy=g_canvas.height-this.halfHeight;
 Character.prototype.cx=g_canvas.width/2;
 Character.prototype.velX=0;
 Character.prototype.velY=0;
@@ -33,12 +33,12 @@ Character.prototype.update = function(dt)
 
     if(keys[this.KEY_LEFT])
     {
-	this.posX -=5;
+	this.cx -=5;
     }
 
     if(keys[this.KEY_RIGHT])
     {
-	this.posX +=5;
+	this.cx +=5;
     }
 
     //jumping code assumes we want to have jumps work
@@ -47,9 +47,9 @@ Character.prototype.update = function(dt)
     //we might want to add a threshhold to make
     //sure he goes upward in all circumstances
 
-    if(keys[this.KEY_UP]&&this.hasJumpsLeft())
+    if(eatKey(this.KEY_UP)&&this.hasJumpsLeft())
     {
-	this.velY -= 10;
+	this.velY -= 25;
     }
 
 
@@ -99,6 +99,14 @@ Character.prototype.applyAccel = function(accelX,accelY,dt)
     this.cx += dt * aveVelX;
     this.cy += dt * aveVelY;
 
+	var oldCy = this.cy;
+
+	this.clampToBounds();
+
+	if (this.cy !== oldCy) {
+		this.velY = 0;
+	}
+
 };
 
 Character.prototype.clampToBounds = function()
@@ -118,12 +126,12 @@ Character.prototype.render = function (ctx)
 {
     //Ævintýri rauða kassans!
     ctx.save();
-    ctx.fillStyle = "red";
-
-    ctx.fillRect(this.cx-this.halfWidth,
-		 this.cy+this.halfHeight,
-		 this.halfWidth*2,
-		 this.halfHeight*2);
+    util.fillBox(ctx,
+				 this.cx-this.halfWidth,
+				 this.cy-this.halfHeight,
+				 this.halfWidth*2,
+				 this.halfHeight*2,
+				 "red");
 
     ctx.restore();
 };

@@ -77,6 +77,7 @@ update: function(du) {
 
     for (var c = 0; c < this._categories.length; ++c) {
 
+	console.log(this._categories);
         var aCategory = this._categories[c];
         var i = 0;
 

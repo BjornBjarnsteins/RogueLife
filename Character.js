@@ -15,6 +15,13 @@ Character.prototype.KEY_UP = "W".charCodeAt(0);
 Character.prototype.KEY_DOWN = "S".charCodeAt(0);
 Character.prototype.KEY_LEFT = "A".charCodeAt(0);
 Character.prototype.KEY_RIGHT = "D".charCodeAt(0);
+/*
+console.log("declaring weapon");
+Character.prototype.Weapon = new Weapon({handleX:this.cx,
+					 handleY:this.cy,
+					 Character:this});
+console.log("weapon declared");
+*/
 
 //TODO:Images and sounds for character
 
@@ -53,6 +60,8 @@ Character.prototype.update = function(dt)
     //DOWN does nothing so far
 
     this.clampToBounds();
+
+//    this.Weapon.update();
 
 };
 
@@ -129,6 +138,8 @@ Character.prototype.render = function (ctx)
 				 "red");
 
     ctx.restore();
+
+ //   this.Weapon.render();
 };
 
 

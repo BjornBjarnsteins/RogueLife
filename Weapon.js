@@ -39,31 +39,35 @@ Weapon.prototype.leftRight=1;
 
 Weapon.prototype.KEY_ATTACK=this.Character.KEY_ATTACK||"N".charCodeAt(0);
 //hvert vopn hefur Character og hver character hefur vopn
-//Eina leiðin sem mér datt í hug að vopnið gæti alltaf verið 
+//Eina leiðin sem mér datt í hug að vopnið gæti alltaf verið
 //í höndunum á characternum án þess að brjóta privacy
 
-Weapon.prototype.update = function(dt)
+Weapon.prototype.update = function(dt, character)
 {
-    if(this.Character)
+    if(character)
     {
-	
+
 	this.handleX = this.Character.cx+this.Character.halfWidth;
 	this.handleY = this.Character.cy;
     }
 
-
-ctx.restore();
     if(g_keys[this.KEY_ATTACK]&&this.currentAttackTime===0)
     {
 	this.currentAttackTime=this.maximumAttackTime;
     }
-	
+
 
     if(this.currentAttackTime!==0)
 	this.attackUpdate(dt);
 
 };
 
+/* Ég held að einfaldasta leiðin til þess að höndla árásir sé að teikna hana
+ * bara sem tvær stellingar á characternum. Fyrri er stutt windup og seinni er
+ * árásin sjálf. Árásin myndi þá basically búa til svæði í stuttan tíma (kannski
+ * 0.5s eða svo) þar sem óvinir sem fara í svæðið deyja/taka skaða. Eftir þann tíma
+ * myndi characterinn fara í venjulega stöðu
+**/
 Weapon.prototype.attackUpdate = function(dt)
 {
     this.currentAttackTime = this.currentAttackTime-dt;
@@ -95,7 +99,7 @@ Weapon.prototype.attackUpdate = function(dt)
 Weapon.prototype.render = function(ctx)
 {
     ctx.save();
-    ctx.fillStyle="green":
+    ctx.fillStyle="green";
     if(leftRight===1)
     {
 	ctx.fillRect(this.handleX,
@@ -115,11 +119,11 @@ Weapon.prototype.render = function(ctx)
 
     ctx.restore();
 };
-		     
-		     
-	
-    
-    
+
+
+
+
+
 
 
 

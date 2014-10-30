@@ -1,6 +1,3 @@
-
-
-
 Character = function(descr)
 {
     this.setup(descr);

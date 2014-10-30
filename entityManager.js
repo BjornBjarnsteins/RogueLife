@@ -30,6 +30,7 @@ var entityManager = {
 // "PRIVATE" DATA
 
 _characters : [],
+_platforms  : [],
 
 // "PRIVATE" METHODS
 
@@ -86,7 +87,7 @@ KILL_ME_NOW : -1,
 //
 deferredSetup : function () {
 
-    this._categories = [this._characters];
+    this._categories = [this._characters, this._platforms];
 },
 
 init: function() {
@@ -96,6 +97,14 @@ init: function() {
 
 _spawnPlayer : function(descr) {
 	this._characters.push(new Character(descr));
+},
+
+_makePlatform : function  (descr) {
+
+    this._platforms.push(new Platform({
+        cx : 300,
+        cy : 200
+    }));
 },
 
 update: function(du) {

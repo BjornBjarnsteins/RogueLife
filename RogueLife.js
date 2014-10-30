@@ -22,6 +22,12 @@ function createInitialCharacter() {
     
 }
 
+function createInitialPlatform() {
+
+    entityManager._makePlatform();
+
+}
+
 // =============
 // GATHER INPUTS
 // =============
@@ -133,6 +139,7 @@ function preloadDone() {
 
     entityManager.init();
     createInitialCharacter();
+    createInitialPlatform();
 
     main.init();
 }

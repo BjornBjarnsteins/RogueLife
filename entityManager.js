@@ -52,7 +52,7 @@ KILL_ME_NOW : -1,
 //
 deferredSetup : function () {
 
-    this._categories = [this._characters, this._platforms];
+    this._categories = [this._platforms, this._characters];
 },
 
 init: function() {
@@ -61,7 +61,7 @@ init: function() {
 
     this._makePlatform({cx:300,cy:200});
 
-					
+
 },
 
 _spawnPlayer : function(descr) {

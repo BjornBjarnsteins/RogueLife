@@ -10,6 +10,7 @@ Character.prototype.halfWidth=20;
 Character.prototype.cx=g_canvas.width/2;
 Character.prototype.velX=0;
 Character.prototype.velY=0;
+Character.prototype.weapon=null;
 
 Character.prototype.KEY_UP = "W".charCodeAt(0);
 Character.prototype.KEY_DOWN = "S".charCodeAt(0);
@@ -53,6 +54,8 @@ Character.prototype.update = function(dt)
     //DOWN does nothing so far
 
     this.clampToBounds();
+
+	if (this.weapon) this.weapon.update(dt, this);
 
 };
 
@@ -129,6 +132,8 @@ Character.prototype.render = function (ctx)
 				 "red");
 
     ctx.restore();
+
+	if (this.weapon) this.weapon.render(ctx);
 };
 
 

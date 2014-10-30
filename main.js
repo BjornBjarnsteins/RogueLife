@@ -132,3 +132,5 @@ main.init = function () {
 
     this._requestNextIteration();
 };
+
+//main.init();

@@ -4,12 +4,12 @@
 Character = function(descr)
 {
     this.setup(descr);
-}
+};
 
 Character.prototype = new Entity();
-Character.prototype.halfHeight=15;
-Character.prototype.halfWidth=5;
 Character.prototype.cy =g_canvas.height-150;
+Character.prototype.halfHeight=40;
+Character.prototype.halfWidth=20;
 Character.prototype.cx=g_canvas.width/2;
 Character.prototype.velX=0;
 Character.prototype.velY=0;
@@ -26,30 +26,30 @@ Character.prototype.update = function(dt)
 
     //Gravity computation should probably be moved
     //to entity manager when we get one of those up
-    var accelX=0
+    var accelX=0;
     var accelY=this.computeGravity();
 
     this.applyAccel(accelX,accelY,dt);
 
     if(keys[this.KEY_LEFT])
     {
-	this.posX -=5;
+	this.cx -=5;
     }
-    
+
     if(keys[this.KEY_RIGHT])
     {
-	this.posX +=5;
+	this.cx +=5;
     }
 
     //jumping code assumes we want to have jumps work
     //in such a way that if the character is falling
     //at too high a speed a jump will only slow him down
-    //we might want to add a threshhold to make 
+    //we might want to add a threshhold to make
     //sure he goes upward in all circumstances
-    
-    if(keys[this.KEY_UP]&&this.hasJumpsLeft())
+
+    if(eatKey(this.KEY_UP)&&this.hasJumpsLeft())
     {
-	this.velY -= 5;
+	this.velY -= 25;
     }
 
 
@@ -57,7 +57,7 @@ Character.prototype.update = function(dt)
 
     this.clampToBounds();
 
-}
+};
 
 Character.prototype.hasJumpsLeft = function()
 {
@@ -65,61 +65,47 @@ Character.prototype.hasJumpsLeft = function()
     //probably best to give Character  jumpsLeft and maxjumps variables
     //to keep track of this
     return true;
-}
+};
 
 Character.prototype.computeGravity = function()
 {
     //placeholder
     return 1.2;
-}
+};
 
 Character.prototype.applyAccel = function(accelX,accelY,dt)
 {
-    
-    
+
+
     // u = original velocity
     var oldVelX = this.velX;
     var oldVelY = this.velY;
-    
+
     // v = u + at
     this.velX += accelX * dt;
-
-//======================================
-    //CRAPPY gólf placeholder
-//======================================
-
-    if(this.cy >= 500)
-    {
-        this.velY = 0;
-    }else{
-
-        this.velY += accelY * dt; 
-    }
+    this.velY += accelY * dt;
 
     // v_ave = (u + v) / 2
     var aveVelX = (oldVelX + this.velX) / 2;
     var aveVelY = (oldVelY + this.velY) / 2;
-    
-    
+
+
     // s = s + v_ave * t
     var nextX = this.cx + aveVelX * dt;
     var nextY = this.cy + aveVelY * dt;
-    
-    
+
     // s = s + v_ave * t
     this.cx += dt * aveVelX;
+    this.cy += dt * aveVelY;
 
- //======================================
-    //MEIRA CRAPPY gólf placeholder
-//======================================
-    if(this.cy > 500){
-        this.cy = 500;
-    }else{
-         this.cy += dt * aveVelY;
-    }
-   
+	var oldCy = this.cy;
+	this.clampToBounds();
 
-}
+	if (this.cy !== oldCy) {
+		this.velY = 0;
+	}
+
+};
 
 Character.prototype.clampToBounds = function()
 {
@@ -132,22 +118,21 @@ Character.prototype.clampToBounds = function()
     this.cx=util.clampRange(this.cx,leftBoundary,rightBoundary);
     this.cy=util.clampRange(this.cy,topBoundary,bottomBoundary);
 
-}
+};
 
-Character.prototype.render = function(ctx)
+Character.prototype.render = function (ctx)
 {
     //Ævintýri rauða kassans!
     ctx.save();
-    ctx.fillStyle = "red";
-    console.log(this.halfWidth,this.halfHeight,this.cx,this.cy)
-
-    ctx.fillRect(this.cx-this.halfWidth,
-		 this.cy+this.halfHeight,
-		 this.halfWidth*2,
-		 this.halfHeight*2);
+    util.fillBox(ctx,
+				 this.cx-this.halfWidth,
+				 this.cy-this.halfHeight,
+				 this.halfWidth*2,
+				 this.halfHeight*2,
+				 "red");
 
     ctx.restore();
-}
+};
 
 
 

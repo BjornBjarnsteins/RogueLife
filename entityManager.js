@@ -19,7 +19,7 @@ with suitable 'data' and 'methods'.
 
 
 // Tell jslint not to complain about my use of underscore prefixes (nomen),
-// my flattening of some indentation (white), or my use of incr/decr ops 
+// my flattening of some indentation (white), or my use of incr/decr ops
 // (plusplus).
 //
 /*jslint nomen: true, white: true, plusplus: true*/
@@ -29,15 +29,44 @@ var entityManager = {
 
 // "PRIVATE" DATA
 
-_character   : [],
+_characters : [],
 
 // "PRIVATE" METHODS
 
-_generateCharacter : function() {
+/*_generateRocks : function() {
+    var i,
+        NUM_ROCKS = 4;
+>>>>>>> 380e0b2fecfb2a17fc7e99ab3a0c3935f1aa63d0
 
         this.generateCharacter();
 },
 
+
+_findNearestShip : function(posX, posY) {
+    var closestShip = null,
+        closestIndex = -1,
+        closestSq = 1000 * 1000;
+
+    for (var i = 0; i < this._ships.length; ++i) {
+
+        var thisShip = this._ships[i];
+        var shipPos = thisShip.getPos();
+        var distSq = util.wrappedDistSq(
+            shipPos.posX, shipPos.posY,
+            posX, posY,
+            g_canvas.width, g_canvas.height);
+
+        if (distSq < closestSq) {
+            closestShip = thisShip;
+            closestIndex = i;
+            closestSq = distSq;
+        }
+    }
+    return {
+        theShip : closestShip,
+        theIndex: closestIndex
+    };
+},*/
 
 _forEachOf: function(aCategory, fn) {
     for (var i = 0; i < aCategory.length; ++i) {
@@ -56,29 +85,18 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._character /*possible baddies*/];
+
+    this._categories = [this._characters];
 },
 
 init: function() {
-    this._generateCharacter();
-    //this._generateShip();
+	this._spawnPlayer({cx : 20,
+					   cy : g_canvas.height - 30});
 },
 
-/*fireBullet: function(cx, cy, velX, velY, rotation) {
-    this._bullets.push(new Bullet({
-        cx   : cx,
-        cy   : cy,
-        velX : velX,
-        velY : velY,
-
-        rotation : rotation
-    }));
-},*/
-
-generateCharacter : function(descr) {
-    this._character.push(new Character(descr));
+_spawnPlayer : function(descr) {
+	this._characters.push(new Character(descr));
 },
-
 
 update: function(du) {
 
@@ -101,7 +119,6 @@ update: function(du) {
             }
         }
     }
-    
 
 },
 
@@ -113,7 +130,6 @@ render: function(ctx) {
 
         var aCategory = this._categories[c];
 
-
         for (var i = 0; i < aCategory.length; ++i) {
 
             aCategory[i].render(ctx);
@@ -124,7 +140,7 @@ render: function(ctx) {
     }
 }
 
-}
+};
 
 // Some deferred setup which needs the object to have been created first
 entityManager.deferredSetup();

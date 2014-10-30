@@ -34,41 +34,6 @@ _platforms  : [],
 
 // "PRIVATE" METHODS
 
-/*_generateRocks : function() {
-    var i,
-        NUM_ROCKS = 4;
->>>>>>> 380e0b2fecfb2a17fc7e99ab3a0c3935f1aa63d0
-
-        this.generateCharacter();
-},
-
-
-_findNearestShip : function(posX, posY) {
-    var closestShip = null,
-        closestIndex = -1,
-        closestSq = 1000 * 1000;
-
-    for (var i = 0; i < this._ships.length; ++i) {
-
-        var thisShip = this._ships[i];
-        var shipPos = thisShip.getPos();
-        var distSq = util.wrappedDistSq(
-            shipPos.posX, shipPos.posY,
-            posX, posY,
-            g_canvas.width, g_canvas.height);
-
-        if (distSq < closestSq) {
-            closestShip = thisShip;
-            closestIndex = i;
-            closestSq = distSq;
-        }
-    }
-    return {
-        theShip : closestShip,
-        theIndex: closestIndex
-    };
-},*/
-
 _forEachOf: function(aCategory, fn) {
     for (var i = 0; i < aCategory.length; ++i) {
         fn.call(aCategory[i]);

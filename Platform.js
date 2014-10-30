@@ -23,6 +23,12 @@ Platform.prototype.render = function(ctx){
 
 };
 
+Platform.prototype.groundMe(entity){
+	entity.velY = 0;
+	entity.cy=util.clampRange(this.cy,topBoundary,this.cy);
+
+};
+
 Platform.prototype.update = function(dt)
 {
 	return;

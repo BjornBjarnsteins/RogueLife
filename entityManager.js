@@ -58,6 +58,10 @@ deferredSetup : function () {
 init: function() {
 	this._spawnPlayer({cx : 20,
 					   cy : g_canvas.height - 30});
+
+    this._makePlatform({cx:300,cy:200});
+
+					
 },
 
 _spawnPlayer : function(descr) {
@@ -66,10 +70,7 @@ _spawnPlayer : function(descr) {
 
 _makePlatform : function  (descr) {
 
-    this._platforms.push(new Platform({
-        cx : 300,
-        cy : 200
-    }));
+    this._platforms.push(new Platform(descr));
 },
 
 update: function(du) {

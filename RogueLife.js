@@ -16,17 +16,8 @@ var g_ctx = g_canvas.getContext("2d");
 // CREATE INITIAL SHIPS
 // ====================
 
-function createInitialCharacter() {
-
-    entityManager._spawnPlayer();
     
-}
 
-function createInitialPlatform() {
-
-    entityManager._makePlatform();
-
-}
 
 // =============
 // GATHER INPUTS
@@ -137,9 +128,9 @@ function preloadDone() {
     g_sprites.bullet = new Sprite(g_images.ship);
     g_sprites.bullet.scale = 0.25;
 
+    
+    //creates initial objects
     entityManager.init();
-    createInitialCharacter();
-    createInitialPlatform();
 
     main.init();
 }

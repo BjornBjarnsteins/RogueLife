@@ -22,19 +22,20 @@ Weapon.prototype.thickness=5;
 
 //árásar tengdar breytur
 //lengd einnar árásar í sekúndum
-Weapon.prototype.maximumAttackTime=3*SECS_TO_NOMINALS;
+Weapon.prototype.maximumAttackTime=1*SECS_TO_NOMINALS;
 Weapon.prototype.currentAttackTime=0;
 
 //
 Weapon.prototype.Character=null;
 
 //Size and orientation
-//leftRight should be 1 if and only if the weapon should strike to the right
-//leftRight should be -1 if and only if the weapon should strike to the left
-Weapon.prototype.maximumReach=15;
+//direction should be 1 if and only if the weapon should strike to the right
+//direction should be -1 if and only if the weapon should strike to the left
+Weapon.prototype.maximumReach=30;
 Weapon.prototype.currentReach=0;
-//TODO: update leftRight, maybe give Character leftRight property?
-Weapon.prototype.leftRight=1;
+//TODO: update direction, maybe give Character direction property?
+//TODO: use Character direction to control this
+Weapon.prototype.direction=1;
 //rotation?
 
 Weapon.prototype.KEY_ATTACK="N".charCodeAt(0);
@@ -47,8 +48,9 @@ Weapon.prototype.update = function(dt, character)
     if(character)
     {
 	//TODO: adjust for facing
-	this.handleX = character.cx+character.halfWidth;
+	this.handleX = character.cx+character.direction*character.halfWidth;
 	this.handleY = character.cy;
+	this.direction=character.direction
     }
 
     if(keys[this.KEY_ATTACK]&&this.currentAttackTime===0)
@@ -89,7 +91,7 @@ Weapon.prototype.attackUpdate = function(dt)
     }
     else if(this.currentAttackTime<halfMaximum)
     {
-	var timeRatio = 2*(this.currentAttackTime)/halfMaximum;
+	var timeRatio = (this.currentAttackTime)/halfMaximum;
 	this.currentReach=this.maximumReach*timeRatio;
     }
 
@@ -101,20 +103,22 @@ Weapon.prototype.attackUpdate = function(dt)
 
 Weapon.prototype.render = function(ctx)
 {
+    if(this.currentAttackTime===0)
+	return;
     ctx.save();
     ctx.fillStyle="green";
-    if(true||this.leftRight===1)
+    if(this.direction===1)
     {
 	ctx.fillRect(this.handleX,
-		     this.HandleY,
+		     this.handleY,
 		     this.currentReach,
 		     this.thickness
 		     );
     }
-    if(this.leftRight===-1)
+    if(this.direction===-1)
     {
-	ctx.fillRect(this.handleX-this.currentReach,
-		     this.handleY-this.currentReach,
+	ctx.fillRect(this.handleX,
+		     this.handleY,
 		     -this.currentReach,
 		     this.thickness
 		     );

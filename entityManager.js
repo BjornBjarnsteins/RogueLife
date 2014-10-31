@@ -29,8 +29,9 @@ var entityManager = {
 
 // "PRIVATE" DATA
 
-_characters : [],
-_platforms  : [],
+_characters  : [],
+_platforms   : [],
+_projectiles : [],
 
 // "PRIVATE" METHODS
 
@@ -52,7 +53,7 @@ KILL_ME_NOW : -1,
 //
 deferredSetup : function () {
 
-    this._categories = [this._platforms, this._characters];
+    this._categories = [this._platforms, this._characters, this._projectiles];
 },
 
 init: function() {
@@ -74,6 +75,10 @@ _spawnPlayer : function(descr) {
 _makePlatform : function  (descr) {
 
     this._platforms.push(new Platform(descr));
+},
+
+_generateProjectile : function (descr) {
+	this._projectiles.push(new Projectile(descr));
 },
 
 update: function(du) {

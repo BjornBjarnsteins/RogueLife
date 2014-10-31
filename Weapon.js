@@ -47,8 +47,8 @@ Weapon.prototype.update = function(dt, character)
     if(character)
     {
 
-	this.handleX = this.Character.cx+this.Character.halfWidth;
-	this.handleY = this.Character.cy;
+	this.handleX = character.cx+character.halfWidth;
+	this.handleY = character.cy;
     }
 
     if(g_keys[this.KEY_ATTACK]&&this.currentAttackTime===0)

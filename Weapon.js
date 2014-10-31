@@ -9,16 +9,16 @@ Weapon = function(descr)
     this.setup(descr);
 
 
-}
+};
 
-Weapon.prototype = Entity();
+Weapon.prototype = new Entity();
 
 //betra að tracka handfangið á vopninu en miðjuna fyrir
 //attack animations
 
 Weapon.prototype.handleX=200;
 Weapon.prototype.handleY=200;
-Weapon.prototype.thickness=3;
+Weapon.prototype.thickness=5;
 
 //árásar tengdar breytur
 //lengd einnar árásar í sekúndum
@@ -37,7 +37,7 @@ Weapon.prototype.currentReach=0;
 Weapon.prototype.leftRight=1;
 //rotation?
 
-Weapon.prototype.KEY_ATTACK=this.Character.KEY_ATTACK||"N".charCodeAt(0);
+Weapon.prototype.KEY_ATTACK="N".charCodeAt(0);
 //hvert vopn hefur Character og hver character hefur vopn
 //Eina leiðin sem mér datt í hug að vopnið gæti alltaf verið
 //í höndunum á characternum án þess að brjóta privacy
@@ -46,12 +46,12 @@ Weapon.prototype.update = function(dt, character)
 {
     if(character)
     {
-
+	//TODO: adjust for facing
 	this.handleX = character.cx+character.halfWidth;
 	this.handleY = character.cy;
     }
 
-    if(g_keys[this.KEY_ATTACK]&&this.currentAttackTime===0)
+    if(keys[this.KEY_ATTACK]&&this.currentAttackTime===0)
     {
 	this.currentAttackTime=this.maximumAttackTime;
     }
@@ -70,10 +70,12 @@ Weapon.prototype.update = function(dt, character)
 **/
 Weapon.prototype.attackUpdate = function(dt)
 {
+    console.log("Attacking!");
     this.currentAttackTime = this.currentAttackTime-dt;
     if(this.currentAttackTime<=0)
     {
 	this.currentAttackTime=0;
+	this.currentReach=-1;
 	return;
     }
     var halfMaximum=this.maximumAttackTime/2;
@@ -82,14 +84,16 @@ Weapon.prototype.attackUpdate = function(dt)
     //or retracts it
     if(this.currentAttackTime>halfMaximum)
     {
-	var timeRatio = (halfMaximum-this.currentAttackTime/2)/halfMaximum;
+	var timeRatio = 2*(halfMaximum-this.currentAttackTime/2)/halfMaximum;
 	this.currentReach=this.maximumReach*timeRatio;
     }
     else if(this.currentAttackTime<halfMaximum)
     {
-	var timeRatio = (this.currentAttackTime-halfMaximum)/halfMaximum;
+	var timeRatio = 2*(this.currentAttackTime)/halfMaximum;
 	this.currentReach=this.maximumReach*timeRatio;
     }
+
+    console.log(this.currentReach);
 
     //TODO:need to check for collisions when spatial manager gets going
 
@@ -99,7 +103,7 @@ Weapon.prototype.render = function(ctx)
 {
     ctx.save();
     ctx.fillStyle="green";
-    if(leftRight===1)
+    if(true||this.leftRight===1)
     {
 	ctx.fillRect(this.handleX,
 		     this.HandleY,
@@ -107,7 +111,7 @@ Weapon.prototype.render = function(ctx)
 		     this.thickness
 		     );
     }
-    if(leftRight===-1)
+    if(this.leftRight===-1)
     {
 	ctx.fillRect(this.handleX-this.currentReach,
 		     this.handleY-this.currentReach,

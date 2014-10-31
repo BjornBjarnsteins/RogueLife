@@ -56,8 +56,11 @@ deferredSetup : function () {
 },
 
 init: function() {
+
+    var weapon=new Weapon();
 	this._spawnPlayer({cx : 20,
-					   cy : g_canvas.height - 30});
+			   cy : g_canvas.height - 30,
+			   weapon:weapon});
 
     this._makePlatform({cx:300,cy:200});
 
@@ -77,7 +80,6 @@ update: function(du) {
 
     for (var c = 0; c < this._categories.length; ++c) {
 
-	console.log(this._categories);
         var aCategory = this._categories[c];
         var i = 0;
 

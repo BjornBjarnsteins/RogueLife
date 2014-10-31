@@ -13,6 +13,9 @@ Character.prototype.velY=0;
 Character.prototype.weapon=null;
 // Direction is either 1 or -1. 1 means right, -1 means left
 Character.prototype.direction=1;
+// Placeholder value
+Character.prototype.maxJumps = 3;
+Character.prototype.jumpsLeft = 3;
 
 Character.prototype.KEY_UP = "W".charCodeAt(0);
 Character.prototype.KEY_DOWN = "S".charCodeAt(0);
@@ -59,7 +62,7 @@ Character.prototype.update = function(dt)
 
     if(eatKey(this.KEY_UP)&&this.hasJumpsLeft())
     {
-	this.velY -= 25;
+		this.jump();
     }
 
 	if (eatKey(this.KEY_THROW)) {
@@ -77,10 +80,7 @@ Character.prototype.update = function(dt)
 
 Character.prototype.hasJumpsLeft = function()
 {
-    //placeholder
-    //probably best to give Character  jumpsLeft and maxjumps variables
-    //to keep track of this
-    return true;
+     return this.jumpsLeft !== 0;
 };
 
 Character.prototype.computeGravity = function()
@@ -130,9 +130,16 @@ Character.prototype.clampToBounds = function()
 
     var topBoundary = 0+this.halfHeight;
     var bottomBoundary = g_canvas.height-this.halfHeight;
+
+	var oldY = this.cy;
     //uses already provided clamping function
     this.cx=util.clampRange(this.cx,leftBoundary,rightBoundary);
     this.cy=util.clampRange(this.cy,topBoundary,bottomBoundary);
+
+	// Bug: jumps also reset if character hits the upper boundary.
+	// This might get fixed automatically once we get the spatial
+	// manager going
+	if (this.cy !== oldY) this.resetJumps();
 
 };
 
@@ -160,3 +167,14 @@ Character.prototype.throwDagger = function() {
 									   velY : 0});
 };
 
+Character.prototype.jump = function() {
+	if (!this.hasJumpsLeft()) return;
+
+	this.velY -= 25;
+	this.jumpsLeft--;
+};
+
+Character.prototype.resetJumps = function() {
+	console.log("resetting jumps");
+	this.jumpsLeft = this.maxJumps;
+};

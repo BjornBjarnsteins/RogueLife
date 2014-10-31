@@ -29,8 +29,9 @@ var entityManager = {
 
 // "PRIVATE" DATA
 
-_characters : [],
-_platforms  : [],
+_characters  : [],
+_platforms   : [],
+_projectiles : [],
 
 // "PRIVATE" METHODS
 
@@ -52,7 +53,7 @@ KILL_ME_NOW : -1,
 //
 deferredSetup : function () {
 
-    this._categories = [this._platforms, this._characters];
+    this._categories = [this._platforms, this._characters, this._projectiles];
 },
 
 init: function() {
@@ -73,11 +74,15 @@ _makePlatform : function  (descr) {
     this._platforms.push(new Platform(descr));
 },
 
+_generateProjectile : function (descr) {
+	this._projectiles.push(new Projectile(descr));
+},
+
 update: function(du) {
 
     for (var c = 0; c < this._categories.length; ++c) {
 
-	console.log(this._categories);
+	//console.log(this._categories);
         var aCategory = this._categories[c];
         var i = 0;
 

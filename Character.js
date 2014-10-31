@@ -11,11 +11,14 @@ Character.prototype.cx=g_canvas.width/2;
 Character.prototype.velX=0;
 Character.prototype.velY=0;
 Character.prototype.weapon=null;
+// Direction is either 1 or -1. 1 means right, -1 means left
+Character.prototype.direction=1;
 
 Character.prototype.KEY_UP = "W".charCodeAt(0);
 Character.prototype.KEY_DOWN = "S".charCodeAt(0);
 Character.prototype.KEY_LEFT = "A".charCodeAt(0);
 Character.prototype.KEY_RIGHT = "D".charCodeAt(0);
+Character.prototype.KEY_THROW = " ".charCodeAt(0);
 /*
 console.log("declaring weapon");
 Character.prototype.Weapon = new Weapon({handleX:this.cx,
@@ -38,12 +41,14 @@ Character.prototype.update = function(dt)
 
     if(keys[this.KEY_LEFT])
     {
-	this.cx -=5;
+		this.cx -=5;
+		this.direction = -1;
     }
 
     if(keys[this.KEY_RIGHT])
     {
-	this.cx +=5;
+		this.cx +=5;
+		this.direction = 1;
     }
 
     //jumping code assumes we want to have jumps work
@@ -56,6 +61,10 @@ Character.prototype.update = function(dt)
     {
 	this.velY -= 25;
     }
+
+	if (eatKey(this.KEY_THROW)) {
+		this.throwDagger();
+	}
 
 
     //DOWN does nothing so far
@@ -143,5 +152,11 @@ Character.prototype.render = function (ctx)
 	if (this.weapon) this.weapon.render(ctx);
 };
 
+Character.prototype.throwDagger = function() {
+	entityManager._generateProjectile({cx : this.cx + this.halfWidth,
+								  	   cy : this.cy,
 
+									   velX : 10*this.direction,
+									   velY : 0});
+};
 

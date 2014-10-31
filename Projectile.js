@@ -24,11 +24,7 @@ function Projectile(descr) {
 
 Projectile.prototype = new Entity();
 
-// HACKED-IN AUDIO (no preloading)
-/*Projectile.prototype.fireSound = new Audio(
-    "sounds/bulletFire.ogg");
-Projectile.prototype.zappedSound = new Audio(
-    "sounds/bulletZapped.ogg");*/
+//TODO: Audio
 
 // Initial, inheritable, default values
 Projectile.prototype.rotation = 0;

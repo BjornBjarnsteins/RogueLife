@@ -160,7 +160,7 @@ Character.prototype.render = function (ctx)
 };
 
 Character.prototype.throwDagger = function() {
-	entityManager._generateProjectile({cx : this.cx + this.halfWidth,
+	entityManager._generateProjectile({cx : this.cx + this.direction*this.halfWidth,
 								  	   cy : this.cy,
 
 									   velX : 10*this.direction,

@@ -139,7 +139,7 @@ Character.prototype.clampToBounds = function()
 	// Bug: jumps also reset if character hits the upper boundary.
 	// This might get fixed automatically once we get the spatial
 	// manager going
-	if (this.cy !== oldY) this.resetJumps();
+	if (this.cy < oldY) this.resetJumps();
 
 };
 

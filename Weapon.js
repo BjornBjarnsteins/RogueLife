@@ -22,7 +22,7 @@ Weapon.prototype.thickness=5;
 
 //árásar tengdar breytur
 //lengd einnar árásar í sekúndum
-Weapon.prototype.maximumAttackTime=1*SECS_TO_NOMINALS;
+Weapon.prototype.maximumAttackTime=0.5*SECS_TO_NOMINALS;
 Weapon.prototype.currentAttackTime=0;
 
 //

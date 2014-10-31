@@ -71,7 +71,6 @@ Weapon.prototype.update = function(dt, character)
 Weapon.prototype.attackUpdate = function(dt)
 {
     this.currentAttackTime = this.currentAttackTime-dt;
-    //TODO:needs secs to nominals adjustment
     if(this.currentAttackTime<=0)
     {
 	this.currentAttackTime=0;

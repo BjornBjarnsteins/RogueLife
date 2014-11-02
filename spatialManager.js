@@ -47,16 +47,16 @@ register: function(entity) {
     var spatialID = entity.getSpatialID();
 
     this._entities[spatialID] = entity;
-    
-    
-    
+
+
+
     // TODO: YOUR STUFF HERE!
 
 },
 
 unregister: function(entity) {
     var spatialID = entity.getSpatialID();
-    
+
     this._entities[spatialID]=false;
 
     // TODO: YOUR STUFF HERE!
@@ -65,7 +65,7 @@ unregister: function(entity) {
 
 findEntityInRange: function(posX, posY, radius) {
 
-    // TODO: YOUR STUFF HERE!  
+    // TODO: YOUR STUFF HERE!
     //for(var entity in this._entities)
     for(var i=0;i<this._entities.length;i++)
     {
@@ -92,7 +92,7 @@ findEntityInRange: function(posX, posY, radius) {
 	    return entity;
 	}
 	console.log("miss!");
-	
+
     }
 
     return false;
@@ -102,8 +102,8 @@ findEntityInRange: function(posX, posY, radius) {
 render: function(ctx) {
     var oldStyle = ctx.strokeStyle;
     ctx.strokeStyle = "red";
-    
-    for (var i=0;i<this._entities.length;i++) 
+
+    for (var i=0;i<this._entities.length;i++)
     {
         var entity = this._entities[i];
 	if(!entity)

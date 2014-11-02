@@ -1,9 +1,9 @@
 Platform = function(descr)
 {
-    this.cx = descr.cx;
-    this.cy = descr.cy;
+    this.setup(descr);
 };
 
+Platform.prototype = new Entity();
 Platform.prototype.halfWidth = 100;
 Platform.prototype.halfHeight = 10;
 
@@ -24,12 +24,20 @@ Platform.prototype.render = function(ctx){
 };
 
 Platform.prototype.groundMe = function (entity){
+	if (entity.velY < 0) return;
 	entity.velY = 0;
-	entity.cy=util.clampRange(this.cy,topBoundary,this.cy);
+	entity.cy=util.clampRange(entity.cy,
+							  this.cy - this.halfWidth,
+							  entity.cy);
 
 };
 
 Platform.prototype.update = function(dt)
 {
+	spatialManager.register(this);
 	return;
+};
+
+Platform.prototype.getRadius = function() {
+	return this.halfWidth;
 };

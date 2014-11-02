@@ -34,13 +34,12 @@ console.log("weapon declared");
 
 Character.prototype.update = function(dt)
 {
+	spatialManager.unregister(this);
 
     //Gravity computation should probably be moved
     //to entity manager when we get one of those up
     var accelX=0;
     var accelY=this.computeGravity();
-
-    this.applyAccel(accelX,accelY,dt);
 
     if(keys[this.KEY_LEFT])
     {
@@ -75,6 +74,21 @@ Character.prototype.update = function(dt)
     this.clampToBounds();
 
 	if (this.weapon) this.weapon.update(dt, this);
+
+	var hitEntity = this.findHitEntity();
+    if (hitEntity) {
+        var canLandOn = hitEntity.groundMe;
+		if (canLandOn) {
+			canLandOn.call(hitEntity, this);
+		} else {
+			this.applyAccel(accelX,accelY,dt);
+		}
+	} else {
+		this.applyAccel(accelX,accelY,dt);
+	}
+
+
+	spatialManager.register(this);
 
 };
 
@@ -175,6 +189,9 @@ Character.prototype.jump = function() {
 };
 
 Character.prototype.resetJumps = function() {
-	console.log("resetting jumps");
 	this.jumpsLeft = this.maxJumps;
 };
+
+Character.prototype.getRadius = function() {
+	return this.halfHeight;
+}

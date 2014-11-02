@@ -66,7 +66,6 @@ Character.prototype.update = function(dt)
 
     this.clampToBounds();
 
-	if (this.weapon) this.weapon.update(dt, this);
 
 	var hitEntity = this.findHitEntity();
 
@@ -84,6 +83,7 @@ Character.prototype.update = function(dt)
 		this.applyAccel(accelX,accelY,dt);
 	}
 
+	if (this.weapon) this.weapon.update(dt, this);
 
 	spatialManager.register(this);
 

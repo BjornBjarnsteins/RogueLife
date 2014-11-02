@@ -84,11 +84,11 @@ findEntityInRange: function(posX, posY, radius) {
 
 	if(distance<sumRadiiSq)
 	{
-	    console.log("it's a hit!-------------------------");
+	    /*console.log("it's a hit!-------------------------");
 	    console.log(radius);
 	    console.log(entity.getRadius());
 	    console.log(posX,posY);
-	    console.log(pos.posX,pos.posY);
+	    console.log(pos.posX,pos.posY);*/
 	    return entity;
 	}
 	console.log("miss!");

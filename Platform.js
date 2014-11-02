@@ -24,13 +24,29 @@ Platform.prototype.render = function(ctx){
 };
 
 Platform.prototype.groundMe = function (entity){
-	if (entity.velY < 0) return;
 	entity.velY = 0;
-	entity.cy=util.clampRange(entity.cy,
-							  this.cy - this.halfWidth,
-							  entity.cy);
 
+	entity.landOn(this.cy - this.halfHeight);
 };
+
+// Assumes entity is within the bounding circle
+Platform.prototype.collidesWith = function (entity) {
+	if (entity.velY < 0) return false;
+
+	var lowerBoundEnt = entity.cy + entity.halfHeight;
+
+	console.log("lowerBoundEnt: " + lowerBoundEnt);
+	console.log(this.cy+this.halfHeight);
+	console.log(this.cy-this.halfHeight);
+
+	if (lowerBoundEnt < this.cy + this.halfHeight*2 &&
+		lowerBoundEnt > this.cy - this.halfHeight*2) {
+		this.groundMe(entity);
+		return true;
+	}
+
+	return false;
+}
 
 Platform.prototype.update = function(dt)
 {

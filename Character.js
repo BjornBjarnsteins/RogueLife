@@ -76,13 +76,24 @@ Character.prototype.update = function(dt)
 	if (this.weapon) this.weapon.update(dt, this);
 
 	var hitEntity = this.findHitEntity();
-    if (hitEntity) {
-        var canLandOn = hitEntity.groundMe;
-		if (canLandOn) {
-			canLandOn.call(hitEntity, this);
-		} else {
-			this.applyAccel(accelX,accelY,dt);
-		}
+
+	var detectCollision = hitEntity.collidesWith;
+	var collidesWith = true;
+
+	if (detectCollision) {
+		collidesWith = detectCollision.call(hitEntity, this);
+	}
+
+    if (hitEntity && collidesWith) {
+
+		/*if (collidesWith) {
+        	var canLandOn = hitEntity.groundMe;
+			if (canLandOn) {
+				canLandOn.call(hitEntity, this);
+			} else {
+				this.applyAccel(accelX,accelY,dt);
+			}
+		}*/
 	} else {
 		this.applyAccel(accelX,accelY,dt);
 	}
@@ -187,6 +198,11 @@ Character.prototype.jump = function() {
 	this.velY -= 25;
 	this.jumpsLeft--;
 };
+
+Character.prototype.landOn = function(surfaceY) {
+	this.cy = surfaceY - this.halfHeight;
+	this.resetJumps();
+}
 
 Character.prototype.resetJumps = function() {
 	this.jumpsLeft = this.maxJumps;

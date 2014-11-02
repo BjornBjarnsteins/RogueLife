@@ -25,29 +25,21 @@ Weapon.prototype.thickness=5;
 Weapon.prototype.maximumAttackTime=0.5*SECS_TO_NOMINALS;
 Weapon.prototype.currentAttackTime=0;
 
-//
-Weapon.prototype.Character=null;
 
 //Size and orientation
 //direction should be 1 if and only if the weapon should strike to the right
 //direction should be -1 if and only if the weapon should strike to the left
 Weapon.prototype.maximumReach=30;
 Weapon.prototype.currentReach=0;
-//TODO: update direction, maybe give Character direction property?
-//TODO: use Character direction to control this
 Weapon.prototype.direction=1;
 //rotation?
 
 Weapon.prototype.KEY_ATTACK="N".charCodeAt(0);
-//hvert vopn hefur Character og hver character hefur vopn
-//Eina leiðin sem mér datt í hug að vopnið gæti alltaf verið
-//í höndunum á characternum án þess að brjóta privacy
 
 Weapon.prototype.update = function(dt, character)
 {
     if(character)
     {
-	//TODO: adjust for facing
 	this.handleX = character.cx+character.direction*character.halfWidth;
 	this.handleY = character.cy;
 	this.direction=character.direction

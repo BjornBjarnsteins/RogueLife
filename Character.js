@@ -22,13 +22,6 @@ Character.prototype.KEY_DOWN = "S".charCodeAt(0);
 Character.prototype.KEY_LEFT = "A".charCodeAt(0);
 Character.prototype.KEY_RIGHT = "D".charCodeAt(0);
 Character.prototype.KEY_THROW = " ".charCodeAt(0);
-/*
-console.log("declaring weapon");
-Character.prototype.Weapon = new Weapon({handleX:this.cx,
-					 handleY:this.cy,
-					 Character:this});
-console.log("weapon declared");
-*/
 
 //TODO:Images and sounds for character
 
@@ -85,6 +78,9 @@ Character.prototype.update = function(dt)
 	}
 
     if (!hitEntity || !collidesWith) {
+		//þurfum við ekki líka að passa upp á collisions við
+		//hluti með venjulegri hreyfingu með right/left, sem
+		//gerist ekki í gegnum applyAccel?
 		this.applyAccel(accelX,accelY,dt);
 	}
 
@@ -101,6 +97,7 @@ Character.prototype.hasJumpsLeft = function()
 Character.prototype.computeGravity = function()
 {
     //placeholder
+    //may be permanent
     return 1.2;
 };
 
@@ -151,10 +148,7 @@ Character.prototype.clampToBounds = function()
     this.cx=util.clampRange(this.cx,leftBoundary,rightBoundary);
     this.cy=util.clampRange(this.cy,topBoundary,bottomBoundary);
 
-	// Bug: jumps also reset if character hits the upper boundary.
-	// This might get fixed automatically once we get the spatial
-	// manager going
-	if (this.cy < oldY) this.resetJumps();
+    if (this.cy < oldY) this.resetJumps();
 
 };
 

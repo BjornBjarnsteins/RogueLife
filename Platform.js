@@ -35,12 +35,10 @@ Platform.prototype.collidesWith = function (entity) {
 
 	var lowerBoundEnt = entity.cy + entity.halfHeight;
 
-	console.log("lowerBoundEnt: " + lowerBoundEnt);
-	console.log(this.cy+this.halfHeight);
-	console.log(this.cy-this.halfHeight);
-
-	if (lowerBoundEnt < this.cy + this.halfHeight*2 &&
-		lowerBoundEnt > this.cy - this.halfHeight*2) {
+	if (lowerBoundEnt < this.cy + this.halfHeight &&
+		lowerBoundEnt > this.cy - this.halfHeight) {
+		if (entity.cx + entity.halfWidth < this.cx + this.halfWidth &&
+		    entity.cx - entity.halfWidth > this.cx - this.halfWidth)
 		this.groundMe(entity);
 		return true;
 	}

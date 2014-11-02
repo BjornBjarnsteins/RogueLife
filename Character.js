@@ -84,17 +84,7 @@ Character.prototype.update = function(dt)
 		collidesWith = detectCollision.call(hitEntity, this);
 	}
 
-    if (hitEntity && collidesWith) {
-
-		/*if (collidesWith) {
-        	var canLandOn = hitEntity.groundMe;
-			if (canLandOn) {
-				canLandOn.call(hitEntity, this);
-			} else {
-				this.applyAccel(accelX,accelY,dt);
-			}
-		}*/
-	} else {
+    if (!hitEntity || !collidesWith) {
 		this.applyAccel(accelX,accelY,dt);
 	}
 

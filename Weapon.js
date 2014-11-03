@@ -22,14 +22,14 @@ Weapon.prototype.thickness=5;
 
 //árásar tengdar breytur
 //lengd einnar árásar í sekúndum
-Weapon.prototype.maximumAttackTime=0.5*SECS_TO_NOMINALS;
+Weapon.prototype.maximumAttackTime=0.15*SECS_TO_NOMINALS;
 Weapon.prototype.currentAttackTime=0;
 
 
 //Size and orientation
 //direction should be 1 if and only if the weapon should strike to the right
 //direction should be -1 if and only if the weapon should strike to the left
-Weapon.prototype.maximumReach=30;
+Weapon.prototype.maximumReach=40;
 Weapon.prototype.currentReach=0;
 Weapon.prototype.direction=1;
 //rotation?

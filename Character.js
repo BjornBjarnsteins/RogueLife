@@ -27,8 +27,6 @@ Character.prototype.KEY_THROW = " ".charCodeAt(0);
 
 Character.prototype.update = function(dt)
 {
-	spatialManager.unregister(this);
-
     spatialManager.unregister(this)
     //Gravity computation should probably be moved
     //to entity manager when we get one of those up

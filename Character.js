@@ -66,6 +66,11 @@ Character.prototype.update = function(dt)
 
     this.clampToBounds();
 
+	this.applyAccel(accelX,accelY,dt);
+
+	// s = s + v_ave * t
+    var nextX = this.cx + this.velX * dt;
+    var nextY = this.cy + this.velY * dt;
 
 	var hitEntity = this.findHitEntity();
 
@@ -73,14 +78,21 @@ Character.prototype.update = function(dt)
 	var collidesWith = true;
 
 	if (detectCollision) {
-		collidesWith = detectCollision.call(hitEntity, this);
+		collidesWith = detectCollision.call(hitEntity,
+											this,
+											this.cx, this.cy,
+											nextX, nextY);
 	}
 
-    if (!hitEntity || !collidesWith) {
-		//þurfum við ekki líka að passa upp á collisions við
-		//hluti með venjulegri hreyfingu með right/left, sem
-		//gerist ekki í gegnum applyAccel?
-		this.applyAccel(accelX,accelY,dt);
+    // s = s + v_ave * t
+    this.cx += dt * this.velX;
+    this.cy += dt * this.velY;
+
+	var oldCy = this.cy;
+	this.clampToBounds();
+
+	if (this.cy !== oldCy) {
+		this.velY = 0;
 	}
 
 	if (this.weapon) this.weapon.update(dt, this);
@@ -114,24 +126,8 @@ Character.prototype.applyAccel = function(accelX,accelY,dt)
     this.velY += accelY * dt;
 
     // v_ave = (u + v) / 2
-    var aveVelX = (oldVelX + this.velX) / 2;
-    var aveVelY = (oldVelY + this.velY) / 2;
-
-
-    // s = s + v_ave * t
-    var nextX = this.cx + aveVelX * dt;
-    var nextY = this.cy + aveVelY * dt;
-
-    // s = s + v_ave * t
-    this.cx += dt * aveVelX;
-    this.cy += dt * aveVelY;
-
-	var oldCy = this.cy;
-	this.clampToBounds();
-
-	if (this.cy !== oldCy) {
-		this.velY = 0;
-	}
+    this.velX = (oldVelX + this.velX) / 2;
+    this.velY = (oldVelY + this.velY) / 2;
 
 };
 
@@ -185,6 +181,7 @@ Character.prototype.jump = function() {
 
 Character.prototype.landOn = function(surfaceY) {
 	this.cy = surfaceY - this.halfHeight;
+	this.velY = 0;
 	this.resetJumps();
 }
 

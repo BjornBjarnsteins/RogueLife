@@ -65,9 +65,6 @@ Character.prototype.update = function(dt)
 	}
 
 
-    //DOWN does nothing so far
-
-
 	var aveVel = this.applyAccel(accelX,accelY,dt);
 
 	// s = s + v_ave * t

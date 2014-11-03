@@ -47,9 +47,6 @@ register: function(entity) {
     var spatialID = entity.getSpatialID();
 
     this._entities[spatialID] = entity;
-
-
-
     // TODO: YOUR STUFF HERE!
 
 },

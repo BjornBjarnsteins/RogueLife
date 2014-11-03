@@ -23,6 +23,7 @@ Platform.prototype.render = function(ctx){
 
 };
 
+
 Platform.prototype.groundMe = function (entity){
 	entity.landOn(this.getUpperBound());
 };
@@ -59,6 +60,7 @@ Platform.prototype.collidesWith = function (entity, oldX, oldY, nextX, nextY) {
 
 Platform.prototype.update = function(dt)
 {
+	spatialManager.unregister(this);
 	spatialManager.register(this);
 	return;
 };

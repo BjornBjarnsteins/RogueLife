@@ -42,7 +42,7 @@ Platform.prototype.collidesWith = function (entity, oldX, oldY, nextX, nextY) {
 		if (nextX + entity.halfWidth >= this.cx - this.halfWidth &&
 			nextX - entity.halfWidth <= this.cx + this.halfWidth) {
 			this.groundMe(entity);
-			return true;
+			return entity.TOP_COLLISION;
 		}
 	}
 

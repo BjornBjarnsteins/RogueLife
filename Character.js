@@ -68,27 +68,40 @@ Character.prototype.update = function(dt)
 
     //DOWN does nothing so far
 
-	this.applyAccel(accelX,accelY,dt);
+	var aveVel = this.applyAccel(accelX,accelY,dt);
 
 	// s = s + v_ave * t
-    var nextX = this.cx + this.velX * dt;
-    var nextY = this.cy + this.velY * dt;
+    var nextX = this.cx + aveVel.X * dt;
+    var nextY = this.cy + aveVel.Y * dt;
 
 	var hitEntity = this.findHitEntity();
 
 	var detectCollision = hitEntity.collidesWith;
-	var collidesWith = true;
+	var collisionCode = 0;
 
 	if (detectCollision) {
-		collidesWith = detectCollision.call(hitEntity,
+		collisionCode = detectCollision.call(hitEntity,
 											this,
 											this.cx, this.cy,
 											nextX, nextY);
 	}
 
-    // s = s + v_ave * t
-    this.cx += dt * this.velX;
-    this.cy += dt * this.velY;
+	if (collisionCode === this.TOP_COLLISION ||
+	    collisionCode === this.BOTTOM_COLLISION) {
+		this.velY = 0;
+		aveVel.Y = 0;
+	} else if (collisionCode === this.SIDE_COLLISION) {
+		this.velX = 0;
+		aveVel.X = 0;
+	}
+
+	//console.log("velX: " + this.velX + " velY: " + this.velY);
+	//console.log("aveVelX: " + aveVel.X + " aveVelY: " + aveVel.Y);
+
+
+	// s = s + v_ave * t
+    this.cx += dt * aveVel.X;
+    this.cy += dt * aveVel.Y;
 
 	var oldCy = this.cy;
 	this.clampToBounds();
@@ -112,7 +125,7 @@ Character.prototype.computeGravity = function()
 {
     //placeholder
     //may be permanent
-    return 1.8;
+    return 1.2;
 };
 
 Character.prototype.applyAccel = function(accelX,accelY,dt)
@@ -128,8 +141,8 @@ Character.prototype.applyAccel = function(accelX,accelY,dt)
     this.velY += accelY * dt;
 
     // v_ave = (u + v) / 2
-    this.velX = (oldVelX + this.velX) / 2;
-    this.velY = (oldVelY + this.velY) / 2;
+	return {X : (oldVelX + this.velX) / 2,
+			Y : (oldVelY + this.velY) / 2};
 
 };
 

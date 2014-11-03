@@ -57,14 +57,16 @@ Character.prototype.update = function(dt)
 		this.jump();
     }
 
+	if (eatKey(this.KEY_DOWN)) {
+		//Drop from platform (down attack?)
+	}
+
 	if (eatKey(this.KEY_THROW)) {
 		this.throwDagger();
 	}
 
 
     //DOWN does nothing so far
-
-    this.clampToBounds();
 
 	this.applyAccel(accelX,accelY,dt);
 
@@ -110,7 +112,7 @@ Character.prototype.computeGravity = function()
 {
     //placeholder
     //may be permanent
-    return 1.2;
+    return 1.8;
 };
 
 Character.prototype.applyAccel = function(accelX,accelY,dt)

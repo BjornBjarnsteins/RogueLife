@@ -29,45 +29,11 @@ var entityManager = {
 
 // "PRIVATE" DATA
 
-_characters : [],
-_platforms  : [],
+_characters  : [],
+_platforms   : [],
+_projectiles : [],
 
 // "PRIVATE" METHODS
-
-/*_generateRocks : function() {
-    var i,
-        NUM_ROCKS = 4;
->>>>>>> 380e0b2fecfb2a17fc7e99ab3a0c3935f1aa63d0
-
-        this.generateCharacter();
-},
-
-
-_findNearestShip : function(posX, posY) {
-    var closestShip = null,
-        closestIndex = -1,
-        closestSq = 1000 * 1000;
-
-    for (var i = 0; i < this._ships.length; ++i) {
-
-        var thisShip = this._ships[i];
-        var shipPos = thisShip.getPos();
-        var distSq = util.wrappedDistSq(
-            shipPos.posX, shipPos.posY,
-            posX, posY,
-            g_canvas.width, g_canvas.height);
-
-        if (distSq < closestSq) {
-            closestShip = thisShip;
-            closestIndex = i;
-            closestSq = distSq;
-        }
-    }
-    return {
-        theShip : closestShip,
-        theIndex: closestIndex
-    };
-},*/
 
 _forEachOf: function(aCategory, fn) {
     for (var i = 0; i < aCategory.length; ++i) {
@@ -87,12 +53,19 @@ KILL_ME_NOW : -1,
 //
 deferredSetup : function () {
 
-    this._categories = [this._characters, this._platforms];
+    this._categories = [this._platforms, this._characters, this._projectiles];
 },
 
 init: function() {
+
+    var weapon=new Weapon();
 	this._spawnPlayer({cx : 20,
-					   cy : g_canvas.height - 30});
+			   cy : g_canvas.height - 30,
+			   weapon:weapon});
+
+    this._makePlatform({cx:300,cy:200});
+
+
 },
 
 _spawnPlayer : function(descr) {
@@ -101,10 +74,11 @@ _spawnPlayer : function(descr) {
 
 _makePlatform : function  (descr) {
 
-    this._platforms.push(new Platform({
-        cx : 300,
-        cy : 200
-    }));
+    this._platforms.push(new Platform(descr));
+},
+
+_generateProjectile : function (descr) {
+	this._projectiles.push(new Projectile(descr));
 },
 
 update: function(du) {

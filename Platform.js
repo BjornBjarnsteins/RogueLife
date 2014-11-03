@@ -23,7 +23,7 @@ Platform.prototype.render = function(ctx){
 
 };
 
-Platform.prototype.groundMe(entity){
+Platform.prototype.groundMe = function(entity){
 	entity.velY = 0;
 	entity.cy=util.clampRange(this.cy,topBoundary,this.cy);
 
@@ -31,5 +31,7 @@ Platform.prototype.groundMe(entity){
 
 Platform.prototype.update = function(dt)
 {
+	//spatialManager.unregister(this);
+	//spatialManager.register(this);
 	return;
 };

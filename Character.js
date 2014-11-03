@@ -21,6 +21,7 @@ Character.prototype.KEY_RIGHT = "D".charCodeAt(0);
 Character.prototype.update = function(dt)
 {
 
+    spatialManager.unregister(this)
     //Gravity computation should probably be moved
     //to entity manager when we get one of those up
     var accelX=0;
@@ -53,6 +54,7 @@ Character.prototype.update = function(dt)
     //DOWN does nothing so far
 
     this.clampToBounds();
+    spatialManager.register(this);
 
 };
 

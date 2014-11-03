@@ -29,8 +29,9 @@ Platform.prototype.groundMe = function (entity){
 };
 
 // Assumes entity is within the bounding circle
-Platform.prototype.collidesWith = function (entity, oldX, oldY, nextX, nextY) {
-	if (entity.velY < 0) return false;
+Platform.prototype.collidesWith = function (entity, oldX, oldY, nextX, nextY, fallsThrough) {
+	if (entity.velY < 0 ||
+      fallsThrough) return false;
 
 	var oldLowerBoundEnt = oldY + entity.halfHeight;
 	var nextLowerBoundEnt = nextY + entity.halfHeight;
@@ -46,14 +47,6 @@ Platform.prototype.collidesWith = function (entity, oldX, oldY, nextX, nextY) {
 			return entity.TOP_COLLISION;
 		}
 	}
-
-	/*if (lowerBoundEnt < this.cy + this.halfHeight &&
-		lowerBoundEnt > this.cy - this.halfHeight) {
-		if (entity.cx + entity.halfWidth < this.cx + this.halfWidth &&
-		    entity.cx - entity.halfWidth > this.cx - this.halfWidth)
-		this.groundMe(entity);
-		return true;
-	}*/
 
 	return false;
 }

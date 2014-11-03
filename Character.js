@@ -56,8 +56,9 @@ Character.prototype.update = function(dt)
 		this.jump();
     }
 
+  var fallsThrough = false;
 	if (eatKey(this.KEY_DOWN)) {
-		//Drop from platform (down attack?)
+		fallsThrough = true;
 	}
 
 	if (eatKey(this.KEY_THROW)) {
@@ -80,7 +81,8 @@ Character.prototype.update = function(dt)
 		collisionCode = detectCollision.call(hitEntity,
 											this,
 											this.cx, this.cy,
-											nextX, nextY);
+											nextX, nextY,
+                      fallsThrough);
 	}
 
 	if (collisionCode === this.TOP_COLLISION ||

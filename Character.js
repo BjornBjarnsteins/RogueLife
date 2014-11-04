@@ -19,12 +19,18 @@ Character.prototype.direction=1;
 Character.prototype.maxJumps = 3;
 Character.prototype.jumpsLeft = 3;
 Character.prototype.inAir = false;
+Character.prototype.isDashing = false;
+Character.prototype.dashSpeed = 50;
+Character.prototype.dashDuration = 0.1*SECS_TO_NOMINALS;
+Character.prototype.currentDashDuration = 0;
 
 Character.prototype.KEY_UP = "W".charCodeAt(0);
 Character.prototype.KEY_DOWN = "S".charCodeAt(0);
 Character.prototype.KEY_LEFT = "A".charCodeAt(0);
 Character.prototype.KEY_RIGHT = "D".charCodeAt(0);
 Character.prototype.KEY_THROW = " ".charCodeAt(0);
+Character.prototype.KEY_DASH_RIGHT = "E".charCodeAt(0);
+Character.prototype.KEY_DASH_LEFT = "Q".charCodeAt(0);
 
 //TODO:Images and sounds for character
 
@@ -39,13 +45,13 @@ Character.prototype.update = function(dt)
     var oldX = this.cx;
 	var oldY = this.cy;
 
-    if(keys[this.KEY_LEFT])
+    if(keys[this.KEY_LEFT] && !this.isDashing)
     {
 		this.cx -=5;
 		this.direction = -1;
     }
 
-    if(keys[this.KEY_RIGHT])
+    if(keys[this.KEY_RIGHT] && !this.isDashing)
     {
 		this.cx +=5;
 		this.direction = 1;
@@ -57,7 +63,9 @@ Character.prototype.update = function(dt)
     //we might want to add a threshhold to make
     //sure he goes upward in all circumstances
 
-    if(eatKey(this.KEY_UP)&&this.hasJumpsLeft())
+    if(eatKey(this.KEY_UP) &&
+	   this.hasJumpsLeft() &&
+	   !this.isDashing)
     {
 		this.jump();
     }
@@ -69,6 +77,16 @@ Character.prototype.update = function(dt)
 
 	if (eatKey(this.KEY_THROW)) {
 		this.throwDagger();
+	}
+
+	if (eatKey(this.KEY_DASH_LEFT)) {
+		this.dash(-1);
+	} else if (eatKey(this.KEY_DASH_RIGHT)) {
+		this.dash(1);
+	}
+
+	if (this.isDashing) {
+		this.updateDash(dt);
 	}
 
 
@@ -199,17 +217,35 @@ Character.prototype.jump = function() {
 	this.inAir = true;
 };
 
+Character.prototype.dash = function (dir) {
+	if (!this.isDashing) {
+		this.velX = dir*this.dashSpeed;
+		this.currentDashDuration = 0;
+		this.isDashing = true;
+	}
+};
+
+Character.prototype.updateDash = function (du) {
+	this.currentDashDuration += du;
+
+	if (this.currentDashDuration >= this.dashDuration) {
+		// stop dash
+		this.velX = 0;
+		this.isDashing = false;
+	}
+};
+
 Character.prototype.landOn = function(surfaceY) {
 	this.cy = surfaceY - this.halfHeight;
 	this.velY = 0;
 	this.inAir = false;
 	this.resetJumps();
-}
+};
 
 Character.prototype.snapTo = function (destX, destY) {
 	this.cx = destX;
 	this.cy = destY;
-}
+};
 
 Character.prototype.resetJumps = function() {
 	this.jumpsLeft = this.maxJumps;

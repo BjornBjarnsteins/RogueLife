@@ -33,6 +33,8 @@ Character.prototype.update = function(dt)
     var accelX=0;
     var accelY=this.computeGravity();
 
+    var oldX = this.cx;
+
     if(keys[this.KEY_LEFT])
     {
 		this.cx -=5;
@@ -56,7 +58,7 @@ Character.prototype.update = function(dt)
 		this.jump();
     }
 
-  var fallsThrough = false;
+    var fallsThrough = false;
 	if (eatKey(this.KEY_DOWN)) {
 		fallsThrough = true;
 	}
@@ -78,9 +80,10 @@ Character.prototype.update = function(dt)
 	var collisionCode = 0;
 
 	if (detectCollision) {
+		//console.log(oldX, nextX);
 		collisionCode = detectCollision.call(hitEntity,
 											this,
-											this.cx, this.cy,
+											oldX, this.cy,
 											nextX, nextY,
                       fallsThrough);
 	}
@@ -199,10 +202,21 @@ Character.prototype.landOn = function(surfaceY) {
 	this.resetJumps();
 }
 
+Character.prototype.haltOnWallLeft = function(surfaceX) {
+	this.cx = surfaceX - this.halfWidth;
+	this.velX = 0;
+}
+
+Character.prototype.haltOnWallRight = function(surfaceX) {
+	this.cx = surfaceX + this.halfWidth;
+	this.velX = 0;
+}
+
 Character.prototype.resetJumps = function() {
 	this.jumpsLeft = this.maxJumps;
 };
 
 Character.prototype.getRadius = function() {
+	console.log("her 3")
 	return this.halfHeight;
 }

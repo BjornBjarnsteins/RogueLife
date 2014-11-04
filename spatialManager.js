@@ -88,7 +88,6 @@ findEntityInRange: function(posX, posY, radius) {
 	    console.log(pos.posX,pos.posY);*/
 	    return entity;
 	}
-	console.log("miss!");
 
     }
 
@@ -106,7 +105,9 @@ render: function(ctx) {
 	if(!entity)
 	    continue;
 	var pos = entity.getPos();
+	console.log("her 1")
 	var radius = entity.getRadius();
+	console.log("her 2",radius);
         util.strokeCircle(ctx, pos.posX, pos.posY, radius);
     }
     ctx.strokeStyle = oldStyle;

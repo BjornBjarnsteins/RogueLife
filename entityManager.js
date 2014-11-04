@@ -32,6 +32,7 @@ var entityManager = {
 _characters  : [],
 _platforms   : [],
 _projectiles : [],
+_walls       : [],
 
 // "PRIVATE" METHODS
 
@@ -53,7 +54,7 @@ KILL_ME_NOW : -1,
 //
 deferredSetup : function () {
 
-    this._categories = [this._platforms, this._characters, this._projectiles];
+    this._categories = [this._platforms, this._characters, this._projectiles, this._walls];
 },
 
 init: function() {
@@ -65,6 +66,8 @@ init: function() {
 
     this._makePlatform({cx:300,cy:200});
 
+    this._makeWall({cx:500,cy:300});
+
 
 },
 
@@ -75,6 +78,11 @@ _spawnPlayer : function(descr) {
 _makePlatform : function  (descr) {
 
     this._platforms.push(new Platform(descr));
+},
+
+_makeWall : function  (descr) {
+
+    this._walls.push(new Wall(descr));
 },
 
 _generateProjectile : function (descr) {

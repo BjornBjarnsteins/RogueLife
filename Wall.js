@@ -30,62 +30,36 @@ Wall.prototype.groundMe = function (entity){
 
 // side is the side of the wall to which entity should snap, -1 for left, 1 for right
 Wall.prototype.stopMe = function (entity, side){
-	entity.haltAndSnapTo(this.cx + side*this.halfWidth + side*entity.halfWidth);
+	entity.snapTo(this.cx + side*this.halfWidth + side*entity.halfWidth, entity.cy);
 };
 
 // Assumes entity is within the bounding circle
 Wall.prototype.collidesWith = function (entity, oldX, oldY, nextX, nextY) {
+	var entUpperBound = nextY - entity.halfHeight;
+	var entLowerBound = nextY + entity.halfHeight;
+	var entRightBound = nextX + entity.halfWidth;
+	var entLeftBound  = nextX - entity.halfWidth;
 
+	if (entLeftBound  <= this.getRightBound() &&
+		entRightBound >= this.getLeftBound()) {
+		if (entLowerBound >= this.getUpperBound() &&
+			entUpperBound <= this.getLowerBound()) {
+			// checks for collision details
 
-	var oldRightSide = oldX + entity.halfWidth;
-	var nextRightSide  = nextX + entity.halfWidth;
-	var wallLeftBound = this.getLeftBound();
+			if (entity.getLowerBound() <= this.getUpperBound()) {
+				this.groundMe(entity);
+				return entity.TOP_COLLISION;
+			} else if (entity.getUpperBound() >= this.getLowerBound()) {
+				return entity.BOTTOM_COLLISION;
+			} else if (oldX < this.cx){
+				this.stopMe(entity, -1);
+			} else {
+				this.stopMe(entity, 1);
+			}
 
-	console.log(oldRightSide, wallLeftBound);
-	//check for left side collision
-	if(oldRightSide <= wallLeftBound &&
-		wallLeftBound < nextRightSide){
-
-		if(nextY + entity.halfHeight >= this.cy - this.halfHeight &&
-			nextY - entity.halfHeight <= this.cy + this.halfHeight){
-
-
-			this.stopMe(entity, -1);
 			return entity.SIDE_COLLISION;
 		}
 	}
-
-	var oldLeftSide = oldX - entity.halfWidth;
-	var nextLeftSide  = nextX - entity.halfWidth;
-	var wallRightBound = this.getRightBound();
-
-	//check for right side collision
-	if(oldLeftSide >= wallRightBound &&
-		wallRightBound > nextLeftSide){
-
-		if(nextY + entity.halfHeight >= this.cy - this.halfHeight &&
-			nextY - entity.halfHeight <= this.cy + this.halfHeight){
-
-			this.stopMe(entity, 1);
-			return entity.SIDE_COLLISION;
-		}
-	}
-
-	var oldLowerBoundEnt = oldY + entity.halfHeight;
-	var nextLowerBoundEnt = nextY + entity.halfHeight;
-	var wallUpperBound = this.getUpperBound();
-
-	// oldLowerBoundEnt >= platformUpperBound > nextLowerBoundEnt
-	if (oldLowerBoundEnt <= wallUpperBound &&
-		wallUpperBound < nextLowerBoundEnt) {
-		// Checks X axis
-		if (nextX + entity.halfWidth >= this.cx - this.halfWidth &&
-			nextX - entity.halfWidth <= this.cx + this.halfWidth) {
-			this.groundMe(entity);
-			return entity.TOP_COLLISION;
-		}
-	}
-
 
 	return false;
 }
@@ -98,10 +72,10 @@ Wall.prototype.update = function(dt)
 };
 
 Wall.prototype.getRadius = function() {
-	return this.halfHeight;
+	return this.halfHeight*1.1;
 };
 
-Wall.prototype.getUpperBound = function() {
+/*Wall.prototype.getUpperBound = function() {
 	return this.cy - this.halfHeight;
 };
 
@@ -111,4 +85,4 @@ Wall.prototype.getRightBound = function() {
 
 Wall.prototype.getLeftBound = function() {
 	return this.cx - this.halfWidth;
-};
+};*/

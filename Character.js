@@ -206,9 +206,9 @@ Character.prototype.landOn = function(surfaceY) {
 	this.resetJumps();
 }
 
-Character.prototype.haltAndSnapTo = function (destX) {
+Character.prototype.snapTo = function (destX, destY) {
 	this.cx = destX;
-	this.velX = 0;
+	this.cy = destY;
 }
 
 Character.prototype.resetJumps = function() {
@@ -216,6 +216,5 @@ Character.prototype.resetJumps = function() {
 };
 
 Character.prototype.getRadius = function() {
-	console.log("her 3")
 	return this.halfHeight;
 }

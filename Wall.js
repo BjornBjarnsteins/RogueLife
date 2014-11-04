@@ -5,7 +5,7 @@ Wall = function(descr)
 
 Wall.prototype = new Entity();
 Wall.prototype.halfWidth = 20;
-Wall.prototype.halfHeight = 300;
+Wall.prototype.halfHeight = 150;
 
 
 
@@ -28,17 +28,14 @@ Wall.prototype.groundMe = function (entity){
 	entity.landOn(this.getUpperBound());
 };
 
-Wall.prototype.stopMeLeft = function (entity){
-	entity.haltOnWallLeft(this.getLeftBound());
-};
-
-Wall.prototype.stopMeRight = function (entity){
-	entity.haltOnWallRight(this.getRightBound());
+// side is the side of the wall to which entity should snap, -1 for left, 1 for right
+Wall.prototype.stopMe = function (entity, side){
+	entity.haltAndSnapTo(this.cx + side*this.halfWidth + side*entity.halfWidth);
 };
 
 // Assumes entity is within the bounding circle
 Wall.prototype.collidesWith = function (entity, oldX, oldY, nextX, nextY) {
-	
+
 
 	var oldRightSide = oldX + entity.halfWidth;
 	var nextRightSide  = nextX + entity.halfWidth;
@@ -53,10 +50,10 @@ Wall.prototype.collidesWith = function (entity, oldX, oldY, nextX, nextY) {
 			nextY - entity.halfHeight <= this.cy + this.halfHeight){
 
 
-			this.stopMeLeft(entity);
+			this.stopMe(entity, -1);
 			return entity.SIDE_COLLISION;
 		}
-	} 
+	}
 
 	var oldLeftSide = oldX - entity.halfWidth;
 	var nextLeftSide  = nextX - entity.halfWidth;
@@ -69,10 +66,10 @@ Wall.prototype.collidesWith = function (entity, oldX, oldY, nextX, nextY) {
 		if(nextY + entity.halfHeight >= this.cy - this.halfHeight &&
 			nextY - entity.halfHeight <= this.cy + this.halfHeight){
 
-			this.stopMeRight(entity);
+			this.stopMe(entity, 1);
 			return entity.SIDE_COLLISION;
 		}
-	} 
+	}
 
 	var oldLowerBoundEnt = oldY + entity.halfHeight;
 	var nextLowerBoundEnt = nextY + entity.halfHeight;

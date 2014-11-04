@@ -18,6 +18,7 @@ Character.prototype.direction=1;
 // Placeholder value
 Character.prototype.maxJumps = 3;
 Character.prototype.jumpsLeft = 3;
+Character.prototype.inAir = false;
 
 Character.prototype.KEY_UP = "W".charCodeAt(0);
 Character.prototype.KEY_DOWN = "S".charCodeAt(0);
@@ -80,18 +81,6 @@ Character.prototype.update = function(dt)
 	var hitEntity = this.findHitEntity();
 
 	var collisionCode = 0;
-
-	/*var detectCollision = hitEntity.collidesWith;
-	var collisionCode = 0;
-
-	if (detectCollision) {
-		//console.log(oldX, nextX);
-		collisionCode = detectCollision.call(hitEntity,
-											this,
-											oldX, this.cy,
-											nextX, nextY,
-                      fallsThrough);
-	}*/
 
 	collisionCode = util.maybeCall(hitEntity.collidesWith,
 								   hitEntity,
@@ -207,21 +196,18 @@ Character.prototype.jump = function() {
 
 	this.velY -= 25;
 	this.jumpsLeft--;
+	this.inAir = true;
 };
 
 Character.prototype.landOn = function(surfaceY) {
 	this.cy = surfaceY - this.halfHeight;
 	this.velY = 0;
+	this.inAir = false;
 	this.resetJumps();
 }
 
-Character.prototype.haltOnWallLeft = function(surfaceX) {
-	this.cx = surfaceX - this.halfWidth;
-	this.velX = 0;
-}
-
-Character.prototype.haltOnWallRight = function(surfaceX) {
-	this.cx = surfaceX + this.halfWidth;
+Character.prototype.haltAndSnapTo = function (destX) {
+	this.cx = destX;
 	this.velX = 0;
 }
 

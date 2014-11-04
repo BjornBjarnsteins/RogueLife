@@ -10,6 +10,8 @@ Character.prototype.halfWidth=20;
 Character.prototype.cx=g_canvas.width/2;
 Character.prototype.velX=0;
 Character.prototype.velY=0;
+Character.prototype.aveVelX=0;
+Character.prototype.aveVelY=0;
 Character.prototype.weapon=null;
 // Direction is either 1 or -1. 1 means right, -1 means left
 Character.prototype.direction=1;
@@ -34,6 +36,7 @@ Character.prototype.update = function(dt)
     var accelY=this.computeGravity();
 
     var oldX = this.cx;
+	var oldY = this.cy;
 
     if(keys[this.KEY_LEFT])
     {
@@ -71,12 +74,14 @@ Character.prototype.update = function(dt)
 	var aveVel = this.applyAccel(accelX,accelY,dt);
 
 	// s = s + v_ave * t
-    var nextX = this.cx + aveVel.X * dt;
-    var nextY = this.cy + aveVel.Y * dt;
+    var nextX = this.cx + this.aveVelX * dt;
+    var nextY = this.cy + this.aveVelY * dt;
 
 	var hitEntity = this.findHitEntity();
 
-	var detectCollision = hitEntity.collidesWith;
+	var collisionCode = 0;
+
+	/*var detectCollision = hitEntity.collidesWith;
 	var collisionCode = 0;
 
 	if (detectCollision) {
@@ -86,24 +91,21 @@ Character.prototype.update = function(dt)
 											oldX, this.cy,
 											nextX, nextY,
                       fallsThrough);
-	}
+	}*/
 
-	if (collisionCode === this.TOP_COLLISION ||
-	    collisionCode === this.BOTTOM_COLLISION) {
-		this.velY = 0;
-		aveVel.Y = 0;
-	} else if (collisionCode === this.SIDE_COLLISION) {
-		this.velX = 0;
-		aveVel.X = 0;
-	}
+	collisionCode = util.maybeCall(hitEntity.collidesWith,
+								   hitEntity,
+								   [this, oldX, oldY, nextX, nextY, fallsThrough]);
+
+	this.resolveCollision(collisionCode);
 
 	//console.log("velX: " + this.velX + " velY: " + this.velY);
 	//console.log("aveVelX: " + aveVel.X + " aveVelY: " + aveVel.Y);
 
 
 	// s = s + v_ave * t
-    this.cx += dt * aveVel.X;
-    this.cy += dt * aveVel.Y;
+    this.cx += dt * this.aveVelX;
+    this.cy += dt * this.aveVelY;
 
 	var oldCy = this.cy;
 	this.clampToBounds();
@@ -116,6 +118,17 @@ Character.prototype.update = function(dt)
 
 	spatialManager.register(this);
 
+};
+
+Character.prototype.resolveCollision = function(collisionCode) {
+	if (collisionCode === this.TOP_COLLISION ||
+	    collisionCode === this.BOTTOM_COLLISION) {
+		this.velY = 0;
+		this.aveVelY = 0;
+	} else if (collisionCode === this.SIDE_COLLISION) {
+		this.velX = 0;
+		this.aveVelX = 0;
+	}
 };
 
 Character.prototype.hasJumpsLeft = function()
@@ -143,8 +156,8 @@ Character.prototype.applyAccel = function(accelX,accelY,dt)
     this.velY += accelY * dt;
 
     // v_ave = (u + v) / 2
-	return {X : (oldVelX + this.velX) / 2,
-			Y : (oldVelY + this.velY) / 2};
+	this.aveVelX = (oldVelX + this.velX) / 2;
+	this.aveVelY = (oldVelY + this.velY) / 2;
 
 };
 

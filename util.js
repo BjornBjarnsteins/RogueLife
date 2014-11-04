@@ -54,6 +54,17 @@ square: function(x) {
 },
 
 
+// f is maybe a function. If it exists, call it and return it's return value with
+// the contents of args as parameters
+maybeCall: function(f, thisArg, args) {
+	if (f) {
+		return f.apply(thisArg, args);
+	} else {
+		return;
+	}
+},
+
+
 // DISTANCES
 // =========
 

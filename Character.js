@@ -72,11 +72,7 @@ Character.prototype.update = function(dt)
 		this.jump();
 	} else if (this.wasJumping &&
 			   !keys[this.KEY_UP]) {
-		this.velY += 4;
-		if (this.velY < 0) this.velY = 0;
-
-		this.jumpsLeft--;
-		this.wasJumping = false;
+		this.stopJumping();
 	}
 
     var fallsThrough = false;
@@ -226,6 +222,17 @@ Character.prototype.jump = function() {
 	this.inAir = true;
 	this.wasJumping = true;
 };
+
+Character.prototype.stopJumping = function() {
+	this.wasJumping = false;
+
+	if (this.velY > 0) return;
+
+	this.velY += 15;
+	if (this.velY > 0) this.velY = 0;
+
+	this.jumpsLeft--;
+}
 
 Character.prototype.dash = function (dir) {
 	if (!this.isDashing) {

@@ -72,8 +72,9 @@ Character.prototype.update = function(dt)
 		this.jump();
 	} else if (this.wasJumping &&
 			   !keys[this.KEY_UP]) {
-		this.velY -= 20;
-		this.velY = util.clampRange(this.velY, 0, this.velY);
+		this.velY += 4;
+		if (this.velY < 0) this.velY = 0;
+
 		this.jumpsLeft--;
 		this.wasJumping = false;
 	}
@@ -220,7 +221,7 @@ Character.prototype.throwDagger = function() {
 Character.prototype.jump = function() {
 	if (!this.hasJumpsLeft()) return;
 
-	this.velY -= 25;
+	this.velY -= 30;
 	//this.jumpsLeft--;
 	this.inAir = true;
 	this.wasJumping = true;

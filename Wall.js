@@ -50,6 +50,7 @@ Wall.prototype.collidesWith = function (entity, oldX, oldY, nextX, nextY) {
 				this.groundMe(entity);
 				return entity.TOP_COLLISION;
 			} else if (entity.getUpperBound() >= this.getLowerBound()) {
+        entity.snapTo(entity.cx, this.getLowerBound() + entity.halfHeight);
 				return entity.BOTTOM_COLLISION;
 			} else if (oldX < this.cx){
 				this.stopMe(entity, -1);

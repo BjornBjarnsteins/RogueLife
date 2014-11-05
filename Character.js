@@ -19,6 +19,7 @@ Character.prototype.direction=1;
 Character.prototype.maxJumps = 3;
 Character.prototype.jumpsLeft = 3;
 Character.prototype.inAir = false;
+Character.prototype.wasJumping = false;
 Character.prototype.isDashing = false;
 Character.prototype.dashSpeed = 50;
 Character.prototype.dashDuration = 0.1*SECS_TO_NOMINALS;
@@ -63,12 +64,19 @@ Character.prototype.update = function(dt)
     //we might want to add a threshhold to make
     //sure he goes upward in all circumstances
 
-    if(eatKey(this.KEY_UP) &&
+    if(keys[this.KEY_UP] &&
 	   this.hasJumpsLeft() &&
-	   !this.isDashing)
+	   !this.isDashing &&
+	   !this.wasJumping)
     {
 		this.jump();
-    }
+	} else if (this.wasJumping &&
+			   !keys[this.KEY_UP]) {
+		this.velY -= 20;
+		this.velY = util.clampRange(this.velY, 0, this.velY);
+		this.jumpsLeft--;
+		this.wasJumping = false;
+	}
 
     var fallsThrough = false;
 	if (eatKey(this.KEY_DOWN)) {
@@ -213,8 +221,9 @@ Character.prototype.jump = function() {
 	if (!this.hasJumpsLeft()) return;
 
 	this.velY -= 25;
-	this.jumpsLeft--;
+	//this.jumpsLeft--;
 	this.inAir = true;
+	this.wasJumping = true;
 };
 
 Character.prototype.dash = function (dir) {

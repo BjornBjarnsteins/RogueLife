@@ -73,10 +73,16 @@ Projectile.prototype.takeProjectileHit = function () {
 };
 
 Projectile.prototype.render = function (ctx) {
-    util.fillBox(ctx,
-				 this.cx-this.halfWidth,
-				 this.cy-this.halfHeight,
-				 this.halfWidth*2,
-				 this.halfHeight*2,
-				 "blue");
+    if (this.sprite) {
+      this.sprite.drawCentredAt(ctx, this.cx, this.cy,
+                                this.velX < 0 ? Math.PI : 0,
+                                this.velX < 0 ? 1 : 0);
+    } else {
+      util.fillBox(ctx,
+				           this.cx-this.halfWidth,
+				           this.cy-this.halfHeight,
+          				 this.halfWidth*2,
+				           this.halfHeight*2,
+				           "blue");
+    }
 };

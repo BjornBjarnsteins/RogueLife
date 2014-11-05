@@ -210,8 +210,10 @@ Character.prototype.throwDagger = function() {
 	entityManager._generateProjectile({cx : this.cx + this.direction*this.halfWidth,
 								  	   cy : this.cy,
 
-									   velX : 10*this.direction,
-									   velY : 0});
+									     velX : 10*this.direction,
+									     velY : 0,
+
+                       sprite : g_sprites.dagger });
 };
 
 Character.prototype.jump = function() {

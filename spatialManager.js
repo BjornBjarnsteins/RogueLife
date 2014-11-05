@@ -117,9 +117,7 @@ render: function(ctx) {
 	if(!entity)
 	    continue;
 	var pos = entity.getPos();
-	console.log("her 1")
 	var radius = entity.getRadius();
-	console.log("her 2",radius);
         util.strokeCircle(ctx, pos.posX, pos.posY, radius);
     }
     ctx.strokeStyle = oldStyle;

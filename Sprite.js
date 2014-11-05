@@ -48,11 +48,22 @@ Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation, flip) {
     ctx.restore();
 };
 
-Sprite.prototype.testDraw = function(ctx, image, sx, sy, cx, cy, height, width){
+Sprite.prototype.drawCharacter = function(ctx, image, sx, sy, cx, cy, height, width, flip){
     ctx.save();
+    
+    ctx.translate(cx,cy);
+    if(flip){
+        ctx.scale( -1.2 , 1.2);
+    }
+    else{
+        
+        ctx.scale(1.2,1.2)
+    }
 
-    //ctx.scale(1.2,1.2);
-    ctx.drawImage(image.image, sx, sy, width, height, cx, cy, image.width, image.height);
+    ctx.drawImage(image.image, sx, sy, width, height, -width/2, -height/2, image.width, image.height);
+    ctx.restore();
+    
+    ctx.save();
 
     ctx.restore();
 }

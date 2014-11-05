@@ -244,7 +244,7 @@ Character.prototype.render = function (ctx)
 
     ctx.restore();*/
 
-    if(!keys[this.KEY_LEFT] && !this.isDashing)
+    if(this.state === this.STATE_STANDING )
     {
     	//console.log(g_sprites.walk[0]);
     	var sx = g_sprites.walk[0].sx;
@@ -252,10 +252,17 @@ Character.prototype.render = function (ctx)
     	var height = g_sprites.walk[0].height;
     	var width = g_sprites.walk[0].width;
     	var image = g_sprites.walk[0];
-    	var x = this.cx - this.halfWidth;
-    	var y = this.cy - this.halfHeight;
+    	var x = this.cx;
+    	var y = this.cy;
+    	var flip;
+    	if(this.direction === 1){
+    		flip = true;
+    	}else{
+    		flip = false;
+    	}
 
-    	g_sprites.walk[0].testDraw(ctx, image, sx, sy, x, y, height, width);
+
+    	g_sprites.walk[0].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
     }
 
 	if (this.weapon) this.weapon.render(ctx);

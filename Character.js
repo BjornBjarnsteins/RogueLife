@@ -13,6 +13,9 @@ Character.prototype.velY=0;
 Character.prototype.aveVelX=0;
 Character.prototype.aveVelY=0;
 Character.prototype.weapon=null;
+
+//Character.prototype.Sprite = g_sprites.walk;
+
 // Direction is either 1 or -1. 1 means right, -1 means left
 Character.prototype.direction=1;
 // Placeholder value
@@ -192,7 +195,7 @@ Character.prototype.clampToBounds = function()
 
 Character.prototype.render = function (ctx)
 {
-    //Ævintýri rauða kassans!
+    /*Ævintýri rauða kassans!
     ctx.save();
     util.fillBox(ctx,
 				 this.cx-this.halfWidth,
@@ -201,7 +204,13 @@ Character.prototype.render = function (ctx)
 				 this.halfHeight*2,
 				 "red");
 
-    ctx.restore();
+    ctx.restore();*/
+
+    if(!keys[this.KEY_LEFT] && !this.isDashing)
+    {
+    	//console.log(g_sprites.walk[0]);
+    	g_sprites.walk[0].drawCentredAt(ctx, this.cx, this.cy, 0,true);
+    }
 
 	if (this.weapon) this.weapon.render(ctx);
 };

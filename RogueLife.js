@@ -109,7 +109,8 @@ var g_images = {};
 function requestPreloads() {
 
     var requiredImages = {
-      dagger : "sprites/dagger.png"
+      dagger      : "sprites/dagger.png",
+      character   : "sprites/rogueLife.PNG"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -118,7 +119,33 @@ function requestPreloads() {
 var g_sprites = {};
 
 function preloadDone() {
-  g_sprites.dagger = new Sprite(g_images.dagger);
+    var constructorObjects = {image : g_images.dagger,
+                              sx    : 0,
+                              sy    : 0}
+    g_sprites.dagger = new Sprite(constructorObjects);
+
+
+    var cellHeight = 63;
+    var cellWidth = 63;
+    var numRows = 10;
+    var numCols = 9;
+
+    var walking = [];
+    var wSprite;
+
+    for (var row = 9; row < numRows; ++row) {
+        for (var col = 0; col < numCols; ++col) {
+            var constructorObjects = {image : g_images.character, 
+                                      sx    : col * cellWidth, 
+                                      sy    : row * cellHeight, 
+                                      Width : cellWidth,
+                                      Height: cellHeight}
+            wSprite = new Sprite(constructorObjects);
+            walking.push(wSprite);
+        }
+    }
+
+    g_sprites.walk = walking;
 
     //creates initial objects
     entityManager.init();

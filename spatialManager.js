@@ -61,6 +61,7 @@ unregister: function(entity) {
 },
 
 findEntityInRange: function(posX, posY, radius) {
+//cy,cx,halfWidth,halfHeight
 
     // TODO: YOUR STUFF HERE!
     //for(var entity in this._entities)
@@ -69,6 +70,17 @@ findEntityInRange: function(posX, posY, radius) {
 	var entity=this._entities[i];
 	if(!entity)
 	    continue;
+	/*
+	if(cx-halfWidth>entity.getRightBound()&&
+	   cx+halfWidth<entity.getLeftBound()&&
+	   cy+halfHeight<entity.getUpperBound()&&
+	   cy-halfHeight>entity.getLowerBound())
+	{
+	    continue;
+	}
+	else
+	    return entity;
+	*/
 	var sumRadiiSq = util.square(radius+entity.getRadius());
 	//console.log(sumRadii);
 	var pos = entity.getPos();

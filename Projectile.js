@@ -55,9 +55,9 @@ Projectile.prototype.update = function (du) {
         var canTakeHit = hitEntity.takeProjectileHit;
         if (canTakeHit) canTakeHit.call(hitEntity);
         return entityManager.KILL_ME_NOW;
-    }*/
+    }
 
-	//spatialManager.register(this);
+    spatialManager.register(this);*/
 
 };
 

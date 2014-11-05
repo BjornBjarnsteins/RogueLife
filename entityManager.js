@@ -96,7 +96,7 @@ update: function(du) {
         var aCategory = this._categories[c];
         var i = 0;
 
-        while (i < aCategory.length) {
+		while (i < aCategory.length) {
 
             var status = aCategory[i].update(du);
 

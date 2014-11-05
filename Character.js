@@ -28,6 +28,15 @@ Character.prototype.dashSpeed = 50;
 Character.prototype.dashDuration = 0.1*SECS_TO_NOMINALS;
 Character.prototype.currentDashDuration = 0;
 
+Character.prototype.STATE_STANDING = 1;
+Character.prototype.STATE_RUNNING = 2;
+Character.prototype.STATE_JUMPING = 3;
+Character.prototype.STATE_DASHING = 4;
+Character.prototype.STATE_ATTACKING = 5;
+Character.prototype.STATE_FALLING = 6;
+
+Character.prototype.state = 1;
+
 Character.prototype.KEY_UP = "W".charCodeAt(0);
 Character.prototype.KEY_DOWN = "S".charCodeAt(0);
 Character.prototype.KEY_LEFT = "A".charCodeAt(0);
@@ -40,7 +49,7 @@ Character.prototype.KEY_DASH_LEFT = "Q".charCodeAt(0);
 
 Character.prototype.update = function(dt)
 {
-    spatialManager.unregister(this)
+    spatialManager.unregister(this);
     //Gravity computation should probably be moved
     //to entity manager when we get one of those up
     var accelX=0;
@@ -49,56 +58,82 @@ Character.prototype.update = function(dt)
     var oldX = this.cx;
 	var oldY = this.cy;
 
-    if(keys[this.KEY_LEFT] && !this.isDashing)
-    {
-		this.cx -=5;
-		this.direction = -1;
-    }
+	var fallsThrough = false;
 
-    if(keys[this.KEY_RIGHT] && !this.isDashing)
-    {
-		this.cx +=5;
-		this.direction = 1;
-    }
+	if (this.state === this.STATE_STANDING ||
+	    this.state === this.STATE_RUNNING ||
+		this.state === this.STATE_ATTACKING ||
+	    this.state === this.STATE_FALLING) {
+		if(keys[this.KEY_LEFT])
+		{
+			this.cx -=5;
+			this.direction = -1;
+			this.state = this.STATE_RUNNING;
+		}
 
-    //jumping code assumes we want to have jumps work
-    //in such a way that if the character is falling
-    //at too high a speed a jump will only slow him down
-    //we might want to add a threshhold to make
-    //sure he goes upward in all circumstances
+		if(keys[this.KEY_RIGHT])
+		{
+			this.cx +=5;
+			this.direction = 1;
+			this.state = this.STATE_RUNNING;
+		}
 
-    if(keys[this.KEY_UP] &&
-	   this.hasJumpsLeft() &&
-	   !this.isDashing &&
-	   !this.wasJumping)
-    {
-		this.jump();
-	} else if (this.wasJumping &&
-			   !keys[this.KEY_UP]) {
-		this.stopJumping();
-	}
+		//jumping code assumes we want to have jumps work
+		//in such a way that if the character is falling
+		//at too high a speed a jump will only slow him down
+		//we might want to add a threshhold to make
+		//sure he goes upward in all circumstances
 
-    var fallsThrough = false;
-	if (eatKey(this.KEY_DOWN)) {
-		fallsThrough = true;
-	}
+		if(keys[this.KEY_UP])
+		{
+			this.jump();
+		}
 
-	if (eatKey(this.KEY_THROW)) {
-		this.throwDagger();
-	}
+		if (eatKey(this.KEY_DOWN)) {
+			fallsThrough = true;
+		}
 
-	if (eatKey(this.KEY_DASH_LEFT)) {
-		this.dash(-1);
-	} else if (eatKey(this.KEY_DASH_RIGHT)) {
-		this.dash(1);
-	}
+		if (eatKey(this.KEY_THROW)) {
+			this.throwDagger();
+		}
 
-	if (this.isDashing) {
+		if (eatKey(this.KEY_DASH_LEFT)) {
+			this.dash(-1);
+		} else if (eatKey(this.KEY_DASH_RIGHT)) {
+			this.dash(1);
+		}
+	} else if (this.state === this.STATE_JUMPING) {
+		if (!keys[this.KEY_UP]) {
+			this.stopJumping();
+		}
+
+		if(keys[this.KEY_LEFT])
+		{
+			this.cx -=5;
+			this.direction = -1;
+		}
+
+		if(keys[this.KEY_RIGHT])
+		{
+			this.cx +=5;
+			this.direction = 1;
+		}
+
+		if (eatKey(this.KEY_THROW)) {
+			this.throwDagger();
+		}
+
+		if (eatKey(this.KEY_DASH_LEFT)) {
+			this.dash(-1);
+		} else if (eatKey(this.KEY_DASH_RIGHT)) {
+			this.dash(1);
+		}
+	} else if (this.state === this.STATE_DASHING) {
 		this.updateDash(dt);
 	}
 
 
-	var aveVel = this.applyAccel(accelX,accelY,dt);
+	this.applyAccel(accelX,accelY,dt);
 
 	// s = s + v_ave * t
     var nextX = this.cx + this.aveVelX * dt;
@@ -122,11 +157,14 @@ Character.prototype.update = function(dt)
     this.cx += dt * this.aveVelX;
     this.cy += dt * this.aveVelY;
 
+	if (this.velY > 0) this.state = this.STATE_FALLING;
+
 	var oldCy = this.cy;
 	this.clampToBounds();
 
 	if (this.cy !== oldCy) {
 		this.velY = 0;
+		if (this.cy > 500) this.state = this.STATE_STANDING;
 	}
 
 	if (this.weapon) this.weapon.update(dt, this);
@@ -229,9 +267,10 @@ Character.prototype.jump = function() {
 	if (!this.hasJumpsLeft()) return;
 
 	this.velY -= 30;
-	//this.jumpsLeft--;
+	this.jumpsLeft--;
 	this.inAir = true;
 	this.wasJumping = true;
+	this.state = this.STATE_JUMPING;
 };
 
 Character.prototype.stopJumping = function() {
@@ -242,15 +281,14 @@ Character.prototype.stopJumping = function() {
 	this.velY += 15;
 	if (this.velY > 0) this.velY = 0;
 
-	this.jumpsLeft--;
-}
+	this.state = this.STATE_FALLING;
+};
 
 Character.prototype.dash = function (dir) {
-	if (!this.isDashing) {
-		this.velX = dir*this.dashSpeed;
-		this.currentDashDuration = 0;
-		this.isDashing = true;
-	}
+	this.velX = dir*this.dashSpeed;
+	this.currentDashDuration = 0;
+	this.isDashing = true;
+	this.state = this.STATE_DASHING;
 };
 
 Character.prototype.updateDash = function (du) {
@@ -258,8 +296,10 @@ Character.prototype.updateDash = function (du) {
 
 	if (this.currentDashDuration >= this.dashDuration) {
 		// stop dash
+		console.log("stopping dash");
 		this.velX = 0;
 		this.isDashing = false;
+		this.state = this.STATE_JUMPING;
 	}
 };
 
@@ -268,6 +308,7 @@ Character.prototype.landOn = function(surfaceY) {
 	this.velY = 0;
 	this.inAir = false;
 	this.resetJumps();
+	this.state = this.STATE_STANDING;
 };
 
 Character.prototype.snapTo = function (destX, destY) {
@@ -281,4 +322,4 @@ Character.prototype.resetJumps = function() {
 
 Character.prototype.getRadius = function() {
 	return this.halfHeight;
-}
+};

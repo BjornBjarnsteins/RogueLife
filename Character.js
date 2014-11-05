@@ -247,7 +247,15 @@ Character.prototype.render = function (ctx)
     if(!keys[this.KEY_LEFT] && !this.isDashing)
     {
     	//console.log(g_sprites.walk[0]);
-    	g_sprites.walk[0].drawCentredAt(ctx, this.cx, this.cy, 0,true);
+    	var sx = g_sprites.walk[0].sx;
+    	var sy = g_sprites.walk[0].sy;
+    	var height = g_sprites.walk[0].height;
+    	var width = g_sprites.walk[0].width;
+    	var image = g_sprites.walk[0];
+    	var x = this.cx - this.halfWidth;
+    	var y = this.cy - this.halfHeight;
+
+    	g_sprites.walk[0].testDraw(ctx, image, sx, sy, x, y, height, width);
     }
 
 	if (this.weapon) this.weapon.render(ctx);

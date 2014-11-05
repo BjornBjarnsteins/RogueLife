@@ -125,7 +125,7 @@ function preloadDone() {
     g_sprites.dagger = new Sprite(constructorObjects);
 
 
-    var cellHeight = 63;
+    var cellHeight = 65;
     var cellWidth = 63;
     var numRows = 10;
     var numCols = 9;
@@ -136,7 +136,7 @@ function preloadDone() {
     for (var row = 9; row < numRows; ++row) {
         for (var col = 0; col < numCols; ++col) {
             var constructorObjects = {image : g_images.character, 
-                                      sx    : col * cellWidth, 
+                                      sx    : col * cellWidth+ 15, 
                                       sy    : row * cellHeight, 
                                       Width : cellWidth,
                                       Height: cellHeight}

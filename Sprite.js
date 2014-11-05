@@ -19,8 +19,8 @@ function Sprite(image) {
 
     this.sx = image.sx;
     this.sy = image.sy;
-    this.width = image.image.width;
-    this.height = image.image.height;
+    this.width = image.Width;
+    this.height = image.Height;
     this.scale = 1;
 }
 
@@ -47,6 +47,15 @@ Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation, flip) {
 
     ctx.restore();
 };
+
+Sprite.prototype.testDraw = function(ctx, image, sx, sy, cx, cy, height, width){
+    ctx.save();
+
+    //ctx.scale(1.2,1.2);
+    ctx.drawImage(image.image, sx, sy, width, height, cx, cy, image.width, image.height);
+
+    ctx.restore();
+}
 
 Sprite.prototype.drawWrappedCentredAt = function (ctx, cx, cy, rotation) {
 

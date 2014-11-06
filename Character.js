@@ -27,6 +27,7 @@ Character.prototype.isDashing = false;
 Character.prototype.dashSpeed = 50;
 Character.prototype.dashDuration = 0.1*SECS_TO_NOMINALS;
 Character.prototype.currentDashDuration = 0;
+Character.prototype.movedFrom = 0;
 
 Character.prototype.STATE_STANDING = 1;
 Character.prototype.STATE_RUNNING = 2;
@@ -66,16 +67,25 @@ Character.prototype.update = function(dt)
 	    this.state === this.STATE_FALLING) {
 		if(keys[this.KEY_LEFT])
 		{
+			if(this.state !== this.STATE_RUNNING){
+				this.movedFrom = this.cx;
+			}
 			this.cx -=5;
 			this.direction = -1;
 			this.state = this.STATE_RUNNING;
+
+			
 		}
 
 		if(keys[this.KEY_RIGHT])
 		{
+			if(this.state !== this.STATE_RUNNING){
+				this.movedFrom = this.cx;
+			}
 			this.cx +=5;
 			this.direction = 1;
 			this.state = this.STATE_RUNNING;
+
 		}
 
 		//jumping code assumes we want to have jumps work
@@ -157,14 +167,14 @@ Character.prototype.update = function(dt)
     this.cx += dt * this.aveVelX;
     this.cy += dt * this.aveVelY;
 
-	if (this.velY > 0) this.state = this.STATE_FALLING;
+	if (this.velY > 0) {}//this.state = this.STATE_FALLING;
 
 	var oldCy = this.cy;
 	this.clampToBounds();
 
 	if (this.cy !== oldCy) {
 		this.velY = 0;
-		if (this.cy > 500) this.state = this.STATE_STANDING;
+		if (this.cy > 500){} //this.state = this.STATE_STANDING;
 	}
 
 	if (this.weapon) this.weapon.update(dt, this);
@@ -244,25 +254,34 @@ Character.prototype.render = function (ctx)
 
     ctx.restore();*/
 
+    console.log(this.state)
+   	var sx = g_sprites.walk[0].sx;
+   	var sy = g_sprites.walk[0].sy;
+   	var height = g_sprites.walk[0].height;
+   	var width = g_sprites.walk[0].width;
+   	var image = g_sprites.walk[0];
+   	var x = this.cx;
+   	var y = this.cy;
+   	var flip;
+   	if(this.direction === 1){
+   		flip = true;
+   	}else{
+   		flip = false;
+    }
+
     if(this.state === this.STATE_STANDING )
     {
-    	//console.log(g_sprites.walk[0]);
-    	var sx = g_sprites.walk[0].sx;
-    	var sy = g_sprites.walk[0].sy;
-    	var height = g_sprites.walk[0].height;
-    	var width = g_sprites.walk[0].width;
-    	var image = g_sprites.walk[0];
-    	var x = this.cx;
-    	var y = this.cy;
-    	var flip;
-    	if(this.direction === 1){
-    		flip = true;
-    	}else{
-    		flip = false;
-    	}
+    	
+		g_sprites.walk[0].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
+    }
+    else if(this.state === this.STATE_RUNNING)
+    {
 
+    	var distanceTraveled = Math.abs(this.movedFrom - this.cx);
+    	var index = Math.floor((distanceTraveled / 65*9) % 9);
 
-    	g_sprites.walk[0].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
+    	console.log("index = "+index);
+    	g_sprites.walk[index].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
     }
 
 	if (this.weapon) this.weapon.render(ctx);

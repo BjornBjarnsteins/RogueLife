@@ -34,6 +34,16 @@ _platforms   : [],
 _projectiles : [],
 _walls       : [],
 
+_currentRoom : null,
+
+setRoom : function (room) {
+	console.log(room);
+	this._currentRoom = room;
+},
+
+KEY_INSERT_WALL : "1".charCodeAt(0),
+KEY_INSERT_PLATFORM : "2".charCodeAt(0),
+
 // "PRIVATE" METHODS
 
 _forEachOf: function(aCategory, fn) {
@@ -90,6 +100,8 @@ _generateProjectile : function (descr) {
 },
 
 update: function(du) {
+	if (eatKey(this.KEY_INSERT_WALL)) this._currentRoom.insertWallAt(g_mouseX, g_mouseY);
+	if (eatKey(this.KEY_INSERT_PLATFORM)) this._currentRoom.insertPlatformAt(g_mouseX, g_mouseY);
 
     for (var c = 0; c < this._categories.length; ++c) {
 

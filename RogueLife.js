@@ -12,12 +12,6 @@ var g_ctx = g_canvas.getContext("2d");
 */
 
 
-// ====================
-// CREATE INITIAL SHIPS
-// ====================
-
-
-
 
 // =============
 // GATHER INPUTS
@@ -60,11 +54,12 @@ var g_allowMixedActions = true;
 var g_useGravity = false;
 var g_useAveVel = true;
 var g_renderSpatialDebug = false;
+var g_toggleGrid = false;
 
 var KEY_MIXED   = keyCode('M');
-var KEY_GRAVITY = keyCode('G');
 var KEY_AVE_VEL = keyCode('V');
 var KEY_SPATIAL = keyCode('X');
+var KEY_GRID_TOGGLE = keyCode('G');
 
 function processDiagnostics() {
 
@@ -75,6 +70,7 @@ function processDiagnostics() {
 
 	if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
 
+	if (eatKey(KEY_GRID_TOGGLE)) g_toggleGrid = !g_toggleGrid;
 }
 
 
@@ -97,6 +93,8 @@ function renderSimulation(ctx) {
     entityManager.render(ctx);
 
     if (g_renderSpatialDebug) spatialManager.render(ctx);
+
+	if (g_toggleGrid) testroom.render(ctx);
 }
 
 
@@ -135,9 +133,9 @@ function preloadDone() {
 
     for (var row = 9; row < numRows; ++row) {
         for (var col = 0; col < numCols; ++col) {
-            var constructorObjects = {image : g_images.character, 
-                                      sx    : col * cellWidth, 
-                                      sy    : row * cellHeight, 
+            var constructorObjects = {image : g_images.character,
+                                      sx    : col * cellWidth,
+                                      sy    : row * cellHeight,
                                       Width : cellWidth,
                                       Height: cellHeight}
             wSprite = new Sprite(constructorObjects);
@@ -149,6 +147,7 @@ function preloadDone() {
 
     //creates initial objects
     entityManager.init();
+	dungeon.init();
 
     main.init();
 }

@@ -52,6 +52,7 @@ Sprite.prototype.drawCharacter = function(ctx, image, sx, sy, cx, cy, height, wi
     ctx.save();
     
     ctx.translate(cx,cy);
+    
     if(flip){
         ctx.scale( -1.2 , 1.2);
     }

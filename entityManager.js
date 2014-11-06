@@ -39,6 +39,7 @@ _currentRoom : null,
 setRoom : function (room) {
 	console.log(room);
 	this._currentRoom = room;
+
 },
 
 KEY_INSERT_WALL : "1".charCodeAt(0),
@@ -141,7 +142,9 @@ render: function(ctx) {
         }
         debugY += 10;
     }
+    this._currentRoom.render(ctx);
 }
+
 
 };
 

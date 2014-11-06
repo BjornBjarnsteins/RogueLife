@@ -254,7 +254,7 @@ Character.prototype.render = function (ctx)
 
     ctx.restore();*/
 
-    console.log(this.state)
+    //console.log(this.state)
    	var sx = g_sprites.walk[0].sx;
    	var sy = g_sprites.walk[0].sy;
    	var height = g_sprites.walk[0].height;
@@ -272,7 +272,7 @@ Character.prototype.render = function (ctx)
     if(this.state === this.STATE_STANDING )
     {
     	
-		g_sprites.walk[0].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
+		g_sprites.walk[1].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
     }
     else if(this.state === this.STATE_RUNNING)
     {
@@ -280,7 +280,7 @@ Character.prototype.render = function (ctx)
     	var distanceTraveled = Math.abs(this.movedFrom - this.cx);
     	var index = Math.floor((distanceTraveled / 65*9) % 9);
 
-    	console.log("index = "+index);
+    	//console.log("index = "+index);
     	g_sprites.walk[index].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
     
 	} else {

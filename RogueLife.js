@@ -146,8 +146,8 @@ function preloadDone() {
     g_sprites.walk = walking;
 
     //creates initial objects
-    entityManager.init();
 	dungeon.init();
+    entityManager.init();
 
     main.init();
 }

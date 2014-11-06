@@ -282,7 +282,15 @@ Character.prototype.render = function (ctx)
 
     	console.log("index = "+index);
     	g_sprites.walk[index].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
-    }
+    
+	} else {
+		util.fillBox(ctx,
+				 this.cx-this.halfWidth,
+				 this.cy-this.halfHeight,
+				 this.halfWidth*2,
+				 this.halfHeight*2,
+				 "red");
+	}
 
 	if (this.weapon) this.weapon.render(ctx);
 };

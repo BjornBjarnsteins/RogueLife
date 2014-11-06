@@ -15,6 +15,7 @@ var dungeon = {
 	init : function () {
 		this._currentRoom = new Room();
 		this.enterRoom(this._currentRoom);
+		this._currentRoom.interiorDesign(this._currentRoom.scheme);
 	},
 
 	// TODO: láta þennan hlut halda utan um öll herbergi

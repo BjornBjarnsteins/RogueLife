@@ -14,27 +14,64 @@ Room.prototype.tileHeight = 50;
 Room.prototype.tileWidth = 50;
 Room.prototype.gridRows = 12;
 Room.prototype.gridCols = 20;
+Room.prototype.scheme = [
+	["w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w"],
+	["w", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "w"],
+	["w", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "w"],
+	["w", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "w"],
+	["w", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "w"],
+	["w", " ", " ", " ", "p", "p", "p", "p", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "w"],
+	["w", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "w"],
+	["w", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "w"],
+	["w", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "w"],
+	["w", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "w"],
+	["w", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "w"],
+	["w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w"]
+	];
 
 Room.prototype.insertWallAt = function (x, y) {
 	var col = Math.floor(x/this.tileWidth);
 	var row = Math.floor(y/this.tileHeight);
 
-	entityManager._makeWall({cx : col*this.tileWidth + this.tileWidth/2,
-							 cy : row*this.tileHeight + this.tileHeight/2,
-
-							 halfHeight : this.tileHeight/2,
-							 halfWidth  : this.tileWidth/2});
+	this.insertWallInTile(row, col);
 };
 
 Room.prototype.insertPlatformAt = function (x, y) {
 	var col = Math.floor(x/this.tileWidth);
 	var row = Math.floor(y/this.tileHeight);
 
+	this.insertPlatformInTile(row, col);
+};
+
+Room.prototype.insertWallInTile = function (row, col) {
+	entityManager._makeWall({cx : col*this.tileWidth + this.tileWidth/2,
+							 cy : row*this.tileHeight + 10,
+
+							 halfHeight : this.tileHeight/2,
+							 halfWidth  : this.tileWidth/2});
+};
+
+Room.prototype.insertPlatformInTile = function (row, col) {
 	entityManager._makePlatform({cx : col*this.tileWidth + this.tileWidth/2,
 							 	 cy : row*this.tileHeight + 10,
 
 								 halfWidth  : this.tileWidth/2});
-}
+};
+
+Room.prototype.interiorDesign = function (scheme) {
+	for (var row = 0; row < this.gridRows; row++) {
+		for (var col = 0; col < this.gridCols; col++) {
+			if (scheme[row][col] === "w") {
+				console.log("inserting wall at (" + row + ", " + col + ")");
+				this.insertWallInTile(row, col);
+			}
+			if (scheme[row][col] === "p") {
+				console.log("inserting platform at (" + row + ", " + col + ")");
+				this.insertPlatformInTile(row, col);
+			}
+		}
+	}
+};
 
 Room.prototype.render = function(ctx) {
 

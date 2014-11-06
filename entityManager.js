@@ -37,7 +37,6 @@ _walls       : [],
 _currentRoom : null,
 
 setRoom : function (room) {
-	console.log(room);
 	this._currentRoom = room;
 
 },
@@ -71,33 +70,37 @@ deferredSetup : function () {
 init: function() {
 
     var weapon=new Weapon();
-	this._spawnPlayer({cx : 20,
-			   cy : g_canvas.height - 30,
+	this._spawnPlayer({cx : 100,
+			   cy : g_canvas.height - 100,
 			   weapon:weapon});
 
-    this._makePlatform({cx:300,cy:200});
+    /*this._makePlatform({cx:300,cy:200});
 
-    this._makeWall({cx:500,cy:300});
+    this._makeWall({cx:500,cy:300});*/
 
 
 },
 
 _spawnPlayer : function(descr) {
-	this._characters.push(new Character(descr));
+	this._characters.push({roomID : this._currentRoom.getRoomID(),
+						   entity : new Character(descr)});
 },
 
 _makePlatform : function  (descr) {
-
-    this._platforms.push(new Platform(descr));
+	console.log("making new platform at " + descr.cx + ", " + descr.cy);
+	this._platforms.push({roomID : this._currentRoom.getRoomID(),
+						  entity : new Platform(descr)});
 },
 
 _makeWall : function  (descr) {
-
-    this._walls.push(new Wall(descr));
+	console.log("making new wall at " + descr.cx + ", " + descr.cy);
+	this._walls.push({roomID : this._currentRoom.getRoomID(),
+					  entity : new Wall(descr)});
 },
 
 _generateProjectile : function (descr) {
-	this._projectiles.push(new Projectile(descr));
+	this._projectiles.push({roomID : this._currentRoom.getRoomID(),
+							entity : new Projectile(descr)});
 },
 
 update: function(du) {
@@ -110,8 +113,9 @@ update: function(du) {
         var i = 0;
 
 		while (i < aCategory.length) {
+			if (!(aCategory[i].roomID === this._currentRoom.getRoomID())) continue;
 
-            var status = aCategory[i].update(du);
+            var status = aCategory[i].entity.update(du);
 
             if (status === this.KILL_ME_NOW) {
                 // remove the dead guy, and shuffle the others down to
@@ -135,10 +139,10 @@ render: function(ctx) {
         var aCategory = this._categories[c];
 
         for (var i = 0; i < aCategory.length; ++i) {
-
-            aCategory[i].render(ctx);
+			if (aCategory[i].roomID === this._currentRoom.getRoomID()) {
+            	aCategory[i].entity.render(ctx);
+			}
             //debug.text(".", debugX + i * 10, debugY);
-
         }
         debugY += 10;
     }

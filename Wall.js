@@ -67,8 +67,6 @@ Wall.prototype.collidesWith = function (entity, oldX, oldY, nextX, nextY) {
 
 Wall.prototype.update = function(dt)
 {
-	spatialManager.unregister(this);
-	spatialManager.register(this);
 	return;
 };
 

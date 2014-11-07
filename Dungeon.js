@@ -1,7 +1,5 @@
 "use strict";
 
-console.log("initiating dungeon");
-
 var dungeon = {
 	// first room
 	_currentRoom : null,
@@ -30,5 +28,3 @@ var dungeon = {
 		return this._currentRoom;
 	}
 };
-
-console.log(dungeon);

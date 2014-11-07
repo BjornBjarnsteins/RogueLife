@@ -82,25 +82,31 @@ init: function() {
 },
 
 _spawnPlayer : function(descr) {
+	var newCharacter = new Character(descr);
 	this._characters.push({roomID : this._currentRoom.getRoomID(),
-						   entity : new Character(descr)});
+						   entity : newCharacter});
+	return newCharacter;
 },
 
 _makePlatform : function  (descr) {
-	console.log("making new platform at " + descr.cx + ", " + descr.cy);
+	var newPlatform = new Platform(descr);
 	this._platforms.push({roomID : this._currentRoom.getRoomID(),
-						  entity : new Platform(descr)});
+						  entity : newPlatform});
+	return newPlatform;
 },
 
 _makeWall : function  (descr) {
-	console.log("making new wall at " + descr.cx + ", " + descr.cy);
+	var newWall = new Wall(descr);
 	this._walls.push({roomID : this._currentRoom.getRoomID(),
-					  entity : new Wall(descr)});
+					  entity : newWall});
+	return newWall;
 },
 
 _generateProjectile : function (descr) {
+	var newProjectile = new Projectile(descr);
 	this._projectiles.push({roomID : this._currentRoom.getRoomID(),
-							entity : new Projectile(descr)});
+							entity : newProjectile});
+	return newProjectile;
 },
 
 update: function(du) {

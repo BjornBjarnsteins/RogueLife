@@ -74,7 +74,7 @@ Character.prototype.update = function(dt)
 			this.direction = -1;
 			this.state = this.STATE_RUNNING;
 
-			
+
 		}
 
 		if(keys[this.KEY_RIGHT])
@@ -155,11 +155,16 @@ Character.prototype.update = function(dt)
 
 	var hitEntity = this.findHitEntity();
 
-	var collisionCode = 0;
+	var hitObstacles = dungeon.getCurrentRoom().getObstaclesInRange(this);
 
-	collisionCode = util.maybeCall(hitEntity.collidesWith,
-								   hitEntity,
-								   [this, oldX, oldY, nextX, nextY, fallsThrough]);
+	var collisionCode = -1;
+
+	for (var i = 0; i < hitObstacles.length; i++) {
+		collisionCode = util.maybeCall(hitObstacles[i].collidesWith,
+									   hitObstacles[i],
+									   [this, oldX, oldY, nextX, nextY, fallsThrough]);
+		if (!collisionCode) break;
+	}
 
 	this.resolveCollision(collisionCode);
 
@@ -275,7 +280,7 @@ Character.prototype.render = function (ctx)
 
     if(this.state === this.STATE_STANDING )
     {
-    	
+
     	sx = g_sprites.walk[0].sx;
 	   	sy = g_sprites.walk[0].sy;
 	   	height = g_sprites.walk[0].height;
@@ -295,9 +300,9 @@ Character.prototype.render = function (ctx)
 	   	height = g_sprites.walk[index].height;
 	   	width = g_sprites.walk[index].width;
 	   	image = g_sprites.walk[index];
-	   	
+
     	g_sprites.walk[index].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
-    
+
 	} else {
 		util.fillBox(ctx,
 				 this.cx-this.halfWidth,
@@ -353,7 +358,7 @@ Character.prototype.updateDash = function (du) {
 
 	if (this.currentDashDuration >= this.dashDuration) {
 		// stop dash
-		console.log("stopping dash");
+		//console.log("stopping dash");
 		this.velX = 0;
 		this.isDashing = false;
 		this.state = this.STATE_JUMPING;

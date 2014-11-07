@@ -53,8 +53,6 @@ Platform.prototype.collidesWith = function (entity, oldX, oldY, nextX, nextY, fa
 
 Platform.prototype.update = function(dt)
 {
-	spatialManager.unregister(this);
-	spatialManager.register(this);
 	return;
 };
 

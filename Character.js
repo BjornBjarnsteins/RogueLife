@@ -163,7 +163,8 @@ Character.prototype.update = function(dt)
 		collisionCode = util.maybeCall(hitObstacles[i].collidesWith,
 									   hitObstacles[i],
 									   [this, oldX, oldY, nextX, nextY, fallsThrough]);
-		if (!collisionCode) break;
+		if (collisionCode === this.TOP_COLLISION ||
+			collisionCode === this.BOTTOM_COLLISION) break;
 	}
 
 	this.resolveCollision(collisionCode);

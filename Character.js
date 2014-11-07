@@ -35,6 +35,8 @@ Character.prototype.STATE_JUMPING = 3;
 Character.prototype.STATE_DASHING = 4;
 Character.prototype.STATE_ATTACKING = 5;
 Character.prototype.STATE_FALLING = 6;
+Character.prototype.STATE_CROUCHING = 7;
+
 
 Character.prototype.state = 1;
 
@@ -61,10 +63,17 @@ Character.prototype.update = function(dt)
 
 	var fallsThrough = false;
 
+	console.log(this.state)
+
 	if (this.state === this.STATE_STANDING ||
-	    this.state === this.STATE_RUNNING ||
-		this.state === this.STATE_ATTACKING ||
-	    this.state === this.STATE_FALLING) {
+		this.state === this.STATE_RUNNING  ||
+		this.state === this.STATE_FALLING 
+	    ) {
+
+		if(this.velY === 0 && this.state === this.STATE_FALLING){
+			this.state = this.STATE_STANDING
+		}
+
 		if(keys[this.KEY_LEFT] && this.STATE_STANDING)
 		{
 			if(this.state !== this.STATE_RUNNING){
@@ -72,8 +81,11 @@ Character.prototype.update = function(dt)
 			}
 			this.cx -=5;
 			this.direction = -1;
-			this.state = this.STATE_RUNNING;
+			if(this.state !== this.STATE_FALLING){
+				this.state = this.STATE_RUNNING;
 
+			}
+			
 
 		}
 
@@ -84,11 +96,14 @@ Character.prototype.update = function(dt)
 			}
 			this.cx +=5;
 			this.direction = 1;
-			this.state = this.STATE_RUNNING;
+			if(this.state !== this.STATE_FALLING){
+				this.state = this.STATE_RUNNING;
+
+			}
 
 		}
 
-		if(!keys[this.KEY_LEFT] && !keys[this.KEY_RIGHT]){
+		if(!keys[this.KEY_LEFT] && !keys[this.KEY_RIGHT] && this.state !== this.STATE_FALLING){
 			this.state = this.STATE_STANDING;
 			this.movedFrom = 0;
 		}
@@ -106,6 +121,9 @@ Character.prototype.update = function(dt)
 
 		if (eatKey(this.KEY_DOWN)) {
 			fallsThrough = true;
+			if(this.cy < 500){
+				this.state = this.STATE_CROUCHING;
+			}
 		}
 
 		if (eatKey(this.KEY_THROW)) {
@@ -117,7 +135,7 @@ Character.prototype.update = function(dt)
 		} else if (eatKey(this.KEY_DASH_RIGHT)) {
 			this.dash(1);
 		}
-	} else if (this.state === this.STATE_JUMPING) {
+	} else if (this.state === this.STATE_JUMPING ) {
 		if (!keys[this.KEY_UP]) {
 			this.stopJumping();
 		}
@@ -145,6 +163,10 @@ Character.prototype.update = function(dt)
 		}
 	} else if (this.state === this.STATE_DASHING) {
 		this.updateDash(dt);
+	} else if(this.state = this.STATE_CROUCHING){
+		if(this.velY > 10){
+			this.state = this.STATE_FALLING
+		}
 	}
 
 
@@ -291,10 +313,31 @@ Character.prototype.render = function (ctx)
 	   	width = g_sprites.walk[index].width;
 	   	image = g_sprites.walk[index];
 
+
     	g_sprites.walk[index].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
 
-	} else {
-		util.fillBox(ctx,
+	} else if (this.state === this.STATE_JUMPING || this.state === this.STATE_FALLING) {
+
+		sx = g_sprites.jump.sx;
+		sy = g_sprites.jump.sy;
+	   	height = g_sprites.jump.height;
+	   	width = g_sprites.jump.width;
+	   	image = g_sprites.jump;
+	   	flip = !flip;
+
+    	g_sprites.jump.drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
+
+	} else if (this.state === this.STATE_CROUCHING){
+
+		sx = g_sprites.crouch.sx;
+		sy = g_sprites.crouch.sy;
+	   	height = g_sprites.crouch.height;
+	   	width = g_sprites.crouch.width;
+	   	image = g_sprites.crouch;
+
+    	g_sprites.crouch.drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
+
+	}else {util.fillBox(ctx,
 				 this.cx-this.halfWidth,
 				 this.cy-this.halfHeight,
 				 this.halfWidth*2,
@@ -313,7 +356,6 @@ Character.prototype.throwDagger = function() {
 									     velY : 0,
 
                        sprite : g_sprites.dagger });
-	console.log("here")
 };
 
 Character.prototype.jump = function() {
@@ -332,9 +374,11 @@ Character.prototype.stopJumping = function() {
 	if (this.velY > 0) return;
 
 	this.velY += 15;
-	if (this.velY > 0) this.velY = 0;
+	if (this.velY > 0) {
+		this.velY = 0;
 
-	this.state = this.STATE_FALLING;
+		this.state = this.STATE_FALLING;
+	}
 };
 
 Character.prototype.dash = function (dir) {
@@ -352,7 +396,7 @@ Character.prototype.updateDash = function (du) {
 		//console.log("stopping dash");
 		this.velX = 0;
 		this.isDashing = false;
-		this.state = this.STATE_JUMPING;
+		this.state = this.STATE_STANDING;
 	}
 };
 
@@ -361,6 +405,11 @@ Character.prototype.landOn = function(surfaceY) {
 	this.velY = 0;
 	this.inAir = false;
 	this.resetJumps();
+	/*if(this.distanceTraveled = 0){
+
+		console.log("her")
+		this.state = this.STATE_STANDING;
+	}*/
 };
 
 Character.prototype.snapTo = function (destX, destY) {

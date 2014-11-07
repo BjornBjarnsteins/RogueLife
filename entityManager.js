@@ -106,6 +106,8 @@ _generateProjectile : function (descr) {
 	var newProjectile = new Projectile(descr);
 	this._projectiles.push({roomID : this._currentRoom.getRoomID(),
 							entity : newProjectile});
+    
+    console.log(newProjectile)
 	return newProjectile;
 },
 

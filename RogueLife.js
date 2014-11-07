@@ -119,11 +119,13 @@ var g_sprites = {};
 function preloadDone() {
     var constructorObjects = {image : g_images.dagger,
                               sx    : 0,
-                              sy    : 0}
+                              sy    : 0,
+                              Width : 10,
+                              Height : 4}
     g_sprites.dagger = new Sprite(constructorObjects);
 
-
-    var cellHeight = 65;
+    //Running
+    var cellHeight = 64;
     var cellWidth = 64;
     var numRows = 10;
     var numCols = 9;
@@ -144,6 +146,27 @@ function preloadDone() {
     }
 
     g_sprites.walk = walking;
+
+    //jumping
+    var constructorObjects = {image : g_images.character,
+                              sx    : 320,
+                              sy    : 195,
+                              Width : cellWidth,
+                              Height : cellHeight}
+
+
+    g_sprites.jump = new Sprite(constructorObjects); 
+    
+    //crouching
+
+     var constructorObjects = {image : g_images.character,
+                              sx    : 130,
+                              sy    : 1280,
+                              Width : cellWidth,
+                              Height : cellHeight}
+
+
+    g_sprites.crouch = new Sprite(constructorObjects);
 
     //creates initial objects
 	dungeon.init();

@@ -77,6 +77,7 @@ Projectile.prototype.render = function (ctx) {
       this.sprite.drawCentredAt(ctx, this.cx, this.cy,
                                 this.velX < 0 ? Math.PI : 0,
                                 this.velX < 0 ? 1 : 0);
+      console.log("inn í render")
     } else {
       util.fillBox(ctx,
 				           this.cx-this.halfWidth,

@@ -65,7 +65,7 @@ Character.prototype.update = function(dt)
 	    this.state === this.STATE_RUNNING ||
 		this.state === this.STATE_ATTACKING ||
 	    this.state === this.STATE_FALLING) {
-		if(keys[this.KEY_LEFT])
+		if(keys[this.KEY_LEFT] && this.STATE_STANDING)
 		{
 			if(this.state !== this.STATE_RUNNING){
 				this.movedFrom = this.cx;
@@ -77,7 +77,7 @@ Character.prototype.update = function(dt)
 
 		}
 
-		if(keys[this.KEY_RIGHT])
+		if(keys[this.KEY_RIGHT]&& this.STATE_STANDING)
 		{
 			if(this.state !== this.STATE_RUNNING){
 				this.movedFrom = this.cx;
@@ -90,6 +90,7 @@ Character.prototype.update = function(dt)
 
 		if(!keys[this.KEY_LEFT] && !keys[this.KEY_RIGHT]){
 			this.state = this.STATE_STANDING;
+			this.movedFrom = 0;
 		}
 
 		//jumping code assumes we want to have jumps work
@@ -253,18 +254,6 @@ Character.prototype.clampToBounds = function()
 
 Character.prototype.render = function (ctx)
 {
-    /*Ævintýri rauða kassans!
-    ctx.save();
-    util.fillBox(ctx,
-				 this.cx-this.halfWidth,
-				 this.cy-this.halfHeight,
-				 this.halfWidth*2,
-				 this.halfHeight*2,
-				 "red");
-
-    ctx.restore();*/
-
-    //console.log(this.state)
    	var sx ;
    	var sy ;
    	var height;
@@ -324,6 +313,7 @@ Character.prototype.throwDagger = function() {
 									     velY : 0,
 
                        sprite : g_sprites.dagger });
+	console.log("here")
 };
 
 Character.prototype.jump = function() {

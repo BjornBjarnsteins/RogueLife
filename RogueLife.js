@@ -124,7 +124,7 @@ function preloadDone() {
 
 
     var cellHeight = 65;
-    var cellWidth = 65;
+    var cellWidth = 64;
     var numRows = 10;
     var numCols = 9;
 

@@ -119,10 +119,10 @@ Room.prototype.getObstaclesInRange = function (entity) {
 	var minCol = this.findColAt(entity.getRightBound());
 	var maxCol = this.findColAt(entity.getLeftBound()) + 2;
 
-	console.log("rows: " + minRow + " - " + maxRow);
-	console.log("cols: " + minCol + " - " + maxCol);
+	//console.log("rows: " + minRow + " - " + maxRow);
+	//console.log("cols: " + minCol + " - " + maxCol);
 
-	console.log(this.grid[minRow][minCol]);
+	//console.log(this.grid[minRow][minCol]);
 
 	var entitiesInRange = [];
 
@@ -132,7 +132,7 @@ Room.prototype.getObstaclesInRange = function (entity) {
 		}
 	}
 
-	console.log(entitiesInRange);
+	//console.log(entitiesInRange);
 
 	return entitiesInRange;
 };

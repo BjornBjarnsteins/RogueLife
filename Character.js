@@ -88,6 +88,10 @@ Character.prototype.update = function(dt)
 
 		}
 
+		if(!keys[this.KEY_LEFT] && !keys[this.KEY_RIGHT]){
+			this.state = this.STATE_STANDING;
+		}
+
 		//jumping code assumes we want to have jumps work
 		//in such a way that if the character is falling
 		//at too high a speed a jump will only slow him down
@@ -255,11 +259,11 @@ Character.prototype.render = function (ctx)
     ctx.restore();*/
 
     //console.log(this.state)
-   	var sx = g_sprites.walk[0].sx;
-   	var sy = g_sprites.walk[0].sy;
-   	var height = g_sprites.walk[0].height;
-   	var width = g_sprites.walk[0].width;
-   	var image = g_sprites.walk[0];
+   	var sx ;
+   	var sy ;
+   	var height;
+   	var width ;
+   	var image ;
    	var x = this.cx;
    	var y = this.cy;
    	var flip;
@@ -272,7 +276,13 @@ Character.prototype.render = function (ctx)
     if(this.state === this.STATE_STANDING )
     {
     	
-		g_sprites.walk[1].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
+    	sx = g_sprites.walk[0].sx;
+	   	sy = g_sprites.walk[0].sy;
+	   	height = g_sprites.walk[0].height;
+	   	width = g_sprites.walk[0].width;
+		image = g_sprites.walk[0];
+
+		g_sprites.walk[0].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
     }
     else if(this.state === this.STATE_RUNNING)
     {
@@ -280,7 +290,12 @@ Character.prototype.render = function (ctx)
     	var distanceTraveled = Math.abs(this.movedFrom - this.cx);
     	var index = Math.floor((distanceTraveled / 65*9) % 9);
 
-    	//console.log("index = "+index);
+    	sx = g_sprites.walk[index].sx;
+		sy = g_sprites.walk[index].sy;
+	   	height = g_sprites.walk[index].height;
+	   	width = g_sprites.walk[index].width;
+	   	image = g_sprites.walk[index];
+	   	
     	g_sprites.walk[index].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
     
 	} else {
@@ -350,7 +365,6 @@ Character.prototype.landOn = function(surfaceY) {
 	this.velY = 0;
 	this.inAir = false;
 	this.resetJumps();
-	this.state = this.STATE_STANDING;
 };
 
 Character.prototype.snapTo = function (destX, destY) {

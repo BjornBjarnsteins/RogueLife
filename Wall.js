@@ -73,7 +73,7 @@ Wall.prototype.update = function(dt)
 };
 
 Wall.prototype.getRadius = function() {
-	return this.halfHeight*1.1;
+	return this.halfHeight*1.7;
 };
 
 /*Wall.prototype.getUpperBound = function() {

@@ -34,6 +34,8 @@ _platforms   : [],
 _projectiles : [],
 _walls       : [],
 
+weapon : null,
+
 _currentRoom : null,
 
 setRoom : function (room) {
@@ -69,10 +71,10 @@ deferredSetup : function () {
 
 init: function() {
 
-    var weapon=new Weapon();
+    this.weapon=new Weapon();
 	this._spawnPlayer({cx : 100,
 			   cy : g_canvas.height - 100,
-			   weapon:weapon});
+			   weapon: this.weapon});
 
     /*this._makePlatform({cx:300,cy:200});
 

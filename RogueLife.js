@@ -165,8 +165,31 @@ function preloadDone() {
                               Width : cellWidth,
                               Height : cellHeight}
 
-
     g_sprites.crouch = new Sprite(constructorObjects);
+
+    //attacking w. sword
+
+    var cellHeight = 64;
+    var cellWidth = 64;
+    var numRows = 31;
+    var numCols = 6;
+
+    var attacking = [];
+    var aSprite;
+
+    for (var row = 30; row < numRows; ++row) {
+        for (var col = 0; col < numCols; ++col) {
+            var constructorObjects = {image : g_images.character,
+                                      sx    : col * cellWidth,
+                                      sy    : row * cellHeight,
+                                      Width : cellWidth,
+                                      Height: cellHeight}
+            aSprite = new Sprite(constructorObjects);
+            attacking.push(aSprite);
+        }
+    }
+
+    g_sprites.attackSw = attacking;
 
     //creates initial objects
 	dungeon.init();

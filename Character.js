@@ -37,6 +37,8 @@ Character.prototype.STATE_ATTACKING = 5;
 Character.prototype.STATE_FALLING = 6;
 Character.prototype.STATE_CROUCHING = 7;
 
+Character.prototype.prevState = 1;
+
 
 Character.prototype.state = 1;
 
@@ -67,10 +69,21 @@ Character.prototype.update = function(dt)
 
 	if (this.state === this.STATE_STANDING ||
 		this.state === this.STATE_RUNNING  ||
-		this.state === this.STATE_FALLING 
+		this.state === this.STATE_FALLING  ||
+		this.state === this.STATE_ATTACKING 
 	    ) {
 
-		if(this.velY === 0 && this.state === this.STATE_FALLING){
+		if(!entityManager.weapon.isAttacking){
+			this.prevState = this.state;
+			this.state = this.STATE_ATTACKING;
+		} else if(this.state === this.STATE_ATTACKING){
+			this.state = this.prevState;
+		}
+
+		if( this.velY === 0 				  && 
+			this.state === this.STATE_FALLING &&
+			this.state !== this.STATE_ATTACKING){
+
 			this.state = this.STATE_STANDING
 		}
 
@@ -81,7 +94,10 @@ Character.prototype.update = function(dt)
 			}
 			this.cx -=5;
 			this.direction = -1;
-			if(this.state !== this.STATE_FALLING){
+
+			if(this.state !== this.STATE_FALLING &&
+			this.state !== this.STATE_ATTACKING){
+
 				this.state = this.STATE_RUNNING;
 
 			}
@@ -96,14 +112,21 @@ Character.prototype.update = function(dt)
 			}
 			this.cx +=5;
 			this.direction = 1;
-			if(this.state !== this.STATE_FALLING){
+
+			if(this.state !== this.STATE_FALLING &&
+			this.state !== this.STATE_ATTACKING){
+
 				this.state = this.STATE_RUNNING;
 
 			}
 
 		}
 
-		if(!keys[this.KEY_LEFT] && !keys[this.KEY_RIGHT] && this.state !== this.STATE_FALLING){
+		if(!keys[this.KEY_LEFT] 			  && 
+			!keys[this.KEY_RIGHT] 			  && 
+			this.state !== this.STATE_FALLING &&
+			this.state !== this.STATE_ATTACKING){
+
 			this.state = this.STATE_STANDING;
 			this.movedFrom = 0;
 		}
@@ -135,7 +158,17 @@ Character.prototype.update = function(dt)
 		} else if (eatKey(this.KEY_DASH_RIGHT)) {
 			this.dash(1);
 		}
-	} else if (this.state === this.STATE_JUMPING ) {
+	} else if (this.state === this.STATE_JUMPING ||
+		this.state === this.STATE_ATTACKING ) {
+		
+		if(!entityManager.weapon.isAttacking){
+
+			this.prevState = this.state;
+			this.state = this.STATE_ATTACKING;
+		} else if(this.state === this.STATE_ATTACKING){
+			this.state = this.prevState;
+		}
+
 		if (!keys[this.KEY_UP]) {
 			this.stopJumping();
 		}
@@ -316,6 +349,22 @@ Character.prototype.render = function (ctx)
 
     	g_sprites.walk[index].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
 
+	} 
+	else if(this.state === this.STATE_ATTACKING)
+    {
+
+    	var time = entityManager.weapon.currentAttackTime;
+    	var index = Math.floor(time);
+
+    	sx = g_sprites.walk[index].sx;
+		sy = g_sprites.walk[index].sy;
+	   	height = g_sprites.walk[index].height;
+	   	width = g_sprites.walk[index].width;
+	   	image = g_sprites.walk[index];
+
+
+    	g_sprites.attackSw[index].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
+
 	} else if (this.state === this.STATE_JUMPING || this.state === this.STATE_FALLING) {
 
 		sx = g_sprites.jump.sx;
@@ -365,7 +414,11 @@ Character.prototype.jump = function() {
 	this.jumpsLeft--;
 	this.inAir = true;
 	this.wasJumping = true;
-	this.state = this.STATE_JUMPING;
+	if(this.state !== this.STATE_ATTACKING){
+		this.state = this.STATE_JUMPING;
+	} else{
+		this.prevState = this.STATE_JUMPING
+	}
 };
 
 Character.prototype.stopJumping = function() {

@@ -47,13 +47,18 @@ Weapon.prototype.update = function(dt, character)
 
     if(keys[this.KEY_ATTACK]&&this.currentAttackTime===0)
     {
-	this.currentAttackTime=this.maximumAttackTime;
+	   this.currentAttackTime=this.maximumAttackTime;
     }
-
 
     if(this.currentAttackTime!==0)
 	this.attackUpdate(dt);
 
+};
+
+Weapon.prototype.isAttacking = function(){
+    if(this.currentAttackTime > 0) return true;
+
+    return false;
 };
 
 /* Ég held að einfaldasta leiðin til þess að höndla árásir sé að teikna hana

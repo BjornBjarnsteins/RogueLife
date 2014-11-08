@@ -170,17 +170,17 @@ function preloadDone() {
     //attacking w. sword
 
     var cellHeight = 64;
-    var cellWidth = 64;
-    var numRows = 31;
+    var cellWidth = 64*3;
+    var numRows = 32;
     var numCols = 6;
 
     var attacking = [];
     var aSprite;
 
-    for (var row = 30; row < numRows; ++row) {
+    for (var row = 31; row < numRows; ++row) {
         for (var col = 0; col < numCols; ++col) {
             var constructorObjects = {image : g_images.character,
-                                      sx    : col * cellWidth,
+                                      sx    : 64 + cellWidth*col,
                                       sy    : row * cellHeight,
                                       Width : cellWidth,
                                       Height: cellHeight}
@@ -190,7 +190,7 @@ function preloadDone() {
     }
 
     g_sprites.attackSw = attacking;
-
+    console.log(g_sprites.attackSw)
     //creates initial objects
 	dungeon.init();
     entityManager.init();

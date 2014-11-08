@@ -52,7 +52,7 @@ Sprite.prototype.drawCharacter = function(ctx, image, sx, sy, cx, cy, height, wi
     ctx.save();
     
     ctx.translate(cx,cy);
-    
+
     if(flip){
         ctx.scale( -1.2 , 1.2);
     }
@@ -60,8 +60,12 @@ Sprite.prototype.drawCharacter = function(ctx, image, sx, sy, cx, cy, height, wi
         
         ctx.scale(1.2,1.2)
     }
+    if(width > 64 ){
+        ctx.drawImage(image.image, sx, sy, width, height, -width/6, -height/2, image.width, image.height);
+    }else{
 
-    ctx.drawImage(image.image, sx, sy, width, height, -width/2, -height/2, image.width, image.height);
+        ctx.drawImage(image.image, sx, sy, width, height, -width/2, -height/2, image.width, image.height);
+    }
     ctx.restore();
     
     ctx.save();

@@ -69,7 +69,7 @@ Weapon.prototype.isAttacking = function(){
 **/
 Weapon.prototype.attackUpdate = function(dt)
 {
-    console.log("Attacking!");
+    //console.log("Attacking!");
     this.currentAttackTime = this.currentAttackTime-dt;
     if(this.currentAttackTime<=0)
     {
@@ -92,7 +92,7 @@ Weapon.prototype.attackUpdate = function(dt)
 	this.currentReach=this.maximumReach*timeRatio;
     }
 
-    console.log(this.currentReach);
+    //console.log(this.currentReach);
 
     //TODO:need to check for collisions when spatial manager gets going
 

@@ -65,7 +65,7 @@ Character.prototype.update = function(dt)
 
 	var fallsThrough = false;
 
-	console.log(this.state)
+	//console.log(this.state)
 
 	if (this.state === this.STATE_STANDING ||
 		this.state === this.STATE_RUNNING  ||
@@ -73,7 +73,8 @@ Character.prototype.update = function(dt)
 		this.state === this.STATE_ATTACKING 
 	    ) {
 
-		if(!entityManager.weapon.isAttacking){
+		var isAttacking = entityManager.weapon.isAttacking()
+		if(isAttacking){
 			this.prevState = this.state;
 			this.state = this.STATE_ATTACKING;
 		} else if(this.state === this.STATE_ATTACKING){
@@ -354,13 +355,27 @@ Character.prototype.render = function (ctx)
     {
 
     	var time = entityManager.weapon.currentAttackTime;
-    	var index = Math.floor(time);
+    	if(time > 5){
+    		index = 0
+    	} else if(time > 4){
+    		index = 1
+    	}else if(time > 3){
+    		index = 2
+    	}else if(time > 2){
+    		index = 4
+    	}else {
+    		index = 5
+    	}
+    	console.log(time , index);
 
-    	sx = g_sprites.walk[index].sx;
-		sy = g_sprites.walk[index].sy;
-	   	height = g_sprites.walk[index].height;
-	   	width = g_sprites.walk[index].width;
-	   	image = g_sprites.walk[index];
+    	//console.log(index,g_sprites.attackSw[index])
+
+    	sx = g_sprites.attackSw[index].sx;
+		sy = g_sprites.attackSw[index].sy;
+	   	height = g_sprites.attackSw[index].height;
+	   	width = g_sprites.attackSw[index].width;
+	   	image = g_sprites.attackSw[index];
+	   	flip = !flip;
 
 
     	g_sprites.attackSw[index].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);

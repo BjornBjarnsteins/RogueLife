@@ -147,6 +147,16 @@ function preloadDone() {
 
     g_sprites.walk = walking;
 
+    //dashing
+    var constructorObjects = {image : g_images.character,
+                              sx    : 256,
+                              sy    : 960,
+                              Width : cellWidth,
+                              Height : cellHeight}
+
+
+    g_sprites.dash = new Sprite(constructorObjects); 
+
     //jumping
     var constructorObjects = {image : g_images.character,
                               sx    : 320,

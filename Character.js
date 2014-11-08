@@ -405,6 +405,17 @@ Character.prototype.render = function (ctx)
 
     	g_sprites.crouch.drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
 
+	}else if (this.state === this.STATE_DASHING){
+
+		sx = g_sprites.dash.sx;
+		sy = g_sprites.dash.sy;
+	   	height = g_sprites.dash.height;
+	   	width = g_sprites.dash.width;
+	   	image = g_sprites.dash;
+	   	flip = !flip;
+
+    	g_sprites.dash.drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
+
 	}else {util.fillBox(ctx,
 				 this.cx-this.halfWidth,
 				 this.cy-this.halfHeight,

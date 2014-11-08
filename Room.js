@@ -49,7 +49,16 @@ Room.prototype.insertPlatformAt = function (x, y) {
 	this.insertPlatformInTile(row, col);
 };
 
+Room.prototype.emptyTileAt = function(x, y) {
+	var col = this.findColAt(x);
+	var row = this.findRowAt(y);
+
+	this.emptyTile(row, col);
+};
+
 Room.prototype.insertWallInTile = function (row, col) {
+	if (this.grid[row][col]) return;
+
 	this.grid[row][col] = entityManager._makeWall({cx : col*this.tileWidth + this.tileWidth/2,
 												   cy : row*this.tileHeight + this.tileHeight/2,
 
@@ -58,10 +67,48 @@ Room.prototype.insertWallInTile = function (row, col) {
 };
 
 Room.prototype.insertPlatformInTile = function (row, col) {
+	if (this.grid[row][col]) return;
+
 	this.grid[row][col] = entityManager._makePlatform({cx : col*this.tileWidth + this.tileWidth/2,
 													   cy : row*this.tileHeight + 10,
 
 													   halfWidth  : this.tileWidth/2});
+};
+
+Room.prototype.emptyTile = function (row, col) {
+	entityManager._removeWall(this.grid[row][col], this._roomID);
+	entityManager._removePlatform(this.grid[row][col], this._roomID);
+
+	this.grid[row][col] = null;
+};
+
+Room.prototype.addLeftExit = function () {
+	this.emptyTile(9, 0);
+	this.emptyTile(10, 0);
+};
+
+Room.prototype.addRightExit = function () {
+	this.emptyTile(9, 19);
+	this.emptyTile(10, 19);
+};
+
+Room.prototype.addTopExit = function () {
+	this.emptyTile(0, 8);
+	this.emptyTile(0, 9);
+	this.emptyTile(0, 10);
+	this.emptyTile(0, 11);
+};
+
+Room.prototype.addBottomExit = function () {
+	this.emptyTile(11, 8);
+	this.emptyTile(11, 9);
+	this.emptyTile(11, 10);
+	this.emptyTile(11, 11);
+
+	this.insertPlatformInTile(11, 8);
+	this.insertPlatformInTile(11, 9);
+	this.insertPlatformInTile(11, 10);
+	this.insertPlatformInTile(11, 11);
 };
 
 Room.prototype.interiorDesign = function (scheme) {
@@ -75,6 +122,11 @@ Room.prototype.interiorDesign = function (scheme) {
 			}
 		}
 	}
+
+	this.addLeftExit();
+	this.addRightExit();
+	this.addTopExit();
+	this.addBottomExit();
 };
 
 Room.prototype.render = function(ctx) {

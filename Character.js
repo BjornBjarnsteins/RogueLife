@@ -228,10 +228,6 @@ Character.prototype.update = function(dt)
 									   hitObstacles[i],
 									   [this, oldX, oldY, nextX, nextY, fallsThrough]);
 		this.resolveCollision(collisionCode);
-		if (collisionCode) {
-			console.log(collisionCode + ": ");
-			console.log(hitObstacles[i]);
-		}
 	}
 
 	//console.log("velX: " + this.velX + " velY: " + this.velY);

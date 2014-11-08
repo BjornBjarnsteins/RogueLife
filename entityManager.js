@@ -45,6 +45,7 @@ setRoom : function (room) {
 
 KEY_INSERT_WALL : "1".charCodeAt(0),
 KEY_INSERT_PLATFORM : "2".charCodeAt(0),
+KEY_EMPTY_SQUARE : 46,
 
 // "PRIVATE" METHODS
 
@@ -108,14 +109,42 @@ _generateProjectile : function (descr) {
 	var newProjectile = new Projectile(descr);
 	this._projectiles.push({roomID : this._currentRoom.getRoomID(),
 							entity : newProjectile});
-    
-    console.log(newProjectile)
+
 	return newProjectile;
+},
+
+_removeWall : function (wall, roomID) {
+	var index = -1;
+
+	for (var i = 0; i < this._walls.length; i++) {
+		if (this._walls[i].entity === wall &&
+		    this._walls[i].roomID === roomID) {
+			index = i;
+			break;
+		}
+	}
+
+	if (index !== -1) this._walls.splice(index, 1);
+},
+
+_removePlatform : function (platform, roomID) {
+	var index = -1;
+
+	for (var i = 0; i < this._platforms.length; i++) {
+		if (this._platforms[i].entity === platform &&
+		    this._walls[i].roomID === roomID) {
+			index = i;
+			break;
+		}
+	}
+
+	if (index !== -1) this._platforms.splice(index, 1);
 },
 
 update: function(du) {
 	if (eatKey(this.KEY_INSERT_WALL)) this._currentRoom.insertWallAt(g_mouseX, g_mouseY);
 	if (eatKey(this.KEY_INSERT_PLATFORM)) this._currentRoom.insertPlatformAt(g_mouseX, g_mouseY);
+	if (eatKey(this.KEY_EMPTY_SQUARE)) this._currentRoom.emptyTileAt(g_mouseX, g_mouseY);
 
     for (var c = 0; c < this._categories.length; ++c) {
 
@@ -123,7 +152,7 @@ update: function(du) {
         var i = 0;
 
 		while (i < aCategory.length) {
-			if (!(aCategory[i].roomID === this._currentRoom.getRoomID())) continue;
+			if (aCategory[i].roomID !== this._currentRoom.getRoomID()) continue;
 
             var status = aCategory[i].entity.update(du);
 

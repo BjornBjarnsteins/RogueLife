@@ -24,7 +24,7 @@ Character.prototype.jumpsLeft = 3;
 Character.prototype.inAir = false;
 Character.prototype.wasJumping = false;
 Character.prototype.isDashing = false;
-Character.prototype.dashSpeed = 50;
+Character.prototype.dashSpeed = 20;
 Character.prototype.dashDuration = 0.1*SECS_TO_NOMINALS;
 Character.prototype.currentDashDuration = 0;
 Character.prototype.movedFrom = 0;
@@ -70,7 +70,7 @@ Character.prototype.update = function(dt)
 	if (this.state === this.STATE_STANDING ||
 		this.state === this.STATE_RUNNING  ||
 		this.state === this.STATE_FALLING  ||
-		this.state === this.STATE_ATTACKING 
+		this.state === this.STATE_ATTACKING
 	    ) {
 
 		var isAttacking = entityManager.weapon.isAttacking()
@@ -86,7 +86,7 @@ Character.prototype.update = function(dt)
 			this.state = this.prevState;
 		}
 
-		if( this.velY === 0 				  && 
+		if( this.velY === 0 				  &&
 			this.state === this.STATE_FALLING &&
 			this.state !== this.STATE_ATTACKING){
 
@@ -107,7 +107,7 @@ Character.prototype.update = function(dt)
 				this.state = this.STATE_RUNNING;
 
 			}
-			
+
 
 		}
 
@@ -128,8 +128,8 @@ Character.prototype.update = function(dt)
 
 		}
 
-		if(!keys[this.KEY_LEFT] 			  && 
-			!keys[this.KEY_RIGHT] 			  && 
+		if(!keys[this.KEY_LEFT] 			  &&
+			!keys[this.KEY_RIGHT] 			  &&
 			this.state !== this.STATE_FALLING &&
 			this.state !== this.STATE_ATTACKING){
 
@@ -166,7 +166,7 @@ Character.prototype.update = function(dt)
 		}
 	} else if (this.state === this.STATE_JUMPING ||
 		this.state === this.STATE_ATTACKING ) {
-		
+
 		if(!entityManager.weapon.isAttacking){
 
 			this.prevState = this.state;
@@ -228,6 +228,8 @@ Character.prototype.update = function(dt)
 		if (collisionCode === this.TOP_COLLISION ||
 			collisionCode === this.BOTTOM_COLLISION) break;
 	}
+
+	console.log("collision: " + collisionCode);
 
 	this.resolveCollision(collisionCode);
 
@@ -355,7 +357,7 @@ Character.prototype.render = function (ctx)
 
     	g_sprites.walk[index].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
 
-	} 
+	}
 	else if(this.state === this.STATE_ATTACKING)
     {
 

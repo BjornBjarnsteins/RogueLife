@@ -100,7 +100,7 @@ Weapon.prototype.attackUpdate = function(dt)
 
 Weapon.prototype.render = function(ctx)
 {
-    if(this.currentAttackTime===0)
+    /*if(this.currentAttackTime===0)
 	return;
     ctx.save();
     ctx.fillStyle="green";
@@ -121,7 +121,7 @@ Weapon.prototype.render = function(ctx)
 		     );
     }
 
-    ctx.restore();
+    ctx.restore();*/
 };
 
 

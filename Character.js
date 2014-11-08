@@ -454,6 +454,7 @@ Character.prototype.stopJumping = function() {
 };
 
 Character.prototype.dash = function (dir) {
+	this.direction = dir;
 	this.velX = dir*this.dashSpeed;
 	this.currentDashDuration = 0;
 	this.isDashing = true;

@@ -73,7 +73,7 @@ Character.prototype.update = function(dt)
 		this.state === this.STATE_ATTACKING
 	    ) {
 
-		var isAttacking = entityManager.weapon.isAttacking()
+		var isAttacking = entityManager.weapon.isAttacking();
 		if(isAttacking){
 
 			if(this.state !== this.STATE_ATTACKING){
@@ -202,9 +202,11 @@ Character.prototype.update = function(dt)
 		}
 	} else if (this.state === this.STATE_DASHING) {
 		this.updateDash(dt);
-	} else if(this.state = this.STATE_CROUCHING){
+	} else if(this.state === this.STATE_CROUCHING){
 		if(this.velY > 10){
-			this.state = this.STATE_FALLING
+			this.state = this.STATE_FALLING;
+		} else if (!keys[this.KEY_DOWN]) {
+			this.state = this.STATE_STANDING;
 		}
 	}
 
@@ -226,6 +228,10 @@ Character.prototype.update = function(dt)
 									   hitObstacles[i],
 									   [this, oldX, oldY, nextX, nextY, fallsThrough]);
 		this.resolveCollision(collisionCode);
+		if (collisionCode) {
+			console.log(collisionCode + ": ");
+			console.log(hitObstacles[i]);
+		}
 	}
 
 	//console.log("velX: " + this.velX + " velY: " + this.velY);

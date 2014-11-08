@@ -30,7 +30,7 @@ Wall.prototype.groundMe = function (entity){
 
 // side is the side of the wall to which entity should snap, -1 for left, 1 for right
 Wall.prototype.stopMe = function (entity, side){
-	entity.snapTo(this.cx + side*this.halfWidth + side*entity.halfWidth, entity.cy);
+	entity.snapTo(this.cx + side*(this.halfWidth + entity.halfWidth + 5), entity.cy);
 };
 
 // Assumes entity is within the bounding circle

@@ -225,13 +225,8 @@ Character.prototype.update = function(dt)
 		collisionCode = util.maybeCall(hitObstacles[i].collidesWith,
 									   hitObstacles[i],
 									   [this, oldX, oldY, nextX, nextY, fallsThrough]);
-		if (collisionCode === this.TOP_COLLISION ||
-			collisionCode === this.BOTTOM_COLLISION) break;
+		this.resolveCollision(collisionCode);
 	}
-
-	console.log("collision: " + collisionCode);
-
-	this.resolveCollision(collisionCode);
 
 	//console.log("velX: " + this.velX + " velY: " + this.velY);
 	//console.log("aveVelX: " + aveVel.X + " aveVelY: " + aveVel.Y);

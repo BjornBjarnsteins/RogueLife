@@ -75,9 +75,14 @@ Character.prototype.update = function(dt)
 
 		var isAttacking = entityManager.weapon.isAttacking()
 		if(isAttacking){
-			this.prevState = this.state;
+
+			if(this.state !== this.STATE_ATTACKING){
+
+				this.prevState = this.state;
+			}
 			this.state = this.STATE_ATTACKING;
 		} else if(this.state === this.STATE_ATTACKING){
+			console.log("here")
 			this.state = this.prevState;
 		}
 
@@ -366,9 +371,6 @@ Character.prototype.render = function (ctx)
     	}else {
     		index = 5
     	}
-    	console.log(time , index);
-
-    	//console.log(index,g_sprites.attackSw[index])
 
     	sx = g_sprites.attackSw[index].sx;
 		sy = g_sprites.attackSw[index].sy;

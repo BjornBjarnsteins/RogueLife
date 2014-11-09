@@ -39,10 +39,15 @@ weapon : null,
 _currentRoomID : null,
 
 setRoom : function (room) {
-	console.log(room);
-	console.log(room.getRoomID);
+	var oldRoomID = this._currentRoomID;
 	this._currentRoomID = room.getRoomID();
-	if (this._characters[0]) this._characters[0].roomID = this._currentRoomID;
+	console.log(this._characters[oldRoomID][0]);
+	if (this._characters[oldRoomID][0]) {
+		this._characters[this._currentRoomID] = [this._characters[oldRoomID][0]];
+		this._characters[oldRoomID].splice(0, 1);
+	}
+	console.log(this._characters[this._currentRoomID]);
+	console.log(this._currentRoomID);
 },
 
 KEY_INSERT_WALL : "1".charCodeAt(0),
@@ -52,6 +57,8 @@ KEY_NAV_UP : 38,
 KEY_NAV_DOWN : 40,
 KEY_NAV_LEFT : 37,
 KEY_NAV_RIGHT : 39,
+dungeonX : 5,
+dungeonY : 5,
 
 // "PRIVATE" METHODS
 
@@ -150,13 +157,14 @@ _removePlatform : function (platform, roomID) {
 },
 
 update: function(du) {
+
 	if (eatKey(this.KEY_INSERT_WALL)) this._currentRoom.insertWallAt(g_mouseX, g_mouseY);
 	if (eatKey(this.KEY_INSERT_PLATFORM)) this._currentRoom.insertPlatformAt(g_mouseX, g_mouseY);
 	if (eatKey(this.KEY_EMPTY_SQUARE)) this._currentRoom.emptyTileAt(g_mouseX, g_mouseY);
-	if (eatKey(this.KEY_NAV_UP)) {
-		this._currentRoomID = dungeon.grid[dungeon.currentPosX][dungeon.currentPosY + 1].getRoomID();
-		console.log("checking up");
-	}
+	if (eatKey(this.KEY_NAV_UP)) this._currentRoomID = dungeon.grid[this.dungeonX][++this.dungeonY].getRoomID();
+	if (eatKey(this.KEY_NAV_DOWN)) this._currentRoomID = dungeon.grid[this.dungeonX][--this.dungeonY].getRoomID();
+	if (eatKey(this.KEY_NAV_LEFT)) this._currentRoomID = dungeon.grid[--this.dungeonX][this.dungeonY].getRoomID();
+	if (eatKey(this.KEY_NAV_RIGHT)) this._currentRoomID = dungeon.grid[++this.dungeonX][this.dungeonY].getRoomID();
 
     for (var c = 0; c < this._categories.length; ++c) {
 

@@ -15,7 +15,7 @@ var dungeon = {
 		this.currentPosX = 5;
 		this.currentPosY = 5;
 		this._currentRoom = this.grid[this.currentPosX][this.currentPosY];
-		entityManager.setRoom(this._currentRoom);
+		entityManager._currentRoomID = this._currentRoom.getRoomID();
 		//this._currentRoom.interiorDesign(this._currentRoom.scheme);
 	},
 

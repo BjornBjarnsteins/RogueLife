@@ -211,8 +211,6 @@ Room.prototype.getObstaclesInRange = function (entity) {
 Room.prototype.enter = function (character) {
 	if (!this.isSetup) this.interiorDesign(this.scheme);
 
-	console.log("character entering room: " + this);
-
 	if (character.cy < 0 ||
 	    character.cy > g_canvas.height) util.wrapRange(character.cy,
 													   character.halfHeight,
@@ -221,5 +219,4 @@ Room.prototype.enter = function (character) {
 						 character.halfWidth,
 						 g_canvas.width - character.halfWidth);
 
-	console.log("success!");
 };

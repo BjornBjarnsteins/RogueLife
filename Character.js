@@ -437,7 +437,9 @@ Character.prototype.throwDagger = function() {
 									     velX : 10*this.direction,
 									     velY : 0,
 
-                       sprite : g_sprites.dagger });
+                       sprite : g_sprites.dagger },
+
+									 entityManager._currentRoomID);
 };
 
 Character.prototype.jump = function() {

@@ -64,7 +64,9 @@ Room.prototype.insertWallInTile = function (row, col) {
 												   cy : row*this.tileHeight + this.tileHeight/2,
 
 												   halfHeight : this.tileHeight/2,
-												   halfWidth  : this.tileWidth/2});
+												   halfWidth  : this.tileWidth/2},
+
+												 this._roomID);
 };
 
 Room.prototype.insertPlatformInTile = function (row, col) {
@@ -73,7 +75,9 @@ Room.prototype.insertPlatformInTile = function (row, col) {
 	this.grid[row][col] = entityManager._makePlatform({cx : col*this.tileWidth + this.tileWidth/2,
 													   cy : row*this.tileHeight + 10,
 
-													   halfWidth  : this.tileWidth/2});
+													   halfWidth  : this.tileWidth/2},
+
+													 this._roomID);
 
 };
 
@@ -114,6 +118,8 @@ Room.prototype.addBottomExit = function () {
 };
 
 Room.prototype.interiorDesign = function (scheme) {
+	if (!scheme) scheme = this.scheme;
+
 	console.log("setting up room " + this._roomID);
 
 	for (var row = 0; row < this.gridRows; row++) {

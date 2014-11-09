@@ -81,7 +81,11 @@ init: function() {
     this.weapon=new Weapon();
 	this._spawnPlayer({cx : 100,
 			   cy : g_canvas.height - 100,
-			   weapon: this.weapon});
+			   weapon: this.weapon},
+
+					 this._currentRoomID);
+
+	console.log(this._walls.length);
 
     /*this._makePlatform({cx:300,cy:200});
 
@@ -90,31 +94,31 @@ init: function() {
 
 },
 
-_spawnPlayer : function(descr) {
+_spawnPlayer : function(descr, roomID) {
 	var newCharacter = new Character(descr);
-	this._characters.push({roomID : this._currentRoomID,
-						   entity : newCharacter});
+	if (!this._characters[roomID]) this._characters[roomID] = [newCharacter];
+	else this._characters[roomID].push(newCharacter);
 	return newCharacter;
 },
 
-_makePlatform : function  (descr) {
+_makePlatform : function  (descr, roomID) {
 	var newPlatform = new Platform(descr);
-	this._platforms.push({roomID : this._currentRoomID,
-						  entity : newPlatform});
+	if (!this._platforms[roomID]) this._platforms[roomID] = [newPlatform];
+	else this._platforms[roomID].push(newPlatform);
 	return newPlatform;
 },
 
-_makeWall : function  (descr) {
+_makeWall : function  (descr, roomID) {
 	var newWall = new Wall(descr);
-	this._walls.push({roomID : this._currentRoomID,
-					  entity : newWall});
+	if (!this._walls[roomID]) this._walls[roomID] = [newWall];
+	else this._walls[roomID].push(newWall);
 	return newWall;
 },
 
-_generateProjectile : function (descr) {
+_generateProjectile : function (descr, roomID) {
 	var newProjectile = new Projectile(descr);
-	this._projectiles.push({roomID : this._currentRoomID,
-							entity : newProjectile});
+	if (!this._projectiles[roomID]) this._projectiles[roomID] = [newProjectile];
+	else this._projectiles[roomID].push(newProjectile);
 
 	return newProjectile;
 },
@@ -123,28 +127,26 @@ _removeWall : function (wall, roomID) {
 	var index = -1;
 
 	for (var i = 0; i < this._walls.length; i++) {
-		if (this._walls[i].entity === wall &&
-		    this._walls[i].roomID === roomID) {
+		if (this._walls[roomID][i] === wall) {
 			index = i;
 			break;
 		}
 	}
 
-	if (index !== -1) this._walls.splice(index, 1);
+	if (index !== -1) this._walls[roomID].splice(index, 1);
 },
 
 _removePlatform : function (platform, roomID) {
 	var index = -1;
 
 	for (var i = 0; i < this._platforms.length; i++) {
-		if (this._platforms[i].entity === platform &&
-		    this._walls[i].roomID === roomID) {
+		if (this._platforms[roomID][i] === platform) {
 			index = i;
 			break;
 		}
 	}
 
-	if (index !== -1) this._platforms.splice(index, 1);
+	if (index !== -1) this._platforms[roomID].splice(index, 1);
 },
 
 update: function(du) {
@@ -152,19 +154,18 @@ update: function(du) {
 	if (eatKey(this.KEY_INSERT_PLATFORM)) this._currentRoom.insertPlatformAt(g_mouseX, g_mouseY);
 	if (eatKey(this.KEY_EMPTY_SQUARE)) this._currentRoom.emptyTileAt(g_mouseX, g_mouseY);
 	if (eatKey(this.KEY_NAV_UP)) {
-		this._currentRoom = dungeon.grid[dungeon.currentPosX][dungeon.currentPosY + 1];
+		this._currentRoomID = dungeon.grid[dungeon.currentPosX][dungeon.currentPosY + 1].getRoomID();
 		console.log("checking up");
 	}
 
     for (var c = 0; c < this._categories.length; ++c) {
 
-        var aCategory = this._categories[c];
+        var aCategory = this._categories[c][this._currentRoomID];
+		if (!aCategory) continue;
         var i = 0;
 
 		while (i < aCategory.length) {
-			if (aCategory[i].roomID !== this._currentRoomID) continue;
-
-            var status = aCategory[i].entity.update(du);
+            var status = aCategory[i].update(du);
 
             if (status === this.KILL_ME_NOW) {
                 // remove the dead guy, and shuffle the others down to
@@ -184,12 +185,12 @@ render: function(ctx) {
 
     for (var c = 0; c < this._categories.length; ++c) {
 
-        var aCategory = this._categories[c];
+        var aCategory = this._categories[c][this._currentRoomID];
+
+		if (!aCategory) continue;
 
         for (var i = 0; i < aCategory.length; ++i) {
-			if (aCategory[i].roomID === this._currentRoomID) {
-            	aCategory[i].entity.render(ctx);
-			}
+            	aCategory[i].render(ctx);
             //debug.text(".", debugX + i * 10, debugY);
         }
         debugY += 10;

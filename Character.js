@@ -240,13 +240,19 @@ Character.prototype.update = function(dt)
 
 	if (this.velY > 0) {}//this.state = this.STATE_FALLING;
 
-	var oldCy = this.cy;
+	/*var oldCy = this.cy;
 	this.clampToBounds();
 
 	if (this.cy !== oldCy) {
 		this.velY = 0;
 		if (this.cy > 500){} //this.state = this.STATE_STANDING;
-	}
+	}*/
+
+	// Handle room changes
+	if (this.cy < 0) dungeon.goUp(this);
+	else if (this.cy > g_canvas.height) dungeon.goDown(this);
+	else if (this.cx < 0) dungeon.goLeft(this);
+	else if (this.cx > g_canvas.width) dungeon.goRight(this);
 
 	if (this.weapon) this.weapon.update(dt, this);
 
@@ -360,15 +366,15 @@ Character.prototype.render = function (ctx)
 
     	var time = entityManager.weapon.currentAttackTime;
     	if(time > 5){
-    		index = 0
+    		index = 0;
     	} else if(time > 4){
-    		index = 1
+    		index = 1;
     	}else if(time > 3){
-    		index = 2
+    		index = 2;
     	}else if(time > 2){
-    		index = 4
+    		index = 4;
     	}else {
-    		index = 5
+    		index = 5;
     	}
 
     	sx = g_sprites.attackSw[index].sx;

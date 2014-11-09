@@ -39,8 +39,9 @@ weapon : null,
 _currentRoom : null,
 
 setRoom : function (room) {
+	console.log(room);
 	this._currentRoom = room;
-
+	if (this._characters[0]) this._characters[0].roomID = room.getRoomID();
 },
 
 KEY_INSERT_WALL : "1".charCodeAt(0),
@@ -170,7 +171,6 @@ update: function(du) {
 },
 
 render: function(ctx) {
-
     var debugX = 10, debugY = 100;
 
     for (var c = 0; c < this._categories.length; ++c) {

@@ -14,8 +14,9 @@ function Room(descr) {
 	for (var i = 0; i < this.grid.length; i++) {
 		this.grid[i] = new Array(this.gridCols);
 	}
-};
+}
 
+Room.prototype.isSetup = false;
 Room.prototype.tileHeight = 50;
 Room.prototype.tileWidth = 50;
 Room.prototype.gridRows = 12;
@@ -73,6 +74,7 @@ Room.prototype.insertPlatformInTile = function (row, col) {
 													   cy : row*this.tileHeight + 10,
 
 													   halfWidth  : this.tileWidth/2});
+
 };
 
 Room.prototype.emptyTile = function (row, col) {
@@ -127,6 +129,8 @@ Room.prototype.interiorDesign = function (scheme) {
 	this.addRightExit();
 	this.addTopExit();
 	this.addBottomExit();
+
+	this.isSetup = true;
 };
 
 Room.prototype.render = function(ctx) {
@@ -194,4 +198,20 @@ Room.prototype.getObstaclesInRange = function (entity) {
 	//console.log(entitiesInRange);
 
 	return entitiesInRange;
+};
+
+Room.prototype.enter = function (character) {
+	if (!this.isSetup) this.interiorDesign();
+
+	console.log("character entering room: " + this);
+
+	if (character.cy < 0 ||
+	    character.cy > g_canvas.height) util.wrapRange(character.cy,
+													   character.halfHeight,
+													   g_canvas.height - character.halfHeight);
+	else  util.wrapRange(character.cx,
+						 character.halfWidth,
+						 g_canvas.width - character.halfWidth);
+
+	console.log("success!");
 };

@@ -211,12 +211,9 @@ Room.prototype.getObstaclesInRange = function (entity) {
 Room.prototype.enter = function (character) {
 	if (!this.isSetup) this.interiorDesign(this.scheme);
 
-	if (character.cy < 0 ||
-	    character.cy > g_canvas.height) util.wrapRange(character.cy,
-													   character.halfHeight,
-													   g_canvas.height - character.halfHeight);
-	else  util.wrapRange(character.cx,
-						 character.halfWidth,
-						 g_canvas.width - character.halfWidth);
+	if (character.cy < 0) character.snapTo(character.cx, g_canvas.height - character.halfHeight);
+	else if (character.cy > g_canvas.height) character.snapTo(character.cx, character.halfHeight);
+	else if (character.cx < 0) character.snapTo(g_canvas.width - character.halfWidth, character.cy);
+	else if (character.cx > g_canvas.width) character.snapTo(character.halfWidth, character.cy);
 
 };

@@ -47,7 +47,7 @@ var dungeon = {
 
 	enterRoom : function (room, character) {
 		console.log("entering room " + room);
-		this.currentRoom = room;
+		this._currentRoom = room;
 		entityManager.setRoom(room);
 		room.enter(character);
 	},

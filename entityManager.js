@@ -158,9 +158,9 @@ _removePlatform : function (platform, roomID) {
 
 update: function(du) {
 
-	if (eatKey(this.KEY_INSERT_WALL)) this._currentRoom.insertWallAt(g_mouseX, g_mouseY);
-	if (eatKey(this.KEY_INSERT_PLATFORM)) this._currentRoom.insertPlatformAt(g_mouseX, g_mouseY);
-	if (eatKey(this.KEY_EMPTY_SQUARE)) this._currentRoom.emptyTileAt(g_mouseX, g_mouseY);
+	if (eatKey(this.KEY_INSERT_WALL)) dungeon._currentRoom.insertWallAt(g_mouseX, g_mouseY);
+	if (eatKey(this.KEY_INSERT_PLATFORM)) dungeon._currentRoom.insertPlatformAt(g_mouseX, g_mouseY);
+	if (eatKey(this.KEY_EMPTY_SQUARE)) dungeon._currentRoom.emptyTileAt(g_mouseX, g_mouseY);
 	if (eatKey(this.KEY_NAV_UP)) this._currentRoomID = dungeon.grid[this.dungeonX][++this.dungeonY].getRoomID();
 	if (eatKey(this.KEY_NAV_DOWN)) this._currentRoomID = dungeon.grid[this.dungeonX][--this.dungeonY].getRoomID();
 	if (eatKey(this.KEY_NAV_LEFT)) this._currentRoomID = dungeon.grid[--this.dungeonX][this.dungeonY].getRoomID();

@@ -114,6 +114,8 @@ Room.prototype.addBottomExit = function () {
 };
 
 Room.prototype.interiorDesign = function (scheme) {
+	console.log("setting up room " + this._roomID);
+
 	for (var row = 0; row < this.gridRows; row++) {
 		for (var col = 0; col < this.gridCols; col++) {
 			if (scheme[row][col] === "w") {
@@ -201,7 +203,7 @@ Room.prototype.getObstaclesInRange = function (entity) {
 };
 
 Room.prototype.enter = function (character) {
-	if (!this.isSetup) this.interiorDesign();
+	if (!this.isSetup) this.interiorDesign(this.scheme);
 
 	console.log("character entering room: " + this);
 

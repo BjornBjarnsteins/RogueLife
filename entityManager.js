@@ -36,17 +36,22 @@ _walls       : [],
 
 weapon : null,
 
-_currentRoom : null,
+_currentRoomID : null,
 
 setRoom : function (room) {
 	console.log(room);
-	this._currentRoom = room;
-	if (this._characters[0]) this._characters[0].roomID = room.getRoomID();
+	console.log(room.getRoomID);
+	this._currentRoomID = room.getRoomID();
+	if (this._characters[0]) this._characters[0].roomID = this._currentRoomID;
 },
 
 KEY_INSERT_WALL : "1".charCodeAt(0),
 KEY_INSERT_PLATFORM : "2".charCodeAt(0),
 KEY_EMPTY_SQUARE : 46,
+KEY_NAV_UP : 38,
+KEY_NAV_DOWN : 40,
+KEY_NAV_LEFT : 37,
+KEY_NAV_RIGHT : 39,
 
 // "PRIVATE" METHODS
 
@@ -87,28 +92,28 @@ init: function() {
 
 _spawnPlayer : function(descr) {
 	var newCharacter = new Character(descr);
-	this._characters.push({roomID : this._currentRoom.getRoomID(),
+	this._characters.push({roomID : this._currentRoomID,
 						   entity : newCharacter});
 	return newCharacter;
 },
 
 _makePlatform : function  (descr) {
 	var newPlatform = new Platform(descr);
-	this._platforms.push({roomID : this._currentRoom.getRoomID(),
+	this._platforms.push({roomID : this._currentRoomID,
 						  entity : newPlatform});
 	return newPlatform;
 },
 
 _makeWall : function  (descr) {
 	var newWall = new Wall(descr);
-	this._walls.push({roomID : this._currentRoom.getRoomID(),
+	this._walls.push({roomID : this._currentRoomID,
 					  entity : newWall});
 	return newWall;
 },
 
 _generateProjectile : function (descr) {
 	var newProjectile = new Projectile(descr);
-	this._projectiles.push({roomID : this._currentRoom.getRoomID(),
+	this._projectiles.push({roomID : this._currentRoomID,
 							entity : newProjectile});
 
 	return newProjectile;
@@ -146,6 +151,10 @@ update: function(du) {
 	if (eatKey(this.KEY_INSERT_WALL)) this._currentRoom.insertWallAt(g_mouseX, g_mouseY);
 	if (eatKey(this.KEY_INSERT_PLATFORM)) this._currentRoom.insertPlatformAt(g_mouseX, g_mouseY);
 	if (eatKey(this.KEY_EMPTY_SQUARE)) this._currentRoom.emptyTileAt(g_mouseX, g_mouseY);
+	if (eatKey(this.KEY_NAV_UP)) {
+		this._currentRoom = dungeon.grid[dungeon.currentPosX][dungeon.currentPosY + 1];
+		console.log("checking up");
+	}
 
     for (var c = 0; c < this._categories.length; ++c) {
 
@@ -153,7 +162,7 @@ update: function(du) {
         var i = 0;
 
 		while (i < aCategory.length) {
-			if (aCategory[i].roomID !== this._currentRoom.getRoomID()) continue;
+			if (aCategory[i].roomID !== this._currentRoomID) continue;
 
             var status = aCategory[i].entity.update(du);
 
@@ -178,14 +187,13 @@ render: function(ctx) {
         var aCategory = this._categories[c];
 
         for (var i = 0; i < aCategory.length; ++i) {
-			if (aCategory[i].roomID === this._currentRoom.getRoomID()) {
+			if (aCategory[i].roomID === this._currentRoomID) {
             	aCategory[i].entity.render(ctx);
 			}
             //debug.text(".", debugX + i * 10, debugY);
         }
         debugY += 10;
     }
-    this._currentRoom.render(ctx);
 }
 
 

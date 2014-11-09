@@ -38,13 +38,9 @@ function gatherInputs() {
 // GAME-SPECIFIC UPDATE LOGIC
 
 function updateSimulation(du) {
-
     processDiagnostics();
 
     entityManager.update(du);
-
-    // Prevent perpetual firing!
-    //eatKey(Ship.prototype.KEY_FIRE);
 }
 
 // GAME-SPECIFIC DIAGNOSTICS
@@ -94,7 +90,7 @@ function renderSimulation(ctx) {
 
     if (g_renderSpatialDebug) spatialManager.render(ctx);
 
-	if (g_toggleGrid) testroom.render(ctx);
+	if (g_toggleGrid) dungeon._currentRoom.render(ctx);
 }
 
 
@@ -155,7 +151,7 @@ function preloadDone() {
                               Height : cellHeight}
 
 
-    g_sprites.dash = new Sprite(constructorObjects); 
+    g_sprites.dash = new Sprite(constructorObjects);
 
     //jumping
     var constructorObjects = {image : g_images.character,
@@ -165,8 +161,8 @@ function preloadDone() {
                               Height : cellHeight}
 
 
-    g_sprites.jump = new Sprite(constructorObjects); 
-    
+    g_sprites.jump = new Sprite(constructorObjects);
+
     //crouching
 
      var constructorObjects = {image : g_images.character,

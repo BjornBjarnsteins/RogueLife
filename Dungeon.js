@@ -29,6 +29,20 @@ var dungeon = {
 				this.grid[i][j].interiorDesign()
 			}
 		}
+
+		this.addExits();
+	},
+
+	addExits : function () {
+		for (var i = 0; i < this.grid.length; i++) {
+			for (var j = 0; j < this.grid[i].length; j++) {
+				var room = this.grid[i][j];
+				if (this.grid[i-1] && this.grid[i-1][j]) room.addLeftExit();
+				if (this.grid[i+1] && this.grid[i+1][j]) room.addRightExit();
+				if (this.grid[i][j-1]) room.addTopExit();
+				if (this.grid[i][j+1]) room.addBottomExit();
+			}
+		}
 	},
 
 	enterRoom : function (room, character) {

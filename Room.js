@@ -133,11 +133,6 @@ Room.prototype.interiorDesign = function (scheme) {
 		}
 	}
 
-	this.addLeftExit();
-	this.addRightExit();
-	this.addTopExit();
-	this.addBottomExit();
-
 	this.isSetup = true;
 };
 

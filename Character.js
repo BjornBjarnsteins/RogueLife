@@ -272,7 +272,7 @@ Character.prototype.resolveCollision = function(collisionCode) {
 		this.velX = 0;
 		this.aveVelX = 0;
 	} else if(collisionCode === -1) {
-		this.velX = this.direction * 10;
+		this.velX = this.direction * 7;
 		this.velY = -15;
 	}
 };

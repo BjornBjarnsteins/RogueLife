@@ -13,7 +13,9 @@ Spike.prototype.render = function(ctx){
 	ctx.fillStyle = "gray";
 	ctx.beginPath();
 	ctx.moveTo(this.cx-this.halfWidth, this.cy+this.halfHeight);
-	ctx.lineTo(this.cx, this.cy-this.halfHeight)
+	ctx.lineTo(this.cx-(this.halfWidth/2), this.cy-this.halfHeight)
+	ctx.lineTo(this.cx, this.cy+this.halfHeight)
+	ctx.lineTo(this.cx+(this.halfWidth)/2, this.cy-this.halfHeight)
 	ctx.lineTo(this.cx+this.halfWidth, this.cy+this.halfHeight)
 	ctx.fill();
 	ctx.restore();

@@ -18,7 +18,7 @@ Audio.prototype.asyncLoad = function(src, asyncCallback) {
 	this.onerror 		 	= asyncCallback;
 	this.onloadstart 	 	= asyncCallback;
     
-	//console.log("requesting sound src of ", src);
+	console.log("requesting sound src of ", src);
     this.src = src;
 };
 
@@ -51,17 +51,17 @@ function soundsPreload(requiredSounds,
         numSoundsHandled += 1;
 		
 		
-       /* if (numSoundsHandled === numSoundsRequired) {
+        if (numSoundsHandled === numSoundsRequired) {
             console.log("all preload sounds handled");
             console.log("loadedSounds=", loadedSounds);
             console.log("");
             console.log("performing completion callback");
-		*/	
+			
 			completionCallback();
-		/*
+		
             console.log("completion callback done");
             console.log("");
-        */
+        
         }
         
     };
@@ -72,10 +72,9 @@ function soundsPreload(requiredSounds,
         
         if (requiredSounds.hasOwnProperty(currentName)) {
             
-            //console.log("preloading sound", currentName);
+            console.log("preloading sound", currentName);
             currentSound = new Audio();
             currentSound.name = currentName;
-			//console.log("fer hann hingað?");
             currentSound.asyncLoad(requiredSounds[currentName], preloadHandler);
         }
     }

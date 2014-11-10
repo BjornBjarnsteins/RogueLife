@@ -21,12 +21,12 @@
 //
 function Sound( audio ){
 
-	this.sound=audio;
+	this.sound = audio;
 }
 
 
 //count cloneNodes, to avoid too many. 
-Sound.prototype.cloneNodes = 0;
+//Sound.prototype.cloneNodes = 0;
 
 //scale from 0.0 to 1.0
 Sound.prototype.volume    = 1.0;
@@ -42,8 +42,9 @@ Sound.prototype.soundVolume = function( volume ){
 
 Sound.prototype.Play = function (){
 
-	//For longer sounds
+	//For longer sounds (til notkunar fyrir lúppuð hljóð seinna meir)
 		
+	/*
 	if(this.sound.currentTime > 0 && this.cloneNodes < 4)
 	{
 		this.cloneNodes++;
@@ -54,33 +55,37 @@ Sound.prototype.Play = function (){
 		this.cloneNodes = 0;
 		this.playSound();
 	}
+	*/
+	
+	this.sound.play();
 };
 
 
 // Loop the sound
 
-Sound.prototype.resetPlay = function (){
+/*Sound.prototype.resetPlay = function (){
 
 	this.reset();
 	this.playSound();
 };
+*/
 
 
 
 
 // Continuous sounds
-//
-Sound.prototype.playSound = function (){
+
+/*Sound.prototype.playSound = function (){
 
 	this.sound.play();
 };
-
+/*
 
 Sound.prototype.reset = function (){
 
 	this.sound.currentTime = 0;
 };
-
+*/
 
 
 
@@ -94,7 +99,6 @@ Sound.prototype.reset = function (){
 //	AUDIO INPUTS
 //
 var requiredSounds = {
-	
 	
 	placeholder	: "sounds/placeholder.mp3"
    
@@ -118,4 +122,5 @@ function audioPreloadDone() {
 		g_audio[sound] = new Sound(g_sounds[sound]);
 	}
 }
+
 

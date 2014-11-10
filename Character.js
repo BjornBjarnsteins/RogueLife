@@ -508,6 +508,7 @@ Character.prototype.landOn = function(surfaceY) {
 		console.log("her")
 		this.state = this.STATE_STANDING;
 	}*/
+	
 };
 
 Character.prototype.snapTo = function (destX, destY) {

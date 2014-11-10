@@ -102,12 +102,16 @@ var g_images = {};
 
 function requestPreloads() {
 
+    
     var requiredImages = {
       dagger      : "sprites/dagger.png",
       character   : "sprites/rogueLife.PNG"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
+    preLoadAudio();
+    
+    
 }
 
 var g_sprites = {};
@@ -203,6 +207,8 @@ function preloadDone() {
 
     main.init();
 }
+
+
 
 // Kick it off
 requestPreloads();

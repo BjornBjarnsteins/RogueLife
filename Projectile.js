@@ -19,7 +19,7 @@ function Projectile(descr) {
     this.setup(descr);
 
     // Make a noise when I am created (i.e. fired)
-    //this.fireSound.play();
+   	g_audio.placeholder.Play();
 }
 
 Projectile.prototype = new Entity();

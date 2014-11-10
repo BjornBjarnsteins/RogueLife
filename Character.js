@@ -259,6 +259,7 @@ Character.prototype.update = function(dt)
 
 	spatialManager.register(this);
 
+  console.log(this.state);
 };
 
 Character.prototype.resolveCollision = function(collisionCode) {
@@ -459,21 +460,22 @@ Character.prototype.jump = function() {
 	if(this.state !== this.STATE_ATTACKING){
 		this.state = this.STATE_JUMPING;
 	} else{
-		this.prevState = this.STATE_JUMPING
+		this.prevState = this.STATE_JUMPING;
 	}
 };
 
 Character.prototype.stopJumping = function() {
+  console.log("stopping jump");
+
 	this.wasJumping = false;
 
-	if (this.velY > 0) return;
+  this.state = this.STATE_FALLING;
+
+  if (this.velY > 0) return;
 
 	this.velY += 15;
-	if (this.velY > 0) {
-		this.velY = 0;
 
-		this.state = this.STATE_FALLING;
-	}
+  if (this.velY > 0) this.velY = 0;
 };
 
 Character.prototype.dash = function (dir) {

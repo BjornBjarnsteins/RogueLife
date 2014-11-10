@@ -41,13 +41,10 @@ _currentRoomID : null,
 setRoom : function (room) {
 	var oldRoomID = this._currentRoomID;
 	this._currentRoomID = room.getRoomID();
-	console.log(this._characters[oldRoomID][0]);
 	if (this._characters[oldRoomID][0]) {
 		this._characters[this._currentRoomID] = [this._characters[oldRoomID][0]];
 		this._characters[oldRoomID].splice(0, 1);
 	}
-	console.log(this._characters[this._currentRoomID]);
-	console.log(this._currentRoomID);
 },
 
 KEY_INSERT_WALL : "1".charCodeAt(0),

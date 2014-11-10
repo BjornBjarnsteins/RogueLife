@@ -91,7 +91,12 @@ Character.prototype.update = function(dt)
 			this.state === this.STATE_FALLING &&
 			this.state !== this.STATE_ATTACKING){
 
+<<<<<<< HEAD
+			this.state = this.STATE_STANDING
+			g_audio.landing.Play();
+=======
 			this.state = this.STATE_STANDING;
+>>>>>>> 69e80156ac8116e8050656b8f625f57ae283799d
 		}
 
 		if(keys[this.KEY_LEFT] && this.STATE_STANDING)
@@ -106,6 +111,7 @@ Character.prototype.update = function(dt)
 			this.state !== this.STATE_ATTACKING){
 
 				this.state = this.STATE_RUNNING;
+				//this.walking();
 
 			}
 
@@ -124,6 +130,7 @@ Character.prototype.update = function(dt)
 			this.state !== this.STATE_ATTACKING){
 
 				this.state = this.STATE_RUNNING;
+				//this.walking();
 
 			}
 
@@ -514,8 +521,11 @@ Character.prototype.updateDash = function (du) {
 };
 
 Character.prototype.landOn = function(surfaceY) {
+<<<<<<< HEAD
+=======
 	if (this.inAir) g_audio.landing.Play();
 
+>>>>>>> 69e80156ac8116e8050656b8f625f57ae283799d
 	this.cy = surfaceY - this.halfHeight;
 	this.velY = 0;
 	this.inAir = false;
@@ -548,5 +558,14 @@ Character.prototype.takeDamage = function(amount){
 	//this.velY = -15;
 	//this.velX = 10;
 	//console.log(this.velY,this.velX);
+	
+	g_audio.dmg.Play();
 
+};
+
+/*Character.prototype.walking = function() {
+	if (this.walkie === 0) g_audio.walk.Play();
+	else if (this.walkie === ) this.walkie = 0;
+	else this.walkie++;
 }
+*/

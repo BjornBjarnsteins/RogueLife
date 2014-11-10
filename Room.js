@@ -81,6 +81,18 @@ Room.prototype.insertPlatformInTile = function (row, col) {
 
 };
 
+Room.prototype.insertSpikeInTile = function (row, col) {
+	if (this.grid[row][col]) return;
+
+	this.grid[row][col] = entityManager._makeSpike({cx : col*this.tileWidth + this.tileWidth/2,
+												   cy : row*this.tileHeight + this.tileHeight/2,
+
+												   halfHeight : this.tileHeight/2,
+												   halfWidth  : this.tileWidth/2},
+
+												 this._roomID);
+};
+
 Room.prototype.emptyTile = function (row, col) {
 	entityManager._removeWall(this.grid[row][col], this._roomID);
 	entityManager._removePlatform(this.grid[row][col], this._roomID);
@@ -129,6 +141,9 @@ Room.prototype.interiorDesign = function (scheme) {
 			}
 			if (scheme[row][col] === "p") {
 				this.insertPlatformInTile(row, col);
+			}
+			if (scheme[row][col] === "S") {
+				this.insertSpikeInTile(row, col);
 			}
 		}
 	}

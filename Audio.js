@@ -26,7 +26,7 @@ function Sound( audio ){
 
 
 //count cloneNodes, to avoid too many. 
-//Sound.prototype.cloneNodes = 0;
+Sound.prototype.cloneNodes = 0;
 
 //scale from 0.0 to 1.0
 Sound.prototype.volume    = 1.0;
@@ -57,7 +57,7 @@ Sound.prototype.Play = function (){
 	}
 	*/
 	
-	this.sound.play();
+	this.sound.cloneNode().play();
 };
 
 
@@ -100,7 +100,13 @@ Sound.prototype.reset = function (){
 //
 var requiredSounds = {
 	
-	placeholder	: "sounds/placeholder.mp3"
+	placeholder	: "sounds/placeholder.mp3",
+	knifethrow  : "sounds/Woosh.mp3",
+	swordshit	: "sounds/Sword.mp3",
+	jumpy		: "sounds/Jump.mp3",
+	dashy		: "sounds/Dash.mp3",
+	landing		: "sounds/land.mp3",
+	coll		: "sounds/collision.mp3"
    
 };
 

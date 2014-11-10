@@ -36,6 +36,11 @@ Room.prototype.defaultScheme = [
 	["w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w"]
 	];
 
+Room.prototype.hasTopExit = false;
+Room.prototype.hasBottomExit = false;
+Room.prototype.hasRightExit = false;
+Room.prototype.hasLeftExit = false;
+
 Room.prototype.insertWallAt = function (x, y) {
 	var col = this.findColAt(x);
 	var row = this.findRowAt(y);
@@ -101,23 +106,37 @@ Room.prototype.emptyTile = function (row, col) {
 };
 
 Room.prototype.addLeftExit = function () {
+	if (this.hasLeftExit) return;
+
 	this.emptyTile(9, 0);
 	this.emptyTile(10, 0);
+
+	this.hasLeftExit = true;
 };
 
 Room.prototype.addRightExit = function () {
+	if (this.hasRightExit) return;
+
 	this.emptyTile(9, 19);
 	this.emptyTile(10, 19);
+
+	this.hasRightExit = true;
 };
 
 Room.prototype.addTopExit = function () {
+	if (this.hasTopExit) return;
+
 	this.emptyTile(0, 8);
 	this.emptyTile(0, 9);
 	this.emptyTile(0, 10);
 	this.emptyTile(0, 11);
+
+	this.hasTopExit = true;
 };
 
 Room.prototype.addBottomExit = function () {
+	if (this.hasBottomExit) return;
+
 	this.emptyTile(11, 8);
 	this.emptyTile(11, 9);
 	this.emptyTile(11, 10);
@@ -127,6 +146,8 @@ Room.prototype.addBottomExit = function () {
 	this.insertPlatformInTile(11, 9);
 	this.insertPlatformInTile(11, 10);
 	this.insertPlatformInTile(11, 11);
+
+	this.hasBottomExit = true;
 };
 
 Room.prototype.interiorDesign = function (scheme) {
@@ -209,11 +230,11 @@ Room.prototype.getObstaclesInRange = function (entity) {
 	// For now, just return all environment entities in the Room
 	for (var row = 0; row < this.gridRows; row++) {
 		for (var col = 0; col < this.gridCols; col++) {
-			
+
 			if (this.grid[row][col]){
 				entitiesInRange.push(this.grid[row][col]);
 				//console.log(this.grid[row][col])
-			} 
+			}
 		}
 	}
 

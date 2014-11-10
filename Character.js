@@ -221,7 +221,7 @@ Character.prototype.update = function(dt)
 	var hitEntity = this.findHitEntity();
 
 	var hitObstacles = dungeon.getCurrentRoom().getObstaclesInRange(this);
-	
+
 	var collisionCode = -1;
 
 	for (var i = 0; i < hitObstacles.length; i++) {
@@ -259,7 +259,7 @@ Character.prototype.update = function(dt)
 
 	spatialManager.register(this);
 
-  console.log(this.state);
+  //console.log(this.state);
 };
 
 Character.prototype.resolveCollision = function(collisionCode) {
@@ -305,7 +305,7 @@ Character.prototype.applyAccel = function(accelX,accelY,dt)
 	this.aveVelX = (oldVelX + this.velX) / 2;
 	this.aveVelY = (oldVelY + this.velY) / 2;
 
-	console.log("velX = "+this.velX, "aveVelX = "+this.aveVelX)
+	//console.log("velX = "+this.velX, "aveVelX = "+this.aveVelX)
 
 };
 
@@ -508,7 +508,7 @@ Character.prototype.landOn = function(surfaceY) {
 		console.log("her")
 		this.state = this.STATE_STANDING;
 	}*/
-	
+
 };
 
 Character.prototype.snapTo = function (destX, destY) {

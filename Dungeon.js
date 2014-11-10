@@ -11,14 +11,13 @@ var dungeon = {
 	},
 
 	init : function () {
-		this.initializeDungeonGrid();
 		this.currentPosX = 5;
 		this.currentPosY = 5;
+		this.initializeDungeonGrid();
 		this._currentRoom = this.grid[this.currentPosX][this.currentPosY];
 		entityManager._currentRoomID = this._currentRoom.getRoomID();
 	},
 
-	// TODO: randomize dungeon generation
 	initializeDungeonGrid : function () {
 		this.grid = new Array(10);
 		for (var i = 0; i < this.grid.length; i++) {
@@ -33,7 +32,8 @@ var dungeon = {
 	},
 
 	addExits : function () {
-		for (var i = 0; i < this.grid.length; i++) {
+		// Crappy fill everything implementation
+		/*for (var i = 0; i < this.grid.length; i++) {
 			for (var j = 0; j < this.grid[i].length; j++) {
 				var room = this.grid[i][j];
 				if (this.grid[i-1] && this.grid[i-1][j]) room.addLeftExit();
@@ -41,7 +41,52 @@ var dungeon = {
 				if (this.grid[i][j-1]) room.addTopExit();
 				if (this.grid[i][j+1]) room.addBottomExit();
 			}
+		}*/
+
+		// Drunkard's walk algorithm
+		this.drunkardsWalk(100);
+
+	},
+
+	drunkardsWalk : function (steps) {
+		var i = 0;
+
+		var posX = this.currentPosX;
+		var posY = this.currentPosY;
+
+		while (i < steps) {
+			var stepSeed = Math.floor(Math.random()*4);
+
+			if (stepSeed === 0) {
+				// step up
+				if (!this.grid[posX][posY-1]) continue;
+
+				this.grid[posX][posY--].addTopExit();
+				this.grid[posX][posY].addBottomExit();
+			} else if (stepSeed === 1) {
+				// step down
+				if (!this.grid[posX][posY+1]) continue;
+
+				this.grid[posX][posY++].addBottomExit();
+				this.grid[posX][posY].addTopExit();
+			} else if (stepSeed === 2) {
+				// step left
+				if (!this.grid[posX-1]) continue;
+
+				this.grid[posX--][posY].addLeftExit();
+				this.grid[posX][posY].addRightExit();
+			} else {
+				//step right
+				if (!this.grid[posX+1]) continue;
+
+				this.grid[posX++][posY].addRightExit();
+				this.grid[posX][posY].addLeftExit();
+			}
+
+			i++;
 		}
+
+		this.printLayoutToConsole();
 	},
 
 	enterRoom : function (room, character) {
@@ -76,5 +121,23 @@ var dungeon = {
 
 	getCurrentRoom : function () {
 		return this._currentRoom;
+	},
+
+	printLayoutToConsole : function () {
+		console.log("dungeon layout:");
+
+		for (var i = 0; i < this.grid.length; i++) {
+			var lineString1 = "";
+			var lineString2 = "";
+			for (var j = 0; j < this.grid[i].length; j++) {
+				if (this.grid[i][j].hasLeftExit) lineString1 += "# - ";
+				else lineString1 += "#   ";
+
+				if (this.grid[i][j].hasBottomExit) lineString2 += "|   ";
+				else lineString2 += "    ";
+			}
+			console.log(lineString1);
+			console.log(lineString2);
+		}
 	}
 };

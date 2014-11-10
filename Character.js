@@ -268,13 +268,22 @@ Character.prototype.resolveCollision = function(collisionCode) {
 		this.velY = 0;
 		this.aveVelY = 0;
 		this.velX = 0;
+		
+		if (collisionCode === this.BOTTOM_COLLISION) g_audio.coll.Play();
+		
 	} else if (collisionCode === this.SIDE_COLLISION) {
+		//if (this.velX !== 0) g_audio.coll.Play();
+		
 		this.velX = 0;
 		this.aveVelX = 0;
+		
+		
 	} else if(collisionCode === -1) {
 		this.velX = this.direction * 7;
 		this.velY = -15;
 	}
+	
+	
 };
 
 Character.prototype.hasJumpsLeft = function()
@@ -478,6 +487,8 @@ Character.prototype.stopJumping = function() {
 	this.velY += 15;
 
   if (this.velY > 0) this.velY = 0;
+  
+  
 };
 
 Character.prototype.dash = function (dir) {
@@ -503,6 +514,8 @@ Character.prototype.updateDash = function (du) {
 };
 
 Character.prototype.landOn = function(surfaceY) {
+	if (this.inAir) g_audio.landing.Play();
+	
 	this.cy = surfaceY - this.halfHeight;
 	this.velY = 0;
 	this.inAir = false;
@@ -513,7 +526,7 @@ Character.prototype.landOn = function(surfaceY) {
 		this.state = this.STATE_STANDING;
 	}*/
 	
-	//g_audio.landing.Play();
+	
 	
 };
 
@@ -524,6 +537,7 @@ Character.prototype.snapTo = function (destX, destY) {
 
 Character.prototype.resetJumps = function() {
 	this.jumpsLeft = this.maxJumps;
+	
 };
 
 Character.prototype.getRadius = function() {

@@ -105,7 +105,8 @@ var requiredSounds = {
 	swordshit	: "sounds/Sword.mp3",
 	jumpy		: "sounds/Jump.mp3",
 	dashy		: "sounds/Dash.mp3",
-	landing		: "sounds/land.mp3"
+	landing		: "sounds/land.mp3",
+	coll		: "sounds/collision.mp3"
    
 };
 

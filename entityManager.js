@@ -34,6 +34,7 @@ _platforms   : [],
 _projectiles : [],
 _walls       : [],
 _spikes		 : [],
+_spikestrap  : [],
 
 weapon : null,
 
@@ -78,7 +79,7 @@ KILL_ME_NOW : -1,
 //
 deferredSetup : function () {
 
-    this._categories = [this._platforms, this._characters, this._projectiles, this._walls, this._spikes];
+    this._categories = [this._platforms, this._characters, this._projectiles, this._walls, this._spikes, this._spikestrap];
 },
 
 init: function() {
@@ -126,6 +127,14 @@ _makeSpike : function  (descr, roomID) {
 	else this._spikes[roomID].push(newSpike);
 	return newSpike;
 },
+
+_makeSpikeTrap : function  (descr, roomID) {
+	var newSpiketrap = new SpikeTrap(descr);
+	if (!this._spikestrap[roomID]) this._spikestrap[roomID] = [newSpiketrap];
+	else this._spikestrap[roomID].push(newSpiketrap);
+	return newSpiketrap;
+},
+
 
 _generateProjectile : function (descr, roomID) {
 	var newProjectile = new Projectile(descr);

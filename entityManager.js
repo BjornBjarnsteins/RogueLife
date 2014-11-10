@@ -33,6 +33,7 @@ _characters  : [],
 _platforms   : [],
 _projectiles : [],
 _walls       : [],
+_spikes		 : [],
 
 weapon : null,
 
@@ -77,7 +78,7 @@ KILL_ME_NOW : -1,
 //
 deferredSetup : function () {
 
-    this._categories = [this._platforms, this._characters, this._projectiles, this._walls];
+    this._categories = [this._platforms, this._characters, this._projectiles, this._walls, this._spikes];
 },
 
 init: function() {
@@ -117,6 +118,13 @@ _makeWall : function  (descr, roomID) {
 	if (!this._walls[roomID]) this._walls[roomID] = [newWall];
 	else this._walls[roomID].push(newWall);
 	return newWall;
+},
+
+_makeSpike : function  (descr, roomID) {
+	var newSpike = new Spike(descr);
+	if (!this._spikes[roomID]) this._spikes[roomID] = [newSpike];
+	else this._spikes[roomID].push(newSpike);
+	return newSpike;
 },
 
 _generateProjectile : function (descr, roomID) {

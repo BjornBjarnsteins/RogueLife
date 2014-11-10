@@ -21,7 +21,7 @@ Room.prototype.tileHeight = 50;
 Room.prototype.tileWidth = 50;
 Room.prototype.gridRows = 12;
 Room.prototype.gridCols = 20;
-Room.prototype.scheme = [
+Room.prototype.defaultScheme = [
 	["w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w"],
 	["w", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "w"],
 	["w", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "w"],
@@ -118,7 +118,7 @@ Room.prototype.addBottomExit = function () {
 };
 
 Room.prototype.interiorDesign = function (scheme) {
-	if (!scheme) scheme = this.scheme;
+	if (!scheme) scheme = this.defaultScheme;
 
 	console.log("setting up room " + this._roomID);
 

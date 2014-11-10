@@ -16,7 +16,6 @@ var dungeon = {
 		this.currentPosY = 5;
 		this._currentRoom = this.grid[this.currentPosX][this.currentPosY];
 		entityManager._currentRoomID = this._currentRoom.getRoomID();
-		//this._currentRoom.interiorDesign(this._currentRoom.scheme);
 	},
 
 	// TODO: randomize dungeon generation
@@ -26,7 +25,7 @@ var dungeon = {
 			this.grid[i] = new Array(10);
 			for (var j = 0; j < this.grid[i].length; j++) {
 				this.grid[i][j] = new Room();
-				this.grid[i][j].interiorDesign()
+				this.grid[i][j].interiorDesign(getRandomScheme());
 			}
 		}
 

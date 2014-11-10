@@ -146,6 +146,8 @@ _removeWall : function (wall, roomID) {
 _removePlatform : function (platform, roomID) {
 	var index = -1;
 
+	if (!this._platforms[roomID]) return;
+
 	for (var i = 0; i < this._platforms.length; i++) {
 		if (this._platforms[roomID][i] === platform) {
 			index = i;

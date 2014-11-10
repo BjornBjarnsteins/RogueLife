@@ -91,7 +91,7 @@ Character.prototype.update = function(dt)
 			this.state === this.STATE_FALLING &&
 			this.state !== this.STATE_ATTACKING){
 
-			this.state = this.STATE_STANDING
+			this.state = this.STATE_STANDING;
 		}
 
 		if(keys[this.KEY_LEFT] && this.STATE_STANDING)
@@ -525,13 +525,6 @@ Character.prototype.landOn = function(surfaceY) {
 		console.log("her")
 		this.state = this.STATE_STANDING;
 	}*/
-<<<<<<< HEAD
-
-=======
-
-
-
->>>>>>> 29e9680740e9e9cbac802c0fdf838e2793c9c77d
 };
 
 Character.prototype.snapTo = function (destX, destY) {

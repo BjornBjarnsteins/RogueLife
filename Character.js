@@ -462,6 +462,8 @@ Character.prototype.jump = function() {
 	} else{
 		this.prevState = this.STATE_JUMPING;
 	}
+	
+	g_audio.jumpy.Play();
 };
 
 Character.prototype.stopJumping = function() {
@@ -484,6 +486,8 @@ Character.prototype.dash = function (dir) {
 	this.currentDashDuration = 0;
 	this.isDashing = true;
 	this.state = this.STATE_DASHING;
+	
+	g_audio.dashy.Play();
 };
 
 Character.prototype.updateDash = function (du) {
@@ -508,6 +512,8 @@ Character.prototype.landOn = function(surfaceY) {
 		console.log("her")
 		this.state = this.STATE_STANDING;
 	}*/
+	
+	//g_audio.landing.Play();
 	
 };
 

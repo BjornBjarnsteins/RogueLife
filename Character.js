@@ -331,13 +331,6 @@ Character.prototype.clampToBounds = function()
 
 Character.prototype.render = function (ctx)
 {
-
-	util.fillBox(ctx,
-				 this.cx-this.halfWidth,
-				 this.cy-this.halfHeight,
-				 this.halfWidth*2,
-				 this.halfHeight*2,
-				 "red");
    	var sx ;
    	var sy ;
    	var height;

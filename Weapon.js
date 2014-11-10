@@ -47,6 +47,8 @@ Weapon.prototype.update = function(dt, character)
 
     if(keys[this.KEY_ATTACK]&&this.currentAttackTime===0)
     {
+	   //Play the attack sound
+	   g_audio.swordshit.Play();
 	   this.currentAttackTime=this.maximumAttackTime;
     }
 

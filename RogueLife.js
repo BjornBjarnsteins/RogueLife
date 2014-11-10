@@ -51,11 +51,13 @@ var g_useGravity = false;
 var g_useAveVel = true;
 var g_renderSpatialDebug = false;
 var g_toggleGrid = false;
+var g_mute = false;
 
 var KEY_MIXED   = keyCode('M');
 var KEY_AVE_VEL = keyCode('V');
 var KEY_SPATIAL = keyCode('X');
 var KEY_GRID_TOGGLE = keyCode('G');
+var KEY_MUTE_TOGGLE = keyCode('O');
 
 function processDiagnostics() {
 
@@ -67,6 +69,8 @@ function processDiagnostics() {
 	if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
 
 	if (eatKey(KEY_GRID_TOGGLE)) g_toggleGrid = !g_toggleGrid;
+	
+	if (eatKey(KEY_MUTE_TOGGLE)) g_mute = !g_mute;
 }
 
 

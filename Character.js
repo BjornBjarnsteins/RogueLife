@@ -13,6 +13,7 @@ Character.prototype.velY=0;
 Character.prototype.aveVelX=0;
 Character.prototype.aveVelY=0;
 Character.prototype.weapon=null;
+Character.prototype.life = 100;
 
 //Character.prototype.Sprite = g_sprites.walk;
 
@@ -220,7 +221,7 @@ Character.prototype.update = function(dt)
 	var hitEntity = this.findHitEntity();
 
 	var hitObstacles = dungeon.getCurrentRoom().getObstaclesInRange(this);
-
+	
 	var collisionCode = -1;
 
 	for (var i = 0; i < hitObstacles.length; i++) {
@@ -265,9 +266,13 @@ Character.prototype.resolveCollision = function(collisionCode) {
 	    collisionCode === this.BOTTOM_COLLISION) {
 		this.velY = 0;
 		this.aveVelY = 0;
+		this.velX = 0;
 	} else if (collisionCode === this.SIDE_COLLISION) {
 		this.velX = 0;
 		this.aveVelX = 0;
+	} else if(collisionCode === -1) {
+		this.velX = this.direction * 10;
+		this.velY = -15;
 	}
 };
 
@@ -298,6 +303,8 @@ Character.prototype.applyAccel = function(accelX,accelY,dt)
     // v_ave = (u + v) / 2
 	this.aveVelX = (oldVelX + this.velX) / 2;
 	this.aveVelY = (oldVelY + this.velY) / 2;
+
+	console.log("velX = "+this.velX, "aveVelX = "+this.aveVelX)
 
 };
 
@@ -513,3 +520,13 @@ Character.prototype.resetJumps = function() {
 Character.prototype.getRadius = function() {
 	return this.halfHeight;
 };
+
+Character.prototype.takeDamage = function(amount){
+	this.life = this.life - amount;
+	//console.log(this.velY,this.velX,this.direction);
+	this.cy -= 25;
+	//this.velY = -15;
+	//this.velX = 10;
+	//console.log(this.velY,this.velX);
+
+}

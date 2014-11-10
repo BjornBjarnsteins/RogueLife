@@ -209,7 +209,11 @@ Room.prototype.getObstaclesInRange = function (entity) {
 	// For now, just return all environment entities in the Room
 	for (var row = 0; row < this.gridRows; row++) {
 		for (var col = 0; col < this.gridCols; col++) {
-			if (this.grid[row][col]) entitiesInRange.push(this.grid[row][col]);
+			
+			if (this.grid[row][col]){
+				entitiesInRange.push(this.grid[row][col]);
+				//console.log(this.grid[row][col])
+			} 
 		}
 	}
 

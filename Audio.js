@@ -41,7 +41,8 @@ Sound.prototype.soundVolume = function( volume ){
 // Play the sound
 
 Sound.prototype.Play = function (){
-
+	if (!g_mute) {
+	
 	//For longer sounds (til notkunar fyrir lúppuð hljóð seinna meir)
 		
 	/*
@@ -58,6 +59,8 @@ Sound.prototype.Play = function (){
 	*/
 	
 	this.sound.cloneNode().play();
+	
+	}
 };
 
 
@@ -75,10 +78,14 @@ Sound.prototype.Play = function (){
 
 // Continuous sounds
 
-/*Sound.prototype.playSound = function (){
+/*
+Sound.prototype.walkSound = function (){
+
+
 
 	this.sound.play();
 };
+*/
 /*
 
 Sound.prototype.reset = function (){
@@ -106,7 +113,9 @@ var requiredSounds = {
 	jumpy		: "sounds/Jump.mp3",
 	dashy		: "sounds/Dash.mp3",
 	landing		: "sounds/land.mp3",
-	coll		: "sounds/collision.mp3"
+	coll		: "sounds/collision.mp3",
+	dmg			: "sounds/pain.mp3",
+	walk		: "sounds/coolguy.mp3"
    
 };
 

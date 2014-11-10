@@ -22,7 +22,6 @@ Spike.prototype.render = function(ctx){
 
 
 };
-
 Spike.prototype.update = function(du){
 	return;
 };

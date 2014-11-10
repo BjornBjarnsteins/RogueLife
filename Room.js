@@ -93,6 +93,18 @@ Room.prototype.insertSpikeInTile = function (row, col) {
 												 this._roomID);
 };
 
+Room.prototype.insertSpikeTrapInTile = function (row, col) {
+	if (this.grid[row][col]) return;
+
+	this.grid[row][col] = entityManager._makeSpikeTrap({cx : col*this.tileWidth + this.tileWidth/2,
+												   cy : row*this.tileHeight + this.tileHeight/2,
+
+												   halfHeight : this.tileHeight/2,
+												   halfWidth  : this.tileWidth/2},
+
+												 this._roomID);
+};
+
 Room.prototype.emptyTile = function (row, col) {
 	entityManager._removeWall(this.grid[row][col], this._roomID);
 	entityManager._removePlatform(this.grid[row][col], this._roomID);
@@ -144,6 +156,9 @@ Room.prototype.interiorDesign = function (scheme) {
 			}
 			if (scheme[row][col] === "S") {
 				this.insertSpikeInTile(row, col);
+			}
+			if (scheme[row][col] === "T") {
+				this.insertSpikeTrapInTile(row, col);
 			}
 		}
 	}
@@ -209,7 +224,7 @@ Room.prototype.getObstaclesInRange = function (entity) {
 	// For now, just return all environment entities in the Room
 	for (var row = 0; row < this.gridRows; row++) {
 		for (var col = 0; col < this.gridCols; col++) {
-			
+
 			if (this.grid[row][col]){
 				entitiesInRange.push(this.grid[row][col]);
 				//console.log(this.grid[row][col])

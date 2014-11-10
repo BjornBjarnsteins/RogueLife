@@ -228,16 +228,19 @@ Character.prototype.update = function(dt)
 		collisionCode = util.maybeCall(hitObstacles[i].collidesWith,
 									   hitObstacles[i],
 									   [this, oldX, oldY, nextX, nextY, fallsThrough]);
+
 		this.resolveCollision(collisionCode);
+		if(collisionCode === -1){break;}
 	}
 
 	//console.log("velX: " + this.velX + " velY: " + this.velY);
 	//console.log("aveVelX: " + aveVel.X + " aveVelY: " + aveVel.Y);
 
-
+	
 	// s = s + v_ave * t
     this.cx += dt * this.aveVelX;
     this.cy += dt * this.aveVelY;
+
 
 	if (this.velY > 0) {}//this.state = this.STATE_FALLING;
 
@@ -258,8 +261,6 @@ Character.prototype.update = function(dt)
 	if (this.weapon) this.weapon.update(dt, this);
 
 	spatialManager.register(this);
-
-  console.log(this.state);
 };
 
 Character.prototype.resolveCollision = function(collisionCode) {
@@ -272,7 +273,9 @@ Character.prototype.resolveCollision = function(collisionCode) {
 		this.velX = 0;
 		this.aveVelX = 0;
 	} else if(collisionCode === -1) {
-		this.velX = this.direction * 7;
+
+		
+		this.velX = -this.direction * 7;
 		this.velY = -15;
 	}
 };
@@ -305,7 +308,7 @@ Character.prototype.applyAccel = function(accelX,accelY,dt)
 	this.aveVelX = (oldVelX + this.velX) / 2;
 	this.aveVelY = (oldVelY + this.velY) / 2;
 
-	console.log("velX = "+this.velX, "aveVelX = "+this.aveVelX)
+	
 
 };
 
@@ -328,6 +331,13 @@ Character.prototype.clampToBounds = function()
 
 Character.prototype.render = function (ctx)
 {
+
+	util.fillBox(ctx,
+				 this.cx-this.halfWidth,
+				 this.cy-this.halfHeight,
+				 this.halfWidth*2,
+				 this.halfHeight*2,
+				 "red");
    	var sx ;
    	var sy ;
    	var height;
@@ -526,10 +536,5 @@ Character.prototype.getRadius = function() {
 
 Character.prototype.takeDamage = function(amount){
 	this.life = this.life - amount;
-	//console.log(this.velY,this.velX,this.direction);
 	this.cy -= 25;
-	//this.velY = -15;
-	//this.velX = 10;
-	//console.log(this.velY,this.velX);
-
 }

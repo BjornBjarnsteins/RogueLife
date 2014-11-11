@@ -91,12 +91,10 @@ Character.prototype.update = function(dt)
 			this.state === this.STATE_FALLING &&
 			this.state !== this.STATE_ATTACKING){
 
-<<<<<<< HEAD
+
 			this.state = this.STATE_STANDING
 			g_audio.landing.Play();
-=======
-			this.state = this.STATE_STANDING;
->>>>>>> 69e80156ac8116e8050656b8f625f57ae283799d
+
 		}
 
 		if(keys[this.KEY_LEFT] && this.STATE_STANDING)
@@ -521,11 +519,7 @@ Character.prototype.updateDash = function (du) {
 };
 
 Character.prototype.landOn = function(surfaceY) {
-<<<<<<< HEAD
-=======
-	if (this.inAir) g_audio.landing.Play();
-
->>>>>>> 69e80156ac8116e8050656b8f625f57ae283799d
+	
 	this.cy = surfaceY - this.halfHeight;
 	this.velY = 0;
 	this.inAir = false;

@@ -79,7 +79,7 @@ Sprite.prototype.drawWall = function(ctx, image, sx, sy, cx, cy, height, width){
     ctx.translate(cx,cy);
 
         
-    ctx.scale(0.2,0.2)
+    ctx.scale(0.5,0.5)
     
         
     ctx.drawImage(image.image, sx, sy, width, height, -width/2, -height/2-3, image.width, image.height);

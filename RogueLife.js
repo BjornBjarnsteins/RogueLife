@@ -114,7 +114,7 @@ function requestPreloads() {
     var requiredImages = {
       dagger      : "sprites/dagger.png",
       character   : "sprites/rogueLife.PNG",
-      wall        : "sprites/wall.png"
+      wall        : "sprites/penis.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -214,8 +214,8 @@ function preloadDone() {
     var constructorObjects = {image : g_images.wall,
                               sx    : 0,
                               sy    : 0,
-                              Width : 250,
-                              Height : 250}
+                              Width : 100,
+                              Height : 100}
 
 
     g_sprites.wall = new Sprite(constructorObjects);

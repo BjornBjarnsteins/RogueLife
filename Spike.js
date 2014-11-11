@@ -34,7 +34,7 @@ Spike.prototype.collidesWith = function(entity, oldX, oldY, nextX, nextY){
 
 	if (entLeftBound  <= this.getRightBound() &&
 		entRightBound >= this.getLeftBound()) {
-		if (entLowerBound >= this.getUpperBound() + tolerance &&
+		if (entLowerBound >= this.getUpperBound() &&
 			entUpperBound <= this.getLowerBound()) {
 			// checks for collision details
 

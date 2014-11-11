@@ -278,6 +278,8 @@ Character.prototype.resolveCollision = function(collisionCode) {
 			this.velX = 0;
 		}
 		
+		if (collisionCode === this.BOTTOM_COLLISION) g_audio.coll.Play();
+		
 	} else if (collisionCode === this.SIDE_COLLISION) {
 		this.velX = 0;
 		this.aveVelX = 0;
@@ -474,6 +476,8 @@ Character.prototype.jump = function() {
 	} else{
 		this.prevState = this.STATE_JUMPING;
 	}
+	
+	g_audio.jumpy.Play();
 };
 
 Character.prototype.stopJumping = function() {
@@ -496,6 +500,8 @@ Character.prototype.dash = function (dir) {
 	this.currentDashDuration = 0;
 	this.isDashing = true;
 	this.state = this.STATE_DASHING;
+	
+	g_audio.dashy.Play();
 };
 
 Character.prototype.updateDash = function (du) {
@@ -540,4 +546,6 @@ Character.prototype.getRadius = function() {
 Character.prototype.takeDamage = function(amount){
 	this.life = this.life - amount;
 	this.cy -= 25;
+	
+	g_audio.dmg.Play();
 }

@@ -54,18 +54,36 @@ Sprite.prototype.drawCharacter = function(ctx, image, sx, sy, cx, cy, height, wi
     ctx.translate(cx,cy);
 
     if(flip){
-        ctx.scale( -1.2 , 1.2);
+        ctx.scale( -1.4 , 1.4);
     }
     else{
         
-        ctx.scale(1.2,1.2)
+        ctx.scale(1.4,1.4)
     }
     if(width > 64 ){
-        ctx.drawImage(image.image, sx, sy, width, height, -width/6, -height/2, image.width, image.height);
+        ctx.drawImage(image.image, sx, sy, width, height, -width/6, -height/2-3, image.width, image.height);
     }else{
 
-        ctx.drawImage(image.image, sx, sy, width, height, -width/2, -height/2, image.width, image.height);
+        ctx.drawImage(image.image, sx, sy, width, height, -width/2, -height/2-3, image.width, image.height);
     }
+    ctx.restore();
+    
+    ctx.save();
+
+    ctx.restore();
+}
+
+Sprite.prototype.drawWall = function(ctx, image, sx, sy, cx, cy, height, width){
+    ctx.save();
+    
+    ctx.translate(cx,cy);
+
+        
+    ctx.scale(0.2,0.2)
+    
+        
+    ctx.drawImage(image.image, sx, sy, width, height, -width/2, -height/2-3, image.width, image.height);
+    
     ctx.restore();
     
     ctx.save();

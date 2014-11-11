@@ -109,7 +109,8 @@ function requestPreloads() {
     
     var requiredImages = {
       dagger      : "sprites/dagger.png",
-      character   : "sprites/rogueLife.PNG"
+      character   : "sprites/rogueLife.PNG",
+      wall        : "sprites/wall.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -204,7 +205,17 @@ function preloadDone() {
     }
 
     g_sprites.attackSw = attacking;
-    console.log(g_sprites.attackSw)
+
+      //wall
+    var constructorObjects = {image : g_images.wall,
+                              sx    : 0,
+                              sy    : 0,
+                              Width : 250,
+                              Height : 250}
+
+
+    g_sprites.wall = new Sprite(constructorObjects);
+
     //creates initial objects
 	dungeon.init();
     entityManager.init();

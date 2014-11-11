@@ -12,12 +12,22 @@ Wall.prototype.halfHeight = 150;
 Wall.prototype.render = function(ctx){
 
 	ctx.save();
-	util.fillBox(ctx,
+	/*util.fillBox(ctx,
 				 this.cx-this.halfWidth,
 				 this.cy-this.halfHeight,
 				 this.halfWidth*2,
 				 this.halfHeight*2,
-				 "blue");
+				 "blue");*/
+
+	var sx = g_sprites.wall.sx;
+	var sy = g_sprites.wall.sy;
+	var height = g_sprites.wall.height;
+	var width = g_sprites.wall.width;
+	var image = g_sprites.wall;
+	var x = this.cx;
+	var y = this.cy+1;
+
+	g_sprites.wall.drawWall(ctx, image, sx, sy, x, y, height, width);
 	ctx.restore();
 
 

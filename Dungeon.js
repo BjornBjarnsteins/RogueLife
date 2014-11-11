@@ -19,6 +19,7 @@ var dungeon = {
 		this.currentPosY = 5;
 		this.initializeDungeonGrid();
 		this._currentRoom = this.grid[this.currentPosX][this.currentPosY];
+		this._currentRoom.isVisited = true;
 		entityManager._currentRoomID = this._currentRoom.getRoomID();
 	},
 
@@ -205,7 +206,8 @@ var dungeon = {
 		for (var i = 0; i < this.grid.length; i++) {
 			for (var j = 0; j < this.grid[i].length; j++) {
 				var fill = "white";
-				if (this.grid[j][i]) {
+				if (this.grid[j][i] &&
+				    this.grid[j][i].isVisited) {
 					if (j === this.currentPosX &&
 						i === this.currentPosY) {
 						fill = "red";

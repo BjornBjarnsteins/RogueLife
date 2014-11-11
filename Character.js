@@ -151,9 +151,9 @@ Character.prototype.update = function(dt)
 
 		if (eatKey(this.KEY_DOWN)) {
 			fallsThrough = true;
-			if(this.cy < 500){
-				this.state = this.STATE_CROUCHING;
-			}
+
+			this.state = this.STATE_CROUCHING;
+			
 		}
 
 		if (eatKey(this.KEY_THROW)) {
@@ -206,7 +206,10 @@ Character.prototype.update = function(dt)
 	} else if(this.state === this.STATE_CROUCHING){
 		if(this.velY > 10){
 			this.state = this.STATE_FALLING;
-		} else if (!keys[this.KEY_DOWN]) {
+
+		} else if (keys[this.KEY_DOWN]) {
+			this.state = this.STATE_STANDING;
+		} else if (keys[this.KEY_UP]) {
 			this.state = this.STATE_STANDING;
 		}
 	}
@@ -268,7 +271,10 @@ Character.prototype.resolveCollision = function(collisionCode) {
 	    collisionCode === this.BOTTOM_COLLISION) {
 		this.velY = 0;
 		this.aveVelY = 0;
-		this.velX = 0;
+		if(this.state !== this.STATE_DASHING){
+			this.velX = 0;
+		}
+		
 	} else if (collisionCode === this.SIDE_COLLISION) {
 		this.velX = 0;
 		this.aveVelX = 0;
@@ -330,7 +336,7 @@ Character.prototype.clampToBounds = function()
 };
 
 Character.prototype.render = function (ctx)
-{
+{	
    	var sx ;
    	var sy ;
    	var height;

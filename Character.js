@@ -84,7 +84,7 @@ Character.prototype.update = function(dt)
 			}
 			this.state = this.STATE_ATTACKING;
 		} else if(this.state === this.STATE_ATTACKING){
-			console.log("here")
+			//console.log("here")
 			this.state = this.prevState;
 		}
 
@@ -498,7 +498,7 @@ Character.prototype.jump = function() {
 };
 
 Character.prototype.stopJumping = function() {
-  console.log("stopping jump");
+  //console.log("stopping jump");
 
 	this.wasJumping = false;
 

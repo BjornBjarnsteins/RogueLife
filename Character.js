@@ -275,6 +275,11 @@ Character.prototype.update = function(dt)
 
 	if (this.energy < 100) this.energy += dt/2;
 	else this.energy = 100;
+	
+	if (!this.life > 0) {
+		g_audio.placeholder.Play();
+		//return this.KILL_ME_NOW;   buggar allt út
+	}
 
 	spatialManager.register(this);
 };
@@ -461,11 +466,7 @@ Character.prototype.render = function (ctx)
 
 	if (this.weapon) this.weapon.render(ctx);
 
-	/*util.fillBox(ctx, 788, 558, 204, 19, "black");
-	util.fillBox(ctx, 788, 578, 204, 19, "black");
-
-	util.fillBox(ctx, 790, 560, this.life * 2, 15, "red");
-	util.fillBox(ctx, 790, 580, this.energy * 2, 15, "#7CFC00");*/
+	
 
 };
 
@@ -483,7 +484,9 @@ Character.prototype.throwDagger = function() {
 
 Character.prototype.jump = function() {
 	if (!this.hasJumpsLeft()) return;
+	if (this.energy < 20) return;
 
+	this.energy -= 20;
 	this.velY -= 30;
 	this.jumpsLeft--;
 	this.inAir = true;
@@ -561,8 +564,25 @@ Character.prototype.getRadius = function() {
 };
 
 Character.prototype.takeDamage = function(amount){
-	this.life = this.life - amount;
-	this.cy -= 25;
+	
+	if (this.life > 0) {
+		this.life = this.life - amount;
+		this.cy -= 25;
+		
+		g_audio.dmg.Play();
+		}
+		
+	
+	
+	
+	//else this.death();
 
-	g_audio.dmg.Play();
+};
+
+/*Character.prototype.death = function() {
+
+	//Það þarf death animation.
+	//Game over screen?
+
 }
+*/

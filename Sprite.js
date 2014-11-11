@@ -73,6 +73,24 @@ Sprite.prototype.drawCharacter = function(ctx, image, sx, sy, cx, cy, height, wi
     ctx.restore();
 }
 
+Sprite.prototype.drawWall = function(ctx, image, sx, sy, cx, cy, height, width){
+    ctx.save();
+    
+    ctx.translate(cx,cy);
+
+        
+    ctx.scale(0.2,0.2)
+    
+        
+    ctx.drawImage(image.image, sx, sy, width, height, -width/2, -height/2-3, image.width, image.height);
+    
+    ctx.restore();
+    
+    ctx.save();
+
+    ctx.restore();
+}
+
 Sprite.prototype.drawWrappedCentredAt = function (ctx, cx, cy, rotation) {
 
     // Get "screen width"

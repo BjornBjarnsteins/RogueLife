@@ -136,6 +136,8 @@ var dungeon = {
 			var lineString1 = "";
 			var lineString2 = "";
 			for (var j = 0; j < this.grid[i].length; j++) {
+				
+				
 				if (this.grid[i][j].hasLeftExit) lineString1 += "# - ";
 				else lineString1 += "#   ";
 

@@ -115,6 +115,12 @@ var dungeon = {
 		this.updatePosition(character);
 	},
 
+	setPosition : function (x, y) {
+		this.currentPosX = x;
+		this.currentPosY = y;
+		this.updatePosition();
+	},
+
 	updatePosition : function (character) {
 		this.enterRoom(this.grid[this.currentPosX][this.currentPosY], character);
 	},
@@ -130,7 +136,7 @@ var dungeon = {
 			var lineString1 = "";
 			var lineString2 = "";
 			for (var j = 0; j < this.grid[i].length; j++) {
-				if (this.grid[i][j].hasLeftExit) lineString1 += "# = ";
+				if (this.grid[i][j].hasLeftExit) lineString1 += "# - ";
 				else lineString1 += "#   ";
 
 				if (this.grid[i][j].hasBottomExit) lineString2 += "|   ";

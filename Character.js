@@ -14,6 +14,7 @@ Character.prototype.aveVelX=0;
 Character.prototype.aveVelY=0;
 Character.prototype.weapon=null;
 Character.prototype.life = 100;
+Character.prototype.energy = 100;
 
 //Character.prototype.Sprite = g_sprites.walk;
 
@@ -164,9 +165,15 @@ Character.prototype.update = function(dt)
 		}
 
 		if (eatKey(this.KEY_DASH_LEFT)) {
-			this.dash(-1);
+			if (this.energy >= 50) {
+				this.energy -= 50;
+				this.dash(-1);
+			}
 		} else if (eatKey(this.KEY_DASH_RIGHT)) {
-			this.dash(1);
+			if (this.energy >= 50) {
+				this.energy -= 50;
+				this.dash(1);
+			}
 		}
 	} else if (this.state === this.STATE_JUMPING ||
 		this.state === this.STATE_ATTACKING ) {
@@ -265,6 +272,9 @@ Character.prototype.update = function(dt)
 	else if (this.cx > g_canvas.width) dungeon.goRight(this);
 
 	if (this.weapon) this.weapon.update(dt, this);
+	
+	if (this.energy < 100) this.energy += dt/2;
+	else this.energy = 100;
 
 	spatialManager.register(this);
 };
@@ -450,6 +460,13 @@ Character.prototype.render = function (ctx)
 	}
 
 	if (this.weapon) this.weapon.render(ctx);
+	
+	util.fillBox(ctx, 788, 558, 204, 19, "black");
+	util.fillBox(ctx, 788, 578, 204, 19, "black");
+	
+	util.fillBox(ctx, 790, 560, this.life * 2, 15, "red");
+	util.fillBox(ctx, 790, 580, this.energy * 2, 15, "#7CFC00");
+	
 };
 
 Character.prototype.throwDagger = function() {
@@ -466,7 +483,7 @@ Character.prototype.throwDagger = function() {
 
 Character.prototype.jump = function() {
 	if (!this.hasJumpsLeft()) return;
-
+	
 	this.velY -= 30;
 	this.jumpsLeft--;
 	this.inAir = true;

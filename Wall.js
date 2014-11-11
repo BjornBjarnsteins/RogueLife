@@ -28,9 +28,8 @@ Wall.prototype.render = function(ctx){
 	var y = this.cy+1;
 
 	g_sprites.wall.drawWall(ctx, image, sx, sy, x, y, height, width);
+	
 	ctx.restore();
-
-
 };
 
 

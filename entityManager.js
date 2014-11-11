@@ -79,7 +79,7 @@ KILL_ME_NOW : -1,
 //
 deferredSetup : function () {
 
-    this._categories = [this._platforms, this._characters, this._projectiles, this._walls, this._spikes, this._spikestrap];
+    this._categories = [this._platforms, this._projectiles, this._walls, this._characters, this._spikes, this._spikestrap];
 },
 
 init: function() {

@@ -114,7 +114,8 @@ function requestPreloads() {
     var requiredImages = {
       dagger      : "sprites/dagger.png",
       character   : "sprites/rogueLife.PNG",
-      wall        : "sprites/penis.png"
+      wall        : "sprites/penis.png",
+      Trap        : "sprites/midgetcowboys.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -219,6 +220,16 @@ function preloadDone() {
 
 
     g_sprites.wall = new Sprite(constructorObjects);
+
+     //SpikeTrap
+    var constructorObjects = {image : g_images.Trap,
+                              sx    : 0,
+                              sy    : 0,
+                              Width : 100,
+                              Height : 100}
+
+
+    g_sprites.Trap = new Sprite(constructorObjects);
 
     //creates initial objects
 	dungeon.init();

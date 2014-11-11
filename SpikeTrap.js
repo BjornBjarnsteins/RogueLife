@@ -27,13 +27,23 @@ SpikeTrap.prototype.render = function(ctx){
 	ctx.lineTo(this.cx+(this.halfWidth)/2, this.cy-this.halfHeight-this.offset)
 	ctx.lineTo(this.cx+this.halfWidth, this.cy+this.halfHeight-this.offset)
 	ctx.fill();
-
-	util.fillBox(ctx,
+	/*util.fillBox(ctx,
 				 this.cx-this.halfWidth,
 				 this.cy-this.halfHeight,
 				 this.halfWidth*2,
 				 this.halfHeight*2,
-				 "purple");
+				 "blue");*/
+
+	var sx = g_sprites.Trap.sx;
+	var sy = g_sprites.Trap.sy;
+	var height = g_sprites.Trap.height;
+	var width = g_sprites.Trap.width;
+	var image = g_sprites.Trap;
+	var x = this.cx;
+	var y = this.cy+1;
+
+	g_sprites.Trap.drawWall(ctx, image, sx, sy, x, y, height, width);
+	
 
 	ctx.restore();
 

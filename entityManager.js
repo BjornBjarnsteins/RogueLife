@@ -100,6 +100,10 @@ init: function() {
 
 },
 
+_getPlayer : function () {
+	return this._characters[this._currentRoomID][0];
+},
+
 _spawnPlayer : function(descr, roomID) {
 	var newCharacter = new Character(descr);
 	if (!this._characters[roomID]) this._characters[roomID] = [newCharacter];

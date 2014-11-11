@@ -41,6 +41,8 @@ function updateSimulation(du) {
     processDiagnostics();
 
     entityManager.update(du);
+
+	HUD.update(du);
 }
 
 // GAME-SPECIFIC DIAGNOSTICS
@@ -69,7 +71,7 @@ function processDiagnostics() {
 	if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
 
 	if (eatKey(KEY_GRID_TOGGLE)) g_toggleGrid = !g_toggleGrid;
-	
+
 	if (eatKey(KEY_MUTE_TOGGLE)) g_mute = !g_mute;
 }
 
@@ -92,6 +94,8 @@ function renderSimulation(ctx) {
 
     entityManager.render(ctx);
 
+	HUD.render(ctx);
+
     if (g_renderSpatialDebug) spatialManager.render(ctx);
 
 	if (g_toggleGrid) dungeon._currentRoom.render(ctx);
@@ -106,7 +110,7 @@ var g_images = {};
 
 function requestPreloads() {
 
-    
+
     var requiredImages = {
       dagger      : "sprites/dagger.png",
       character   : "sprites/rogueLife.PNG",
@@ -115,8 +119,8 @@ function requestPreloads() {
 
     imagesPreload(requiredImages, g_images, preloadDone);
     preLoadAudio();
-    
-    
+
+
 }
 
 var g_sprites = {};

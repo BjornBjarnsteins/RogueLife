@@ -157,7 +157,7 @@ Character.prototype.update = function(dt)
 			fallsThrough = true;
 
 			this.state = this.STATE_CROUCHING;
-			
+
 		}
 
 		if (eatKey(this.KEY_THROW)) {
@@ -234,7 +234,7 @@ Character.prototype.update = function(dt)
 	var hitEntity = this.findHitEntity();
 
 	var hitObstacles = dungeon.getCurrentRoom().getObstaclesInRange(this);
-	
+
 	var collisionCode = -1;
 
 	for (var i = 0; i < hitObstacles.length; i++) {
@@ -249,7 +249,7 @@ Character.prototype.update = function(dt)
 	//console.log("velX: " + this.velX + " velY: " + this.velY);
 	//console.log("aveVelX: " + aveVel.X + " aveVelY: " + aveVel.Y);
 
-	
+
 	// s = s + v_ave * t
     this.cx += dt * this.aveVelX;
     this.cy += dt * this.aveVelY;
@@ -272,7 +272,7 @@ Character.prototype.update = function(dt)
 	else if (this.cx > g_canvas.width) dungeon.goRight(this);
 
 	if (this.weapon) this.weapon.update(dt, this);
-	
+
 	if (this.energy < 100) this.energy += dt/2;
 	else this.energy = 100;
 
@@ -287,15 +287,15 @@ Character.prototype.resolveCollision = function(collisionCode) {
 		if(this.state !== this.STATE_DASHING){
 			this.velX = 0;
 		}
-		
+
 		if (collisionCode === this.BOTTOM_COLLISION) g_audio.coll.Play();
-		
+
 	} else if (collisionCode === this.SIDE_COLLISION) {
 		this.velX = 0;
 		this.aveVelX = 0;
 	} else if(collisionCode === -1) {
 
-		
+
 		this.velX = -this.direction * 7;
 		this.velY = -15;
 	}
@@ -329,7 +329,7 @@ Character.prototype.applyAccel = function(accelX,accelY,dt)
 	this.aveVelX = (oldVelX + this.velX) / 2;
 	this.aveVelY = (oldVelY + this.velY) / 2;
 
-	
+
 
 };
 
@@ -351,7 +351,7 @@ Character.prototype.clampToBounds = function()
 };
 
 Character.prototype.render = function (ctx)
-{	
+{
    	var sx ;
    	var sy ;
    	var height;
@@ -460,13 +460,13 @@ Character.prototype.render = function (ctx)
 	}
 
 	if (this.weapon) this.weapon.render(ctx);
-	
-	util.fillBox(ctx, 788, 558, 204, 19, "black");
+
+	/*util.fillBox(ctx, 788, 558, 204, 19, "black");
 	util.fillBox(ctx, 788, 578, 204, 19, "black");
-	
+
 	util.fillBox(ctx, 790, 560, this.life * 2, 15, "red");
-	util.fillBox(ctx, 790, 580, this.energy * 2, 15, "#7CFC00");
-	
+	util.fillBox(ctx, 790, 580, this.energy * 2, 15, "#7CFC00");*/
+
 };
 
 Character.prototype.throwDagger = function() {
@@ -483,7 +483,7 @@ Character.prototype.throwDagger = function() {
 
 Character.prototype.jump = function() {
 	if (!this.hasJumpsLeft()) return;
-	
+
 	this.velY -= 30;
 	this.jumpsLeft--;
 	this.inAir = true;
@@ -493,7 +493,7 @@ Character.prototype.jump = function() {
 	} else{
 		this.prevState = this.STATE_JUMPING;
 	}
-	
+
 	g_audio.jumpy.Play();
 };
 
@@ -517,7 +517,7 @@ Character.prototype.dash = function (dir) {
 	this.currentDashDuration = 0;
 	this.isDashing = true;
 	this.state = this.STATE_DASHING;
-	
+
 	g_audio.dashy.Play();
 };
 
@@ -544,7 +544,7 @@ Character.prototype.landOn = function(surfaceY) {
 		console.log("her")
 		this.state = this.STATE_STANDING;
 	}*/
-	
+
 };
 
 Character.prototype.snapTo = function (destX, destY) {
@@ -563,6 +563,6 @@ Character.prototype.getRadius = function() {
 Character.prototype.takeDamage = function(amount){
 	this.life = this.life - amount;
 	this.cy -= 25;
-	
+
 	g_audio.dmg.Play();
 }

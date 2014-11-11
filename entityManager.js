@@ -84,7 +84,7 @@ deferredSetup : function () {
 
 init: function() {
 
-    this.weapon=new Weapon();
+    this.weapon = new Weapon();
 	this._spawnPlayer({cx : 100,
 			   cy : g_canvas.height - 100,
 			   weapon: this.weapon},

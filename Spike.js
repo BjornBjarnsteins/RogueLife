@@ -27,7 +27,6 @@ Spike.prototype.update = function(du){
 };
 
 Spike.prototype.collidesWith = function(entity, oldX, oldY, nextX, nextY){
-
 	var entUpperBound = nextY - entity.halfHeight;
 	var entLowerBound = nextY + entity.halfHeight;
 	var entRightBound = nextX + entity.halfWidth;
@@ -35,7 +34,7 @@ Spike.prototype.collidesWith = function(entity, oldX, oldY, nextX, nextY){
 
 	if (entLeftBound  <= this.getRightBound() &&
 		entRightBound >= this.getLeftBound()) {
-		if (entLowerBound >= this.getUpperBound() &&
+		if (entLowerBound >= this.getUpperBound() + tolerance &&
 			entUpperBound <= this.getLowerBound()) {
 			// checks for collision details
 

@@ -8,6 +8,8 @@ var dungeon = {
 
 	_showMap : false,
 
+	KEY_SHOW_MAP : 9, //tab
+
 	getNewRoomID : function () {
 		return this._nextRoomID++;
 	},
@@ -22,7 +24,6 @@ var dungeon = {
 
 	initializeDungeonGrid : function () {
 		this.grid = new Array(10);
-		this.mapGrid = new Array(10);
 		for (var i = 0; i < this.grid.length; i++) {
 			this.grid[i] = new Array(10);
 			for (var j = 0; j < this.grid[i].length; j++) {
@@ -150,7 +151,8 @@ var dungeon = {
 			var lineString1 = "";
 			var lineString2 = "";
 			for (var j = 0; j < this.grid[i].length; j++) {
-				if (!this.grid[j][i]) {
+				if (!this.grid[j][i] ||
+				    !this.grid[j][i].isVisited) {
 					lineString1 += "    ";
 					lineString2 += "    ";
 				} else {
@@ -171,5 +173,99 @@ var dungeon = {
 			console.log(lineString1);
 			console.log(lineString2);
 		}
+	},
+
+	update : function (du) {
+		if (eatKey(this.KEY_SHOW_MAP)) this._showMap = !this._showMap;
+	},
+
+	mapHeight : g_canvas.height*0.5,
+
+	mapWidth : g_canvas.height*0.5,
+
+	mapX : 200,
+
+	mapY : 100,
+
+	mapCellSpacing : 30,
+
+	mapCellSize : 20,
+
+	pathWidth : 10,
+
+	drawMap : function (ctx) {
+		ctx.save();
+
+		// semitransparent overlay
+		ctx.globalAlpha = 0.5;
+		util.fillBox(ctx, 0, 0, g_canvas.width, g_canvas.height, "black");
+
+		var gap = this.mapCellSpacing - this.mapCellSize;
+
+		for (var i = 0; i < this.grid.length; i++) {
+			for (var j = 0; j < this.grid[i].length; j++) {
+				var fill = "white";
+				if (this.grid[j][i]) {
+					if (j === this.currentPosX &&
+						i === this.currentPosY) {
+						fill = "red";
+					}
+
+					var cellX = this.mapX + this.mapCellSpacing*j;
+					var cellY = this.mapY + this.mapCellSpacing*i;
+
+					// draw the cell itself
+					util.fillBox(ctx,
+								 cellX,
+								 cellY,
+								 this.mapCellSize,
+							 	 this.mapCellSize,
+							 	 fill);
+
+					// draw the exits
+					if (this.grid[j][i].hasRightExit) {
+						util.fillBox(ctx,
+									 cellX + this.mapCellSize,
+									 cellY + this.mapCellSize/2 - this.pathWidth/2,
+									 gap,
+									 this.pathWidth,
+									 "white");
+					}
+
+					if (this.grid[j][i].hasLeftExit) {
+						util.fillBox(ctx,
+									 cellX - gap,
+									 cellY + this.mapCellSize/2 - this.pathWidth/2,
+									 gap,
+									 this.pathWidth,
+									 "white");
+					}
+
+					if (this.grid[j][i].hasTopExit) {
+						util.fillBox(ctx,
+									 cellX + this.mapCellSize/2 - this.pathWidth/2,
+									 cellY - gap,
+									 this.pathWidth,
+									 gap,
+									 "white");
+					}
+
+					if (this.grid[j][i].hasBottomExit) {
+						util.fillBox(ctx,
+									 cellX + this.mapCellSize/2 - this.pathWidth/2,
+									 cellY + this.mapCellSize,
+									 this.pathWidth,
+									 gap,
+									 "white");
+					}
+				}
+			}
+		}
+
+		ctx.restore();
+	},
+
+	render : function (ctx) {
+		if (this._showMap) this.drawMap(ctx);
 	}
 };

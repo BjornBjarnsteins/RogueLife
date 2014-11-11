@@ -43,6 +43,8 @@ function updateSimulation(du) {
     entityManager.update(du);
 
 	HUD.update(du);
+
+	dungeon.update(du);
 }
 
 // GAME-SPECIFIC DIAGNOSTICS
@@ -95,6 +97,8 @@ function renderSimulation(ctx) {
     entityManager.render(ctx);
 
 	HUD.render(ctx);
+
+	dungeon.render(ctx);
 
     if (g_renderSpatialDebug) spatialManager.render(ctx);
 

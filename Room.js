@@ -41,6 +41,8 @@ Room.prototype.hasBottomExit = false;
 Room.prototype.hasRightExit = false;
 Room.prototype.hasLeftExit = false;
 
+Room.prototype.isVisited = false;
+
 Room.prototype.insertWallAt = function (x, y) {
 	var col = this.findColAt(x);
 	var row = this.findRowAt(y);
@@ -261,9 +263,15 @@ Room.prototype.getObstaclesInRange = function (entity) {
 Room.prototype.enter = function (character) {
 	if (!this.isSetup) this.interiorDesign(this.scheme);
 
+	this.isVisited = true;
+
 	if (character.cy < 0) character.snapTo(character.cx, g_canvas.height - character.halfHeight);
 	else if (character.cy > g_canvas.height) character.snapTo(character.cx, character.halfHeight);
 	else if (character.cx < 0) character.snapTo(g_canvas.width - character.halfWidth, character.cy);
 	else if (character.cx > g_canvas.width) character.snapTo(character.halfWidth, character.cy);
 
+};
+
+Room.prototype.isAccessible = function () {
+	return (this.hasTopExit || this.hasLeftExit || this.hasRightExit || this.hasBottomExit);
 };

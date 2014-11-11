@@ -6,6 +6,8 @@ var dungeon = {
 
 	_nextRoomID : 1,
 
+	_showMap : false,
+
 	getNewRoomID : function () {
 		return this._nextRoomID++;
 	},
@@ -20,6 +22,7 @@ var dungeon = {
 
 	initializeDungeonGrid : function () {
 		this.grid = new Array(10);
+		this.mapGrid = new Array(10);
 		for (var i = 0; i < this.grid.length; i++) {
 			this.grid[i] = new Array(10);
 			for (var j = 0; j < this.grid[i].length; j++) {
@@ -86,13 +89,24 @@ var dungeon = {
 			i++;
 		}
 
+		this.removeInaccessibleRooms();
+
 		this.printLayoutToConsole();
+	},
+
+	removeInaccessibleRooms : function () {
+		for (var i = 0; i < this.grid.length; i++) {
+			for (var j = 0; j < this.grid[i].length; j++) {
+				if (!this.grid[i][j].isAccessible()) delete this.grid[i][j];
+			}
+		}
 	},
 
 	enterRoom : function (room, character) {
 		this._currentRoom = room;
 		entityManager.setRoom(room);
 		room.enter(character);
+		this.printLayoutToConsole();
 	},
 
 	goUp : function (character) {
@@ -136,13 +150,23 @@ var dungeon = {
 			var lineString1 = "";
 			var lineString2 = "";
 			for (var j = 0; j < this.grid[i].length; j++) {
-				
-				
-				if (this.grid[i][j].hasLeftExit) lineString1 += "# - ";
-				else lineString1 += "#   ";
+				if (!this.grid[j][i]) {
+					lineString1 += "    ";
+					lineString2 += "    ";
+				} else {
+					if (j=== this.currentPosX &&
+					    i === this.currentPosY) {
+						lineString1 += "@ ";
+					} else {
+						lineString1 += "# ";
+					}
 
-				if (this.grid[i][j].hasBottomExit) lineString2 += "|   ";
-				else lineString2 += "    ";
+					if (this.grid[j][i].hasRightExit) lineString1 += "- ";
+					else lineString1 += "  ";
+
+					if (this.grid[j][i].hasBottomExit) lineString2 += "|   ";
+					else lineString2 += "    ";
+				}
 			}
 			console.log(lineString1);
 			console.log(lineString2);

@@ -8,7 +8,11 @@ var dungeon = {
 
 	_showMap : false,
 
+	_showFullMap : false,
+
 	KEY_SHOW_MAP : 9, //tab
+
+	KEY_SHOW_FULL_MAP : keyCode("T"),
 
 	getNewRoomID : function () {
 		return this._nextRoomID++;
@@ -191,6 +195,11 @@ var dungeon = {
 
 	update : function (du) {
 		if (eatKey(this.KEY_SHOW_MAP)) this._showMap = !this._showMap;
+
+		if (eatKey(this.KEY_SHOW_FULL_MAP)) this._showFullMap = !this._showFullMap;
+
+		console.log("showFullMap: " + this._showFullMap);
+		console.log("showMap: " + this._showMap);
 	},
 
 	mapHeight : g_canvas.height*0.5,
@@ -220,7 +229,8 @@ var dungeon = {
 			for (var j = 0; j < this.grid[i].length; j++) {
 				var fill = "white";
 				if (this.grid[j][i] &&
-				    this.grid[j][i].isVisited) {
+				    (this.grid[j][i].isVisited ||
+					 this._showFullMap)) {
 					if (j === this.currentPosX &&
 						i === this.currentPosY) {
 						fill = "red";

@@ -33,6 +33,9 @@ var dungeon = {
 			}
 		}
 
+		this.grid[0][0] = new Room();
+		this.grid[0][0].interiorDesign(getOutSideScheme());
+
 		this.addExits();
 	},
 
@@ -61,21 +64,24 @@ var dungeon = {
 
 		while (i < steps) {
 			var stepSeed = Math.floor(Math.random()*4);
-
+			console.log(i);
 			if (stepSeed === 0) {
 				// step up
+				if(posX === 0 && posY === 1 ) continue;
 				if (!this.grid[posX][posY-1]) continue;
 
 				this.grid[posX][posY--].addTopExit();
 				this.grid[posX][posY].addBottomExit();
 			} else if (stepSeed === 1) {
 				// step down
+				if(posX === 0 && posY === 0 ) continue;
 				if (!this.grid[posX][posY+1]) continue;
 
 				this.grid[posX][posY++].addBottomExit();
 				this.grid[posX][posY].addTopExit();
 			} else if (stepSeed === 2) {
 				// step left
+				if(posX === 1 && posY === 0 ) continue;
 				if (!this.grid[posX-1]) continue;
 
 				this.grid[posX--][posY].addLeftExit();
@@ -91,6 +97,8 @@ var dungeon = {
 			i++;
 		}
 
+		this.makeOutdoors();
+
 		this.removeInaccessibleRooms();
 
 		this.printLayoutToConsole();
@@ -102,6 +110,11 @@ var dungeon = {
 				if (!this.grid[i][j].isAccessible()) delete this.grid[i][j];
 			}
 		}
+	},
+
+	makeOutdoors : function(){
+		this.grid[0][0].addRightExit();
+		this.grid[1][0].addLeftExit();
 	},
 
 	enterRoom : function (room, character) {

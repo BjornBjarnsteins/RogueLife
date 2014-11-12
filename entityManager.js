@@ -35,6 +35,8 @@ _projectiles : [],
 _walls       : [],
 _spikes		 : [],
 _spikestrap  : [],
+_ground 	 : [],
+_blank 		 : [],
 
 weapon : null,
 
@@ -79,7 +81,7 @@ KILL_ME_NOW : -1,
 //
 deferredSetup : function () {
 
-    this._categories = [this._platforms, this._projectiles, this._walls, this._characters, this._spikes, this._spikestrap];
+    this._categories = [this._platforms, this._walls, this._characters, this._projectiles, this._spikes, this._spikestrap, this._ground, this._blank];
 },
 
 init: function() {
@@ -139,6 +141,20 @@ _makeSpikeTrap : function  (descr, roomID) {
 	return newSpiketrap;
 },
 
+_makeGround : function  (descr, roomID) {
+	var newGround = new Ground(descr);
+	if (!this._ground[roomID]) this._ground[roomID] = [newGround];
+	else this._ground[roomID].push(newGround);
+	return newGround;
+},
+
+_makeBlank : function  (descr, roomID) {
+	var newBlank = new Blank(descr);
+	if (!this._blank[roomID]) this._blank[roomID] = [newBlank];
+	else this._blank[roomID].push(newBlank);
+	return newBlank;
+},
+
 
 _generateProjectile : function (descr, roomID) {
 	var newProjectile = new Projectile(descr);
@@ -195,19 +211,16 @@ update: function(du) {
 		while (i < aCategory.length) {
             var status = aCategory[i].update(du);
 
-            if (status === -1) {
+            if (status === this.KILL_ME_NOW) {
                 // remove the dead guy, and shuffle the others down to
                 // prevent a confusing gap from appearing in the array
 
-                if(this.aCategory[i] === _characters){
-
-                	console.log("here")
-                }else{ 
-                	aCategory.splice(i,1);
-                }
-
+                aCategory.splice(i,1);
             }
-            else {
+            else if(status === -2) {
+            	console.log("here");
+            	//do death stuff
+            }else{
                 ++i;
             }
         }

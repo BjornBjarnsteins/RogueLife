@@ -121,7 +121,9 @@ function requestPreloads() {
       wall        : "sprites/penis.png",
       Trap        : "sprites/midgetcowboys.png",
       Background  : "sprites/interior.png",
-      Platform    : "sprites/platform.png"
+      Platform    : "sprites/platform.png",
+      Ground      : "sprites/Ground.png",
+      outSide     : "sprites/outSide.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -247,6 +249,16 @@ function preloadDone() {
 
     g_sprites.Background = new Sprite(constructorObjects);
 
+    //outSide
+    var constructorObjects = {image : g_images.outSide,
+                              sx    : 0,
+                              sy    : 0,
+                              Width : 750,
+                              Height : 500}
+
+
+    g_sprites.outSide = new Sprite(constructorObjects);
+
     //Platform
     var constructorObjects = {image : g_images.Platform,
                               sx    : 0,
@@ -256,6 +268,17 @@ function preloadDone() {
 
 
     g_sprites.Platform = new Sprite(constructorObjects);
+
+
+    //Ground
+    var constructorObjects = {image : g_images.Ground,
+                              sx    : 0,
+                              sy    : 0,
+                              Width : 100,
+                              Height : 100}
+
+
+    g_sprites.Ground = new Sprite(constructorObjects);
 
     //creates initial objects
 	dungeon.init();

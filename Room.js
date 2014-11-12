@@ -47,7 +47,7 @@ Room.prototype.insertWallAt = function (x, y) {
 	var col = this.findColAt(x);
 	var row = this.findRowAt(y);
 
-	this.insertWallInTile(row, col);
+	this.insertWallInTile(row, col, "w" );
 };
 
 Room.prototype.insertPlatformAt = function (x, y) {
@@ -64,14 +64,18 @@ Room.prototype.emptyTileAt = function(x, y) {
 	this.emptyTile(row, col);
 };
 
-Room.prototype.insertWallInTile = function (row, col) {
+Room.prototype.insertWallInTile = function (row, col, type) {
 	if (this.grid[row][col]) return;
+	var tipa = type;
 
 	this.grid[row][col] = entityManager._makeWall({cx : col*this.tileWidth + this.tileWidth/2,
 												   cy : row*this.tileHeight + this.tileHeight/2,
 
 												   halfHeight : this.tileHeight/2,
-												   halfWidth  : this.tileWidth/2},
+												   halfWidth  : this.tileWidth/2,
+												   type : tipa
+												   },
+
 
 												 this._roomID);
 };
@@ -104,6 +108,30 @@ Room.prototype.insertSpikeTrapInTile = function (row, col) {
 	if (this.grid[row][col]) return;
 
 	this.grid[row][col] = entityManager._makeSpikeTrap({cx : col*this.tileWidth + this.tileWidth/2,
+												   cy : row*this.tileHeight + this.tileHeight/2,
+
+												   halfHeight : this.tileHeight/2,
+												   halfWidth  : this.tileWidth/2},
+
+												 this._roomID);
+};
+
+Room.prototype.insertGroundInTile = function (row, col) {
+	if (this.grid[row][col]) return;
+
+	this.grid[row][col] = entityManager._makeGround({cx : col*this.tileWidth + this.tileWidth/2,
+												   cy : row*this.tileHeight + this.tileHeight/2,
+
+												   halfHeight : this.tileHeight/2,
+												   halfWidth  : this.tileWidth/2},
+
+												 this._roomID);
+};
+
+Room.prototype.insertBlankInTile = function (row, col) {
+	if (this.grid[row][col]) return;
+
+	this.grid[row][col] = entityManager._makeBlank({cx : col*this.tileWidth + this.tileWidth/2,
 												   cy : row*this.tileHeight + this.tileHeight/2,
 
 												   halfHeight : this.tileHeight/2,
@@ -171,8 +199,14 @@ Room.prototype.interiorDesign = function (scheme) {
 
 	for (var row = 0; row < this.gridRows; row++) {
 		for (var col = 0; col < this.gridCols; col++) {
-			if (scheme[row][col] === "w") {
-				this.insertWallInTile(row, col);
+			if (scheme[row][col] === "w" ) {
+				this.insertWallInTile(row, col, "w");
+			}
+			if (scheme[row][col] === "g" ) {
+				this.insertWallInTile(row, col, "g");
+			}
+			if (scheme[row][col] === "b" ) {
+				this.insertWallInTile(row, col, "b");
 			}
 			if (scheme[row][col] === "p") {
 				this.insertPlatformInTile(row, col);
@@ -183,6 +217,7 @@ Room.prototype.interiorDesign = function (scheme) {
 			if (scheme[row][col] === "T") {
 				this.insertSpikeTrapInTile(row, col);
 			}
+			
 		}
 	}
 
@@ -259,6 +294,11 @@ Room.prototype.getObstaclesInRange = function (entity) {
 
 	return entitiesInRange;
 };
+
+Room.prototype.outSide = function(){
+
+
+}
 
 Room.prototype.enter = function (character) {
 	if (!this.isSetup) this.interiorDesign(this.scheme);

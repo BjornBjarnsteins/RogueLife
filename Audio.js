@@ -29,7 +29,7 @@ function Sound( audio ){
 Sound.prototype.cloneNodes = 0;
 
 //scale from 0.0 to 1.0
-Sound.prototype.volume    = 1.0;
+Sound.prototype.volume    = 0.1;
 
 
 Sound.prototype.soundVolume = function( volume ){

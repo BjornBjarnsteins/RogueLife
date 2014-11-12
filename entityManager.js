@@ -195,10 +195,17 @@ update: function(du) {
 		while (i < aCategory.length) {
             var status = aCategory[i].update(du);
 
-            if (status === this.KILL_ME_NOW) {
+            if (status === -1) {
                 // remove the dead guy, and shuffle the others down to
                 // prevent a confusing gap from appearing in the array
-                aCategory.splice(i,1);
+
+                if(this.aCategory[i] === _characters){
+
+                	console.log("here")
+                }else{ 
+                	aCategory.splice(i,1);
+                }
+
             }
             else {
                 ++i;

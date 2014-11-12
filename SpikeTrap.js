@@ -11,7 +11,7 @@ SpikeTrap.prototype.timeActive = 0;
 SpikeTrap.prototype.offset = 0;
 
 SpikeTrap.prototype.activateTrap = function(){
-	console.log("here");
+	
 	this.trap = true;
 	this.timeActive = 0.4*SECS_TO_NOMINALS;
 };

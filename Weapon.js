@@ -38,6 +38,7 @@ Weapon.prototype.KEY_ATTACK="N".charCodeAt(0);
 
 Weapon.prototype.update = function(dt, character)
 {
+    
     if(character)
     {
 	this.handleX = character.cx+character.direction*character.halfWidth;
@@ -54,6 +55,7 @@ Weapon.prototype.update = function(dt, character)
 
     if(this.currentAttackTime!==0)
 	this.attackUpdate(dt);
+
 
 };
 
@@ -102,28 +104,7 @@ Weapon.prototype.attackUpdate = function(dt)
 
 Weapon.prototype.render = function(ctx)
 {
-    /*if(this.currentAttackTime===0)
-	return;
-    ctx.save();
-    ctx.fillStyle="green";
-    if(this.direction===1)
-    {
-	ctx.fillRect(this.handleX,
-		     this.handleY,
-		     this.currentReach,
-		     this.thickness
-		     );
-    }
-    if(this.direction===-1)
-    {
-	ctx.fillRect(this.handleX,
-		     this.handleY,
-		     -this.currentReach,
-		     this.thickness
-		     );
-    }
-
-    ctx.restore();*/
+    
 };
 
 

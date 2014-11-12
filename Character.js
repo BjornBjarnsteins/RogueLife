@@ -276,9 +276,9 @@ Character.prototype.update = function(dt)
 	if (this.energy < 100) this.energy += dt/2;
 	else this.energy = 100;
 	
-	if (!this.life > 0) {
-		g_audio.placeholder.Play();
-		//return this.KILL_ME_NOW;   buggar allt út
+	if (this.life < 0) {
+		//g_audio.placeholder.Play();
+		return -1;
 	}
 
 	spatialManager.register(this);

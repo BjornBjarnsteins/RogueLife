@@ -6,6 +6,7 @@ Wall = function(descr)
 Wall.prototype = new Entity();
 Wall.prototype.halfWidth = 20;
 Wall.prototype.halfHeight = 150;
+Wall.prototype.type = "b";
 
 
 
@@ -19,15 +20,30 @@ Wall.prototype.render = function(ctx){
 				 this.halfHeight*2,
 				 "blue");*/
 
-	var sx = g_sprites.wall.sx;
-	var sy = g_sprites.wall.sy;
-	var height = g_sprites.wall.height;
-	var width = g_sprites.wall.width;
-	var image = g_sprites.wall;
-	var x = this.cx;
-	var y = this.cy+1;
 
-	g_sprites.wall.drawWall(ctx, image, sx, sy, x, y, height, width);
+	if(this.type === "w"){
+		var sx = g_sprites.wall.sx;
+		var sy = g_sprites.wall.sy;
+		var height = g_sprites.wall.height;
+		var width = g_sprites.wall.width;
+		var image = g_sprites.wall;
+		var x = this.cx;
+		var y = this.cy+1;
+
+		g_sprites.wall.drawWall(ctx, image, sx, sy, x, y, height, width);
+	}else if(this.type === "g"){
+		var sx = g_sprites.Ground.sx;
+		var sy = g_sprites.Ground.sy;
+		var height = g_sprites.Ground.height;
+		var width = g_sprites.Ground.width;
+		var image = g_sprites.Ground;
+		var x = this.cx;
+		var y = this.cy+1;
+
+		g_sprites.Ground.drawWall(ctx, image, sx, sy, x, y, height, width);
+	}else{
+		return;
+	}
 	
 	ctx.restore();
 };

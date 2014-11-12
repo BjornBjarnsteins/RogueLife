@@ -40,6 +40,7 @@ Sound.prototype.soundVolume = function( volume ){
 
 // Play the sound
 
+
 Sound.prototype.Play = function (){
 	if (!g_mute) {
 	
@@ -61,7 +62,13 @@ Sound.prototype.Play = function (){
 	this.sound.cloneNode().play();
 	
 	}
-};
+}
+
+Sound.prototype.soundtrackPlay = function () {
+
+	this.sound.play();
+	
+}
 
 
 // Loop the sound
@@ -78,14 +85,6 @@ Sound.prototype.Play = function (){
 
 // Continuous sounds
 
-/*
-Sound.prototype.walkSound = function (){
-
-
-
-	this.sound.play();
-};
-*/
 /*
 
 Sound.prototype.reset = function (){
@@ -115,7 +114,8 @@ var requiredSounds = {
 	landing		: "sounds/land.mp3",
 	coll		: "sounds/collision.mp3",
 	dmg			: "sounds/pain.mp3",
-	walk		: "sounds/coolguy.mp3"
+	walk		: "sounds/coolguy.mp3",
+	soundtrack	: "sounds/soundtrack.mp3"
    
 };
 

@@ -79,7 +79,7 @@ KILL_ME_NOW : -1,
 //
 deferredSetup : function () {
 
-    this._categories = [this._platforms, this._projectiles, this._walls, this._characters, this._spikes, this._spikestrap];
+    this._categories = [this._platforms, this._walls, this._characters, this._projectiles, this._spikes, this._spikestrap];
 },
 
 init: function() {
@@ -195,19 +195,16 @@ update: function(du) {
 		while (i < aCategory.length) {
             var status = aCategory[i].update(du);
 
-            if (status === -1) {
+            if (status === this.KILL_ME_NOW) {
                 // remove the dead guy, and shuffle the others down to
                 // prevent a confusing gap from appearing in the array
 
-                if(this.aCategory[i] === _characters){
-
-                	console.log("here")
-                }else{ 
-                	aCategory.splice(i,1);
-                }
-
+                aCategory.splice(i,1);
             }
-            else {
+            else if(status === -2) {
+            	console.log("here");
+            	//do death stuff
+            }else{
                 ++i;
             }
         }

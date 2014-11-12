@@ -67,30 +67,17 @@ Character.prototype.update = function(dt)
 
 	var fallsThrough = false;
 
-	//console.log(this.state)
+	console.log(this.state)
 
 	if (this.state === this.STATE_STANDING ||
 		this.state === this.STATE_RUNNING  ||
-		this.state === this.STATE_FALLING  ||
-		this.state === this.STATE_ATTACKING
+		this.state === this.STATE_FALLING  
 	    ) {
 
-		var isAttacking = entityManager.weapon.isAttacking();
-		if(isAttacking){
 
-			if(this.state !== this.STATE_ATTACKING){
-
-				this.prevState = this.state;
-			}
-			this.state = this.STATE_ATTACKING;
-		} else if(this.state === this.STATE_ATTACKING){
-			//console.log("here")
-			this.state = this.prevState;
-		}
 
 		if( this.velY === 0 				  &&
-			this.state === this.STATE_FALLING &&
-			this.state !== this.STATE_ATTACKING){
+			this.state === this.STATE_FALLING ){
 
 
 			this.state = this.STATE_STANDING
@@ -106,8 +93,7 @@ Character.prototype.update = function(dt)
 			this.cx -=5;
 			this.direction = -1;
 
-			if(this.state !== this.STATE_FALLING &&
-			this.state !== this.STATE_ATTACKING){
+			if(this.state !== this.STATE_FALLING ){
 
 				this.state = this.STATE_RUNNING;
 
@@ -124,8 +110,7 @@ Character.prototype.update = function(dt)
 			this.cx +=5;
 			this.direction = 1;
 
-			if(this.state !== this.STATE_FALLING &&
-			this.state !== this.STATE_ATTACKING){
+			if(this.state !== this.STATE_FALLING ){
 
 				this.state = this.STATE_RUNNING;
 
@@ -135,8 +120,7 @@ Character.prototype.update = function(dt)
 
 		if(!keys[this.KEY_LEFT] 			  &&
 			!keys[this.KEY_RIGHT] 			  &&
-			this.state !== this.STATE_FALLING &&
-			this.state !== this.STATE_ATTACKING){
+			this.state !== this.STATE_FALLING ){
 
 			this.state = this.STATE_STANDING;
 			this.movedFrom = 0;
@@ -175,16 +159,23 @@ Character.prototype.update = function(dt)
 				this.dash(1);
 			}
 		}
-	} else if (this.state === this.STATE_JUMPING ||
-		this.state === this.STATE_ATTACKING ) {
+
+		var isAttacking = entityManager.weapon.isAttacking();
+		if(isAttacking){
+			
+			this.prevState = this.state;
+			
+			this.state = this.STATE_ATTACKING;
+			console.log("here") 
+			
+		} 
+	} else if (this.state === this.STATE_JUMPING ) {
 
 		if(!entityManager.weapon.isAttacking){
 
 			this.prevState = this.state;
 			this.state = this.STATE_ATTACKING;
-		} else if(this.state === this.STATE_ATTACKING){
-			this.state = this.prevState;
-		}
+		} 
 
 		if (!keys[this.KEY_UP]) {
 			this.stopJumping();
@@ -219,9 +210,19 @@ Character.prototype.update = function(dt)
 
 		} else if (keys[this.KEY_DOWN]) {
 			this.state = this.STATE_STANDING;
-		} else if (keys[this.KEY_UP]) {
+		} else if (eatKey(this.KEY_UP)) {
 			this.state = this.STATE_STANDING;
 		}
+	} else if(this.state === this.STATE_ATTACKING){
+
+		var isAttacking = entityManager.weapon.isAttacking();
+		if(!isAttacking){
+			
+			this.state = this.prevState;
+
+		} 
+
+
 	}
 
 

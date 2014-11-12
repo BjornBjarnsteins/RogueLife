@@ -173,7 +173,7 @@ Room.prototype.addBottomExit = function () {
 Room.prototype.interiorDesign = function (scheme) {
 	if (!scheme) scheme = this.defaultScheme;
 
-	console.log("setting up room " + this._roomID);
+	this.scheme = scheme;
 
 	for (var row = 0; row < this.gridRows; row++) {
 		for (var col = 0; col < this.gridCols; col++) {
@@ -195,7 +195,7 @@ Room.prototype.interiorDesign = function (scheme) {
 			if (scheme[row][col] === "T") {
 				this.insertSpikeTrapInTile(row, col);
 			}
-			
+
 		}
 	}
 

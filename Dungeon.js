@@ -33,7 +33,12 @@ var dungeon = {
 			this.grid[i] = new Array(10);
 			for (var j = 0; j < this.grid[i].length; j++) {
 				this.grid[i][j] = new Room();
-				this.grid[i][j].interiorDesign(getRandomScheme());
+
+				var adjacent = [];
+				/*if (this.grid[i - 1]) adjacent.push(this.grid[i - 1][j]);
+				if (this.grid[i][j - 1]) adjacent.push(this.grid[i][j - 1]);*/
+
+				this.grid[i][j].interiorDesign(getRandomScheme(adjacent));
 			}
 		}
 

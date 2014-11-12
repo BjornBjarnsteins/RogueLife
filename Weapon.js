@@ -16,20 +16,25 @@ Weapon.prototype = new Entity();
 //betra að tracka handfangið á vopninu en miðjuna fyrir
 //attack animations
 
-Weapon.prototype.handleX=200;
-Weapon.prototype.handleY=200;
-Weapon.prototype.thickness=5;
+Weapon.prototype.halfWidth = 32;
+Weapon.prototype.halfHeight = 32;
+Weapon.prototype.cx = 0;
+Weapon.prototype.cy = 0;
+
+
 
 //árásar tengdar breytur
 //lengd einnar árásar í sekúndum
 Weapon.prototype.maximumAttackTime=0.15*SECS_TO_NOMINALS;
 Weapon.prototype.currentAttackTime=0;
+Weapon.prototype.activeAttack = false;
+
 
 
 //Size and orientation
 //direction should be 1 if and only if the weapon should strike to the right
 //direction should be -1 if and only if the weapon should strike to the left
-Weapon.prototype.maximumReach=40;
+Weapon.prototype.maximumReach=64;
 Weapon.prototype.currentReach=0;
 Weapon.prototype.direction=1;
 //rotation?
@@ -37,29 +42,35 @@ Weapon.prototype.direction=1;
 Weapon.prototype.KEY_ATTACK="N".charCodeAt(0);
 
 Weapon.prototype.update = function(dt, character)
-{
-    
-    if(character)
-    {
-	this.handleX = character.cx+character.direction*character.halfWidth;
-	this.handleY = character.cy;
-	this.direction=character.direction
-    }
+{   
+    if(character){
+        if(character.direction === 1){
+            this.cx = character.cx + 72;
+            this.cy = character.cy;
+        }else{
+            this.cx = character.cx -72;
+            this.cy = character.cy;
+        }
 
+    }
+    
     if(keys[this.KEY_ATTACK]&&this.currentAttackTime===0)
     {
 	   //Play the attack sound
 	   g_audio.swordshit.Play();
 	   this.currentAttackTime=this.maximumAttackTime;
+       this.activeAttack = true;
     }
 
-    if(this.currentAttackTime!==0)
+    if(this.activeAttack)
 	this.attackUpdate(dt);
 
 
 };
 
 Weapon.prototype.isAttacking = function(){
+
+
     if(this.currentAttackTime > 0) return true;
 
     return false;
@@ -73,34 +84,33 @@ Weapon.prototype.isAttacking = function(){
 **/
 Weapon.prototype.attackUpdate = function(dt)
 {
-    //console.log("Attacking!");
+    spatialManager.unregister(this)
+
     this.currentAttackTime = this.currentAttackTime-dt;
     if(this.currentAttackTime<=0)
     {
-	this.currentAttackTime=0;
-	this.currentReach=-1;
-	return;
-    }
-    var halfMaximum=this.maximumAttackTime/2;
-
-    //finds out how far along the attack is and extends the weapon
-    //or retracts it
-    if(this.currentAttackTime>halfMaximum)
-    {
-	var timeRatio = 2*(halfMaximum-this.currentAttackTime/2)/halfMaximum;
-	this.currentReach=this.maximumReach*timeRatio;
-    }
-    else if(this.currentAttackTime<halfMaximum)
-    {
-	var timeRatio = (this.currentAttackTime)/halfMaximum;
-	this.currentReach=this.maximumReach*timeRatio;
+       this.currentAttackTime=0;
+       this.currentReach=-1;
+       this.activeAttack = false;
+       return;
     }
 
-    //console.log(this.currentReach);
+    var hitEntity = this.findHitEntity();
+    
+    if (hitEntity) {
+        var canTakeHit = hitEntity.takeDamage(10);
+        if (canTakeHit) canTakeHit.call(hitEntity(10));
+        return entityManager.KILL_ME_NOW;
 
-    //TODO:need to check for collisions when spatial manager gets going
+    }
+
+     spatialManager.register(this);
 
 };
+
+Weapon.prototype.getRadius = function(){
+    return 32;
+}
 
 Weapon.prototype.render = function(ctx)
 {

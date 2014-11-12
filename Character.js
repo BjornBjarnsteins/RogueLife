@@ -55,7 +55,8 @@ Character.prototype.KEY_DASH_LEFT = "Q".charCodeAt(0);
 //TODO:Images and sounds for character
 
 Character.prototype.update = function(dt)
-{
+{	
+
     spatialManager.unregister(this);
     //Gravity computation should probably be moved
     //to entity manager when we get one of those up
@@ -254,7 +255,6 @@ Character.prototype.update = function(dt)
     this.cx += dt * this.aveVelX;
     this.cy += dt * this.aveVelY;
 
-
 	if (this.velY > 0) {}//this.state = this.STATE_FALLING;
 
 	/*var oldCy = this.cy;
@@ -271,6 +271,7 @@ Character.prototype.update = function(dt)
 	else if (this.cx < 0) dungeon.goLeft(this);
 	else if (this.cx > g_canvas.width) dungeon.goRight(this);
 
+	spatialManager.register(this);
 	if (this.weapon) this.weapon.update(dt, this);
 
 	if (this.energy < 100) this.energy += dt/2;
@@ -281,7 +282,6 @@ Character.prototype.update = function(dt)
 		return -2;
 	}
 
-	spatialManager.register(this);
 };
 
 Character.prototype.resolveCollision = function(collisionCode) {

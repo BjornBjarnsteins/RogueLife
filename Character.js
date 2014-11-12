@@ -67,7 +67,7 @@ Character.prototype.update = function(dt)
 
 	var fallsThrough = false;
 
-	console.log(this.state)
+	//console.log(this.state)
 
 	if (this.state === this.STATE_STANDING ||
 		this.state === this.STATE_RUNNING  ||
@@ -293,7 +293,7 @@ Character.prototype.resolveCollision = function(collisionCode) {
 			this.velX = 0;
 		}
 
-		if (collisionCode === this.BOTTOM_COLLISION) g_audio.coll.Play();
+		if (collisionCode === this.BOTTOM_COLLISION){} //g_audio.coll.Play();
 
 	} else if (collisionCode === this.SIDE_COLLISION) {
 		this.velX = 0;

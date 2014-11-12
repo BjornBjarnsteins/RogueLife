@@ -35,8 +35,6 @@ _projectiles : [],
 _walls       : [],
 _spikes		 : [],
 _spikestrap  : [],
-_ground 	 : [],
-_blank 		 : [],
 
 weapon : null,
 
@@ -81,7 +79,7 @@ KILL_ME_NOW : -1,
 //
 deferredSetup : function () {
 
-    this._categories = [this._platforms, this._walls, this._characters, this._projectiles, this._spikes, this._spikestrap, this._ground, this._blank];
+    this._categories = [this._platforms, this._walls, this._characters, this._projectiles, this._spikes, this._spikestrap];
 },
 
 init: function() {
@@ -141,19 +139,6 @@ _makeSpikeTrap : function  (descr, roomID) {
 	return newSpiketrap;
 },
 
-_makeGround : function  (descr, roomID) {
-	var newGround = new Ground(descr);
-	if (!this._ground[roomID]) this._ground[roomID] = [newGround];
-	else this._ground[roomID].push(newGround);
-	return newGround;
-},
-
-_makeBlank : function  (descr, roomID) {
-	var newBlank = new Blank(descr);
-	if (!this._blank[roomID]) this._blank[roomID] = [newBlank];
-	else this._blank[roomID].push(newBlank);
-	return newBlank;
-},
 
 
 _generateProjectile : function (descr, roomID) {

@@ -111,34 +111,12 @@ Room.prototype.insertSpikeTrapInTile = function (row, col) {
 												   cy : row*this.tileHeight + this.tileHeight/2,
 
 												   halfHeight : this.tileHeight/2,
-												   halfWidth  : this.tileWidth/2},
+												   halfWidth  : this.tileWidth/2,
+												   trap 	  : false	},
 
 												 this._roomID);
 };
 
-Room.prototype.insertGroundInTile = function (row, col) {
-	if (this.grid[row][col]) return;
-
-	this.grid[row][col] = entityManager._makeGround({cx : col*this.tileWidth + this.tileWidth/2,
-												   cy : row*this.tileHeight + this.tileHeight/2,
-
-												   halfHeight : this.tileHeight/2,
-												   halfWidth  : this.tileWidth/2},
-
-												 this._roomID);
-};
-
-Room.prototype.insertBlankInTile = function (row, col) {
-	if (this.grid[row][col]) return;
-
-	this.grid[row][col] = entityManager._makeBlank({cx : col*this.tileWidth + this.tileWidth/2,
-												   cy : row*this.tileHeight + this.tileHeight/2,
-
-												   halfHeight : this.tileHeight/2,
-												   halfWidth  : this.tileWidth/2},
-
-												 this._roomID);
-};
 
 Room.prototype.emptyTile = function (row, col) {
 	entityManager._removeWall(this.grid[row][col], this._roomID);

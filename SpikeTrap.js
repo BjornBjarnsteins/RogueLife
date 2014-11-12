@@ -9,11 +9,14 @@ SpikeTrap.prototype.halfHeight = 150;
 SpikeTrap.prototype.trap = false;
 SpikeTrap.prototype.timeActive = 0;
 SpikeTrap.prototype.offset = 0;
+SpikeTrap.prototype.isActive = false;
 
 SpikeTrap.prototype.activateTrap = function(){
 	
-	this.trap = true;
-	this.timeActive = 0.4*SECS_TO_NOMINALS;
+	if(!this.isActive){
+		this.timeActive = 0.8*SECS_TO_NOMINALS;
+		this.isActive = true
+	}
 };
 
 SpikeTrap.prototype.render = function(ctx){
@@ -56,43 +59,58 @@ SpikeTrap.prototype.update = function(du){
 	}else{
 		this.timeActive = 0;
 		this.trap = false;
+		this.isActive = false;
 	}
-	this.offset = 2*this.timeActive;
+	if(this.timeActive < (0.5*SECS_TO_NOMINALS) && this.isActive){
+		this.trap = true;
+
+	}
+	if(this.timeActive  < (0.4*SECS_TO_NOMINALS) ){
+		this.offset = 2*this.timeActive;
+	}else{
+		this.offset = 10;
+	}
 	return;
 };
 
 SpikeTrap.prototype.collidesWith = function(entity, oldX, oldY, nextX, nextY){
 
-	var entUpperBound = nextY - entity.halfHeight;
-	var entLowerBound = nextY + entity.halfHeight;
-	var entRightBound = nextX + entity.halfWidth;
-	var entLeftBound  = nextX - entity.halfWidth;
+	
+		var entUpperBound = nextY - entity.halfHeight;
+		var entLowerBound = nextY + entity.halfHeight;
+		var entRightBound = nextX + entity.halfWidth;
+		var entLeftBound  = nextX - entity.halfWidth;
 
-	if (entLeftBound  <= this.getRightBound() &&
-		entRightBound >= this.getLeftBound()) {
-		if (entLowerBound >= this.getUpperBound() &&
-			entUpperBound <= this.getLowerBound()) {
-			// checks for collision details
+		if (entLeftBound  <= this.getRightBound() &&
+			entRightBound >= this.getLeftBound()) {
+			if (entLowerBound >= this.getUpperBound() &&
+				entUpperBound <= this.getLowerBound()) {
+				// checks for collision details
 
-			if (entity.getLowerBound() <= this.getUpperBound()) {
+				if (entity.getLowerBound() <= this.getUpperBound()) {
 
-				this.activateTrap();
-				entity.takeDamage(10);
-				entity.cy -=25;
-				return -1;
+					this.activateTrap();
+					console.log(this.trap)
+					if(this.trap){
+						entity.takeDamage(10);
+						entity.cy -=25;
+						return -1;
+					}else{
+						return entity.BOTTOM_COLLISION;
+					}
 
-			} else if (oldX < this.cx){
-				this.stopMe(entity, -1);
-			} else {
-				this.stopMe(entity, 1);
+				} else if (oldX < this.cx){
+					this.stopMe(entity, -1);
+				} else {
+					this.stopMe(entity, 1);
+				}
+
+				return entity.SIDE_COLLISION;
 			}
-
-			return entity.SIDE_COLLISION;
 		}
-	}
 
-	return false;
-
+		return false;
+	
 };
 
 SpikeTrap.prototype.stopMe = function (entity, side){

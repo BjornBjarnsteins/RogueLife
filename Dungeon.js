@@ -198,8 +198,8 @@ var dungeon = {
 
 		if (eatKey(this.KEY_SHOW_FULL_MAP)) this._showFullMap = !this._showFullMap;
 
-		console.log("showFullMap: " + this._showFullMap);
-		console.log("showMap: " + this._showMap);
+		//console.log("showFullMap: " + this._showFullMap);
+		//console.log("showMap: " + this._showMap);
 	},
 
 	mapHeight : g_canvas.height*0.5,

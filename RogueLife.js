@@ -45,6 +45,8 @@ function updateSimulation(du) {
 	HUD.update(du);
 
 	dungeon.update(du);
+	
+	g_audio.soundtrack.soundtrackPlay();
 }
 
 // GAME-SPECIFIC DIAGNOSTICS

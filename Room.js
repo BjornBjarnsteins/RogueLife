@@ -260,6 +260,11 @@ Room.prototype.getObstaclesInRange = function (entity) {
 	return entitiesInRange;
 };
 
+Room.prototype.outSide = function(){
+
+	
+}
+
 Room.prototype.enter = function (character) {
 	if (!this.isSetup) this.interiorDesign(this.scheme);
 

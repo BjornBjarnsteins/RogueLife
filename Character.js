@@ -166,7 +166,6 @@ Character.prototype.update = function(dt)
 			this.prevState = this.state;
 			
 			this.state = this.STATE_ATTACKING;
-			console.log("here") 
 			
 		} 
 	} else if (this.state === this.STATE_JUMPING ) {
@@ -279,7 +278,7 @@ Character.prototype.update = function(dt)
 	
 	if (this.life < 0) {
 		g_audio.placeholder.Play();
-		return -1;
+		return -2;
 	}
 
 	spatialManager.register(this);

@@ -396,6 +396,7 @@ Character.prototype.render = function (ctx)
 
 
     	g_sprites.walk[index].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
+    	if (index === 1) g_audio.walk.Play();
 
 	}
 	else if(this.state === this.STATE_ATTACKING)

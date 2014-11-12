@@ -15,8 +15,8 @@ var dungeon = {
 	},
 
 	init : function () {
-		this.currentPosX = 5;
-		this.currentPosY = 5;
+		this.currentPosX = 0;
+		this.currentPosY = 0;
 		this.initializeDungeonGrid();
 		this._currentRoom = this.grid[this.currentPosX][this.currentPosY];
 		this._currentRoom.isVisited = true;

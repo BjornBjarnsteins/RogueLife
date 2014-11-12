@@ -43,7 +43,7 @@ SpikeTrap.prototype.render = function(ctx){
 	var y = this.cy+1;
 
 	g_sprites.Trap.drawWall(ctx, image, sx, sy, x, y, height, width);
-	
+
 
 	ctx.restore();
 

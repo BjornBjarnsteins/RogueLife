@@ -119,7 +119,9 @@ function requestPreloads() {
       dagger      : "sprites/dagger.png",
       character   : "sprites/rogueLife.PNG",
       wall        : "sprites/penis.png",
-      Trap        : "sprites/midgetcowboys.png"
+      Trap        : "sprites/midgetcowboys.png",
+      Background  : "sprites/interior.png",
+      Platform    : "sprites/platform.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -234,6 +236,26 @@ function preloadDone() {
 
 
     g_sprites.Trap = new Sprite(constructorObjects);
+
+    //Background
+    var constructorObjects = {image : g_images.Background,
+                              sx    : 0,
+                              sy    : 0,
+                              Width : 750,
+                              Height : 500}
+
+
+    g_sprites.Background = new Sprite(constructorObjects);
+
+    //Platform
+    var constructorObjects = {image : g_images.Platform,
+                              sx    : 0,
+                              sy    : 0,
+                              Width : 50,
+                              Height : 20}
+
+
+    g_sprites.Platform = new Sprite(constructorObjects);
 
     //creates initial objects
 	dungeon.init();

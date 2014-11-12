@@ -277,7 +277,7 @@ Character.prototype.update = function(dt)
 	else this.energy = 100;
 	
 	if (this.life < 0) {
-		//g_audio.placeholder.Play();
+		g_audio.placeholder.Play();
 		return -1;
 	}
 

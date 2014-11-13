@@ -91,7 +91,7 @@ Character.prototype.update = function(dt)
 			if(this.state !== this.STATE_RUNNING){
 				this.movedFrom = this.cx;
 			}
-			this.cx -=5;
+			this.cx -=dt*5;
 			this.direction = -1;
 
 			if(this.state !== this.STATE_FALLING ){
@@ -108,7 +108,7 @@ Character.prototype.update = function(dt)
 			if(this.state !== this.STATE_RUNNING){
 				this.movedFrom = this.cx;
 			}
-			this.cx +=5;
+			this.cx +=dt*5;
 			this.direction = 1;
 
 			if(this.state !== this.STATE_FALLING ){
@@ -183,13 +183,13 @@ Character.prototype.update = function(dt)
 
 		if(keys[this.KEY_LEFT])
 		{
-			this.cx -=5;
+			this.cx -=dt*5;
 			this.direction = -1;
 		}
 
 		if(keys[this.KEY_RIGHT])
 		{
-			this.cx +=5;
+			this.cx +=dt*5;
 			this.direction = 1;
 		}
 

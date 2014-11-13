@@ -63,6 +63,8 @@ Entity.prototype.getSpatialID = function () {
     return this._spatialID;
 };
 
+Entity.prototype._isDeadNow = false;
+
 Entity.prototype.kill = function () {
     this._isDeadNow = true;
 };
@@ -135,3 +137,4 @@ Entity.prototype.getLeftBound = function() {
 Entity.prototype.TOP_COLLISION = 1;
 Entity.prototype.SIDE_COLLISION = 2;
 Entity.prototype.BOTTOM_COLLISION = 3;
+Entity.prototype.KILL_ME_NOW = -1;

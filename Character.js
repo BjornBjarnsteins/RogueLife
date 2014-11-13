@@ -239,9 +239,11 @@ Character.prototype.update = function(dt)
 	var collisionCode = -1;
 
 	for (var i = 0; i < hitObstacles.length; i++) {
-		collisionCode = util.maybeCall(hitObstacles[i].collidesWith,
+		if(!hitObstacles[i]._isDeadNow){
+			collisionCode = util.maybeCall(hitObstacles[i].collidesWith,
 									   hitObstacles[i],
 									   [this, oldX, oldY, nextX, nextY, fallsThrough]);
+		}
 
 		this.resolveCollision(collisionCode);
 		if(collisionCode === -1){break;}

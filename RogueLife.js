@@ -141,7 +141,8 @@ function requestPreloads() {
       Background  : "sprites/interior.png",
       Platform    : "sprites/platform.png",
       Ground      : "sprites/Ground.png",
-      outSide     : "sprites/outSide.png"
+      outSide     : "sprites/outSide.png",
+      Chest       : "sprites/Chest.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -246,6 +247,16 @@ function preloadDone() {
 
 
     g_sprites.wall = new Sprite(constructorObjects);
+
+    //Chest
+    var constructorObjects = {image : g_images.Chest,
+                              sx    : 0,
+                              sy    : 0,
+                              Width : 200,
+                              Height : 100}
+
+
+    g_sprites.Chest = new Sprite(constructorObjects);
 
      //SpikeTrap
     var constructorObjects = {image : g_images.Trap,

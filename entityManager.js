@@ -36,6 +36,7 @@ _walls       : [],
 _spikes		 : [],
 _spikestrap  : [],
 _powerups	 : [],
+_chests		 : [],
 
 weapon : null,
 
@@ -80,7 +81,15 @@ KILL_ME_NOW : -1,
 //
 deferredSetup : function () {
 
-    this._categories = [this._platforms, this._walls, this._characters, this._projectiles, this._spikes, this._spikestrap, this._powerups];
+    this._categories = [this._platforms,
+    					this._walls, 
+    					this._characters, 
+    					this._projectiles, 
+    					this._spikes, 
+    					this._spikestrap, 
+    					this._powerups, 
+    					this._chests
+    					];
 },
 
 init: function() {
@@ -161,6 +170,15 @@ _spawnPowerup : function (descr, roomID) {
 	if (!this._powerups[roomID]) this._powerups[roomID] = [newPowerUp];
 	else this._powerups[roomID].push(newPowerUp);
 	return newPowerUp;
+},
+
+_spawnChest : function (descr, roomID) {
+
+	console.log("here");
+	var newChest = new Chest(descr);
+	if (!this._chests[roomID]) this._chests[roomID] = [newChest];
+	else this._chests[roomID].push(newChest);
+	return newChest;
 },
 
 // Cleanup stuff

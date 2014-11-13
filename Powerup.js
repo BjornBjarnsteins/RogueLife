@@ -3,7 +3,8 @@ Powerup = function (descr) {
 };
 
 Powerup.prototype = new Entity();
-Powerup.prototype.radius = 10;
+Powerup.prototype.halfHeight = 10;
+Powerup.prototype.halfWidth = 10;
 Powerup.prototype.velX = 0;
 Powerup.prototype.velY = 7;
 
@@ -28,8 +29,6 @@ Powerup.prototype.update = function (du) {
 									   hitObstacles[i],
 									   [this, oldX, oldY, nextX, nextY, false]);
 
-		console.log(collisionCode);
-
 		this.resolveCollision(collisionCode);
 	}
 
@@ -40,7 +39,15 @@ Powerup.prototype.update = function (du) {
 Powerup.prototype.resolveCollision = function(collisionCode) {
 	if (collisionCode === this.TOP_COLLISION ||
 	    collisionCode === this.BOTTOM_COLLISION) {
-		this.velY = 0;
+		this.velY = -this.velY*0.5;
+
+		if (Math.abs(this.velY) < 1) {
+			this.velY = 0;
+			this.landOn = function (surfaceY) {
+				this.cy = surfaceY - this.halfHeight;
+			};
+		}
+
 		this.aveVelY = 0;
 	} else if (collisionCode === this.SIDE_COLLISION) {
 		this.velX = 0;
@@ -49,8 +56,7 @@ Powerup.prototype.resolveCollision = function(collisionCode) {
 };
 
 Powerup.prototype.render = function (ctx) {
-	console.log("rendering powerup");
 	// placeholder
 	// við viljum hafa sprites
-	util.fillCircle(ctx, this.cx, this.cy, this.radius, "red");
+	util.fillCircle(ctx, this.cx, this.cy, this.halfWidth, "red");
 };

@@ -44,18 +44,22 @@ Wall.prototype.render = function(ctx){
 	}else{
 		return;
 	}
-	
+
 	ctx.restore();
 };
 
 
 Wall.prototype.groundMe = function (entity){
-	entity.landOn(this.getUpperBound());
+	util.maybeCall(entity.landOn,
+				   entity,
+				   [this.getUpperBound()]);
 };
 
 // side is the side of the wall to which entity should snap, -1 for left, 1 for right
 Wall.prototype.stopMe = function (entity, side){
-	entity.snapTo(this.cx + side*(this.halfWidth + entity.halfWidth + 5), entity.cy);
+	util.maybeCall(entity.snapTo,
+				   entity,
+				   [this.cx + side*(this.halfWidth + entity.halfWidth + 5), entity.cy]);
 };
 
 // Assumes entity is within the bounding circle

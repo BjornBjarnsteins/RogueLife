@@ -35,6 +35,7 @@ _projectiles : [],
 _walls       : [],
 _spikes		 : [],
 _spikestrap  : [],
+_powerups	 : [],
 
 weapon : null,
 
@@ -79,7 +80,7 @@ KILL_ME_NOW : -1,
 //
 deferredSetup : function () {
 
-    this._categories = [this._platforms, this._walls, this._characters, this._projectiles, this._spikes, this._spikestrap];
+    this._categories = [this._platforms, this._walls, this._characters, this._projectiles, this._spikes, this._spikestrap, this._powerups];
 },
 
 init: function() {
@@ -103,6 +104,8 @@ init: function() {
 _getPlayer : function () {
 	return this._characters[this._currentRoomID][0];
 },
+
+// Generators
 
 _spawnPlayer : function(descr, roomID) {
 	var newCharacter = new Character(descr);
@@ -139,7 +142,7 @@ _makeSpikeTrap : function  (descr, roomID) {
 	return newSpiketrap;
 },
 
-
+// Projectile stuff
 
 _generateProjectile : function (descr, roomID) {
 	var newProjectile = new Projectile(descr);
@@ -148,6 +151,19 @@ _generateProjectile : function (descr, roomID) {
 
 	return newProjectile;
 },
+
+// Powerup stuff
+
+KEY_SPAWN_POWERUP : keyCode("C"),
+
+_spawnPowerup : function (descr, roomID) {
+	var newPowerUp = new Powerup(descr);
+	if (!this._powerups[roomID]) this._powerups[roomID] = [newPowerUp];
+	else this._powerups[roomID].push(newPowerUp);
+	return newPowerUp;
+},
+
+// Cleanup stuff
 
 _removeWall : function (wall, roomID) {
 	var index = -1;
@@ -186,6 +202,8 @@ update: function(du) {
 	if (eatKey(this.KEY_NAV_DOWN)) this._currentRoomID = dungeon.grid[this.dungeonX][--this.dungeonY].getRoomID();
 	if (eatKey(this.KEY_NAV_LEFT)) this._currentRoomID = dungeon.grid[--this.dungeonX][this.dungeonY].getRoomID();
 	if (eatKey(this.KEY_NAV_RIGHT)) this._currentRoomID = dungeon.grid[++this.dungeonX][this.dungeonY].getRoomID();
+	if (eatKey(this.KEY_SPAWN_POWERUP)) this._spawnPowerup({cx : g_mouseX,
+															cy : g_mouseY}, this._currentRoomID)
 
     for (var c = 0; c < this._categories.length; ++c) {
 

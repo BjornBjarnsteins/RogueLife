@@ -71,7 +71,7 @@ Entity.prototype.findHitEntity = function () {
     var pos = this.getPos();
 
     var entity = spatialManager.findEntityInRange( pos.posX, pos.posY, this.getRadius());
-    console.log(entity);
+    //console.log(entity);
 
     return spatialManager.findEntityInRange(
         pos.posX, pos.posY, this.getRadius()
@@ -87,6 +87,33 @@ Entity.prototype.isColliding = function () {
 Entity.prototype.wrapPosition = function () {
     this.cx = util.wrapRange(this.cx, 0, g_canvas.width);
     this.cy = util.wrapRange(this.cy, 0, g_canvas.height);
+};
+
+Entity.prototype.computeGravity = function()
+{
+    //placeholder
+    //may be permanent
+    return 1.2;
+};
+
+Entity.prototype.applyAccel = function(accelX,accelY,dt)
+{
+
+
+    // u = original velocity
+    var oldVelX = this.velX;
+    var oldVelY = this.velY;
+
+    // v = u + at
+    this.velX += accelX * dt;
+    this.velY += accelY * dt;
+
+    // v_ave = (u + v) / 2
+	this.aveVelX = (oldVelX + this.velX) / 2;
+	this.aveVelY = (oldVelY + this.velY) / 2;
+
+
+
 };
 
 Entity.prototype.getUpperBound = function() {

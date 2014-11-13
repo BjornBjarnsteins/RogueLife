@@ -55,7 +55,7 @@ Character.prototype.KEY_DASH_LEFT = "Q".charCodeAt(0);
 //TODO:Images and sounds for character
 
 Character.prototype.update = function(dt)
-{	
+{
 
     spatialManager.unregister(this);
     //Gravity computation should probably be moved
@@ -72,7 +72,7 @@ Character.prototype.update = function(dt)
 
 	if (this.state === this.STATE_STANDING ||
 		this.state === this.STATE_RUNNING  ||
-		this.state === this.STATE_FALLING  
+		this.state === this.STATE_FALLING
 	    ) {
 
 
@@ -163,19 +163,19 @@ Character.prototype.update = function(dt)
 
 		var isAttacking = entityManager.weapon.isAttacking();
 		if(isAttacking){
-			
+
 			this.prevState = this.state;
-			
+
 			this.state = this.STATE_ATTACKING;
-			
-		} 
+
+		}
 	} else if (this.state === this.STATE_JUMPING ) {
 
 		if(!entityManager.weapon.isAttacking){
 
 			this.prevState = this.state;
 			this.state = this.STATE_ATTACKING;
-		} 
+		}
 
 		if (!keys[this.KEY_UP]) {
 			this.stopJumping();
@@ -217,10 +217,10 @@ Character.prototype.update = function(dt)
 
 		var isAttacking = entityManager.weapon.isAttacking();
 		if(!isAttacking){
-			
+
 			this.state = this.prevState;
 
-		} 
+		}
 
 
 	}
@@ -276,7 +276,7 @@ Character.prototype.update = function(dt)
 
 	if (this.energy < 100) this.energy += dt/2;
 	else this.energy = 100;
-	
+
 	if (this.life < 0) {
 		g_audio.placeholder.Play();
 		return -2;
@@ -309,33 +309,6 @@ Character.prototype.resolveCollision = function(collisionCode) {
 Character.prototype.hasJumpsLeft = function()
 {
      return this.jumpsLeft !== 0;
-};
-
-Character.prototype.computeGravity = function()
-{
-    //placeholder
-    //may be permanent
-    return 1.2;
-};
-
-Character.prototype.applyAccel = function(accelX,accelY,dt)
-{
-
-
-    // u = original velocity
-    var oldVelX = this.velX;
-    var oldVelY = this.velY;
-
-    // v = u + at
-    this.velX += accelX * dt;
-    this.velY += accelY * dt;
-
-    // v_ave = (u + v) / 2
-	this.aveVelX = (oldVelX + this.velX) / 2;
-	this.aveVelY = (oldVelY + this.velY) / 2;
-
-
-
 };
 
 Character.prototype.clampToBounds = function()
@@ -467,7 +440,7 @@ Character.prototype.render = function (ctx)
 
 	if (this.weapon) this.weapon.render(ctx);
 
-	
+
 
 };
 
@@ -565,17 +538,17 @@ Character.prototype.getRadius = function() {
 };
 
 Character.prototype.takeDamage = function(amount){
-	
+
 	if (this.life > 0) {
 		this.life = this.life - amount;
 		this.cy -= 25;
-		
+
 		g_audio.dmg.Play();
 		}
-		
-	
-	
-	
+
+
+
+
 	//else this.death();
 
 };

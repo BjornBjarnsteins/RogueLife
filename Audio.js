@@ -2,9 +2,9 @@
 
 // HOW TO INSERT AND USE AUDIO
 //		- insert into 'requiredSounds':
-//			
+//
 //			nameOfSound  :  "path/nameOfFile.ogg"
-//		
+//
 //
 //		- Put anywhere in the code:
 //
@@ -25,7 +25,7 @@ function Sound( audio ){
 }
 
 
-//count cloneNodes, to avoid too many. 
+//count cloneNodes, to avoid too many.
 Sound.prototype.cloneNodes = 0;
 
 //scale from 0.0 to 1.0
@@ -33,7 +33,7 @@ Sound.prototype.volume    = 0.1;
 
 
 Sound.prototype.soundVolume = function( volume ){
-	
+
 	this.volume = volume;
 };
 
@@ -43,31 +43,31 @@ Sound.prototype.soundVolume = function( volume ){
 
 Sound.prototype.Play = function (){
 	if (!g_mute) {
-	
+
 	//For longer sounds (til notkunar fyrir lúppuð hljóð seinna meir)
-		
+
 	/*
 	if(this.sound.currentTime > 0 && this.cloneNodes < 4)
 	{
 		this.cloneNodes++;
 		this.sound.cloneNode().play();
-	} 
+	}
 	else
 	{
 		this.cloneNodes = 0;
 		this.playSound();
 	}
 	*/
-	
+
 	this.sound.cloneNode().play();
-	
+
 	}
 }
 
 Sound.prototype.soundtrackPlay = function () {
 
 	this.sound.play();
-	
+
 }
 
 
@@ -105,7 +105,7 @@ Sound.prototype.reset = function (){
 //	AUDIO INPUTS
 //
 var requiredSounds = {
-	
+
 	placeholder	: "sounds/placeholder.mp3",
 	knifethrow  : "sounds/Woosh.mp3",
 	swordshit	: "sounds/Sword.mp3",
@@ -115,8 +115,9 @@ var requiredSounds = {
 	coll		: "sounds/collision.mp3",
 	dmg			: "sounds/pain.mp3",
 	walk		: "sounds/coolguy.mp3",
-	soundtrack	: "sounds/soundtrack.mp3"
-   
+	soundtrack	: "sounds/soundtrack.mp3",
+	soundtrack2 : "sounds/intenseSoundtrack.mp3"
+
 };
 
 
@@ -132,7 +133,7 @@ function preLoadAudio() {
 var g_audio   = [];
 
 function audioPreloadDone() {
-	
+
 	for(var sound in g_sounds) {
 		g_audio[sound] = new Sound(g_sounds[sound]);
 	}

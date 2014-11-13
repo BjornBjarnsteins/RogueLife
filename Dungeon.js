@@ -225,7 +225,7 @@ var dungeon = {
 		ctx.save();
 
 		// semitransparent overlay
-		ctx.globalAlpha = 0.5;
+		ctx.globalAlpha = 0.25;
 		util.fillBox(ctx, 0, 0, g_canvas.width, g_canvas.height, "black");
 
 		var gap = this.mapCellSpacing - this.mapCellSize;

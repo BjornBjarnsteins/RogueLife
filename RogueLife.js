@@ -45,8 +45,14 @@ function updateSimulation(du) {
 	HUD.update(du);
 
 	dungeon.update(du);
-	
-	g_audio.soundtrack.soundtrackPlay();
+
+	if (entityManager._getPlayer().life > 20) {
+		g_audio.soundtrack2.sound.pause();
+		g_audio.soundtrack.soundtrackPlay();
+	} else {
+		g_audio.soundtrack.sound.pause();
+		g_audio.soundtrack2.soundtrackPlay();
+	}
 }
 
 // GAME-SPECIFIC DIAGNOSTICS

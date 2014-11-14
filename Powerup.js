@@ -12,7 +12,7 @@ Powerup.prototype.velY = 1;
 
 Powerup.prototype.takeDamage = function(a){
 	return;
-}
+};
 
 Powerup.prototype.update = function (du) {
 	spatialManager.unregister(this);
@@ -89,7 +89,9 @@ Powerup.prototype.randomizeEffect = function () {
 	var isPermanent = Math.floor(Math.random()*2);
 
 	if (isPermanent) {
-		var seed = Math.floor(Math.random()*this.permanentEffects.length)
+		var seed = Math.floor(Math.random()*this.permanentEffects.length);
+
+		console.log(seed);
 
 		this.effect = this.permanentEffects[seed].effect;
 
@@ -98,13 +100,21 @@ Powerup.prototype.randomizeEffect = function () {
 		} else {
 			this.sprite = g_sprites.unknownEffect;
 		}
+
+		console.log(this.effect);
+		console.log(this.sprite);
+	} else {
+		this.effect = function () { console.log("temporary"); };
+
+		this.sprite = g_sprites.unknownEffect;
 	}
 };
 
 Powerup.prototype.render = function (ctx) {
-	// placeholder
-	// við viljum hafa sprites
-	//util.fillCircle(ctx, this.cx, this.cy, this.halfWidth, "red");
-
-	this.sprite.drawCentredAt(ctx, this.cx, this.cy, 0);
+	console.log("("+this.cx+","+this.cy+")");
+	if (this.sprite) {
+		this.sprite.drawCentredAt(ctx, this.cx, this.cy, 0);
+	} else {
+		util.fillCircle(ctx, this.cx, this.cy, this.halfWidth, "red");
+	}
 };

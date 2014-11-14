@@ -311,8 +311,6 @@ Character.prototype.update = function(dt)
 	spatialManager.register(this);
 	if (this.weapon) this.weapon.update(dt, this);
 
-	console.log(this.energyRegen);
-
 	if (this.energy < 100) this.energy += dt * this.energyRegen;
 	else this.energy = 100;
 

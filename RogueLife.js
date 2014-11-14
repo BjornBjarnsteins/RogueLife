@@ -315,8 +315,8 @@ function preloadDone() {
     var constructorObjects = {image : g_images.xEffect,
                               sx    : 0,
                               sy    : 0,
-                              Width : 10,
-                              Height : 10}
+                              Width : 20,
+                              Height : 20}
 
 
     g_sprites.unknownEffect = new Sprite(constructorObjects);

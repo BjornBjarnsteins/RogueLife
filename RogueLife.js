@@ -46,7 +46,7 @@ function updateSimulation(du) {
 
 	dungeon.update(du);
 
-	if (!g_musicmute) {	
+	if (!g_musicmute) {
 		if (entityManager._getPlayer().life > 20) {
 			g_audio.soundtrack2.sound.pause();
 			g_audio.soundtrack.soundtrackPlay();
@@ -91,7 +91,7 @@ function processDiagnostics() {
 	if (eatKey(KEY_GRID_TOGGLE)) g_toggleGrid = !g_toggleGrid;
 
 	if (eatKey(KEY_MUTE_TOGGLE)) g_mute = !g_mute;
-	
+
 	if (eatKey(KEY_MUSICMUTE_TOGGLE)) g_musicmute = !g_musicmute;
 }
 
@@ -142,7 +142,8 @@ function requestPreloads() {
       Platform    : "sprites/platform.png",
       Ground      : "sprites/Ground.png",
       outSide     : "sprites/outSide.png",
-      Chest       : "sprites/Chest.png"
+      Chest       : "sprites/Chest.png",
+	  xEffect	  : "sprites/questionmark.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -308,6 +309,17 @@ function preloadDone() {
 
 
     g_sprites.Ground = new Sprite(constructorObjects);
+
+	// Powerups
+	// Unknown powerup
+    var constructorObjects = {image : g_images.xEffect,
+                              sx    : 0,
+                              sy    : 0,
+                              Width : 10,
+                              Height : 10}
+
+
+    g_sprites.unknownEffect = new Sprite(constructorObjects);
 
     //creates initial objects
 	dungeon.init();

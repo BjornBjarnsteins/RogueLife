@@ -68,24 +68,43 @@ Powerup.prototype.resolveCollision = function(collisionCode) {
 Powerup.prototype.resolveEffect = function (player) {
 	this.effect(player);
 	entityManager._removePowerup(this, entityManager._currentRoomID);
+	spatialManager.unregister(this);
 };
 
 Powerup.prototype.permanentEffects = [
-	function (player) {
-		player.life += 10;
+	{effect : function (player) {
+			console.log("+10 hp");
+			player.life += 10;
+		}
 	},
 
-	function (player) {
-		player.energyRegen += 5;
+	{effect : function (player) {
+			console.log("+5 energy regen");
+			player.energyRegen += 5;
+		}
 	}
 	];
 
 Powerup.prototype.randomizeEffect = function () {
-	this.effect = function () { console.log("picking up powerup") };
+	var isPermanent = Math.floor(Math.random()*2);
+
+	if (isPermanent) {
+		var seed = Math.floor(Math.random()*this.permanentEffects.length)
+
+		this.effect = this.permanentEffects[seed].effect;
+
+		if (this.permanentEffects[seed].sprite) {
+			this.sprite = this.permanentEffects[seed].sprite;
+		} else {
+			this.sprite = g_sprites.unknownEffect;
+		}
+	}
 };
 
 Powerup.prototype.render = function (ctx) {
 	// placeholder
 	// við viljum hafa sprites
-	util.fillCircle(ctx, this.cx, this.cy, this.halfWidth, "red");
+	//util.fillCircle(ctx, this.cx, this.cy, this.halfWidth, "red");
+
+	this.sprite.drawCentredAt(ctx, this.cx, this.cy, 0);
 };

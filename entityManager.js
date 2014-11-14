@@ -46,7 +46,7 @@ _currentRoomID : null,
 _oldRoomID : 1,
 
 setRoom : function (room) {
-	
+
 
 	this._currentRoomID = room.getRoomID();
 	console.log(this._oldRoomID, this._currentRoomID)

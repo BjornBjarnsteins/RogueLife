@@ -5,7 +5,8 @@ Powerup = function (descr) {
 Powerup.prototype = new Entity();
 Powerup.prototype.halfHeight = 10;
 Powerup.prototype.halfWidth = 10;
-Powerup.prototype.velY = 7;
+Powerup.prototype.velX = 0;
+Powerup.prototype.velY = 1;
 
 Powerup.prototype.update = function (du) {
 	var accelX = 0;
@@ -24,11 +25,10 @@ Powerup.prototype.update = function (du) {
 	var collisionCode = -1;
 
 	for (var i = 0; i < hitObstacles.length; i++) {
-		if(!hitObstacles[i]._isDeadNow){
-			collisionCode = util.maybeCall(hitObstacles[i].collidesWith,
+		collisionCode = util.maybeCall(hitObstacles[i].collidesWith,
 									   hitObstacles[i],
 									   [this, oldX, oldY, nextX, nextY, false]);
-		}
+
 		this.resolveCollision(collisionCode);
 	}
 

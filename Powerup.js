@@ -10,6 +10,10 @@ Powerup.prototype.halfWidth = 10;
 Powerup.prototype.velX = 0;
 Powerup.prototype.velY = 1;
 
+Powerup.prototype.takeDamage = function(a){
+	return;
+}
+
 Powerup.prototype.update = function (du) {
 	spatialManager.unregister(this);
 

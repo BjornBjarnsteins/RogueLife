@@ -43,7 +43,7 @@ Powerup.prototype.update = function (du) {
 	this.cx += this.aveVelX * du;
 	this.cy += this.aveVelY * du;
 
-	spatialManager.register(this)
+	spatialManager.register(this);
 };
 
 Powerup.prototype.resolveCollision = function(collisionCode) {
@@ -74,6 +74,7 @@ Powerup.prototype.resolveEffect = function (player) {
 Powerup.prototype.permanentEffects = [
 	{effect : function (player) {
 			console.log("+10 hp");
+			player.maxLife += 10;
 			player.life += 10;
 		}
 	},
@@ -91,7 +92,6 @@ Powerup.prototype.randomizeEffect = function () {
 	if (isPermanent) {
 		var seed = Math.floor(Math.random()*this.permanentEffects.length);
 
-		console.log(seed);
 
 		this.effect = this.permanentEffects[seed].effect;
 
@@ -101,8 +101,6 @@ Powerup.prototype.randomizeEffect = function () {
 			this.sprite = g_sprites.unknownEffect;
 		}
 
-		console.log(this.effect);
-		console.log(this.sprite);
 	} else {
 		this.effect = function () { console.log("temporary"); };
 
@@ -111,7 +109,6 @@ Powerup.prototype.randomizeEffect = function () {
 };
 
 Powerup.prototype.render = function (ctx) {
-	console.log("("+this.cx+","+this.cy+")");
 	if (this.sprite) {
 		this.sprite.drawCentredAt(ctx, this.cx, this.cy, 0);
 	} else {

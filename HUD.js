@@ -4,8 +4,9 @@ var HUD = {
 	KEY_TOGGLE_HUD : keyCode("H"),
 
 	renderLifeBar : function (ctx) {
+		var player = entityManager._getPlayer();
 		util.fillBox(ctx, 788, 558, 204, 19, "black");
-		util.fillBox(ctx, 790, 560, entityManager._getPlayer().life * 2, 15, "red");
+		util.fillBox(ctx, 790, 560, player.life/player.maxLife * 200, 15, "red");
 	},
 
 	renderEnergyBar : function (ctx) {

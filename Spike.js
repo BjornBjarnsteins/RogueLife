@@ -7,6 +7,11 @@ Spike.prototype = new Entity();
 Spike.prototype.halfWidth = 20;
 Spike.prototype.halfHeight = 150;
 
+Spike.prototype.takeDamage = function(a){
+	return;
+}
+
+
 Spike.prototype.render = function(ctx){
 
 	ctx.save();

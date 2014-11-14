@@ -19,6 +19,10 @@ SpikeTrap.prototype.activateTrap = function(){
 	}
 };
 
+SpikeTrap.prototype.takeDamage = function(a){
+	return;
+}
+
 SpikeTrap.prototype.render = function(ctx){
 
 	ctx.save();

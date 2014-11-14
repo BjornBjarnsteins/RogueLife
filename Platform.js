@@ -7,6 +7,9 @@ Platform.prototype = new Entity();
 Platform.prototype.halfWidth = 100;
 Platform.prototype.halfHeight = 10;
 
+Platform.prototype.takeDamage = function(a){
+	return;
+}
 
 
 Platform.prototype.render = function(ctx){

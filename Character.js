@@ -15,6 +15,7 @@ Character.prototype.aveVelY=0;
 Character.prototype.weapon=null;
 Character.prototype.life = 100;
 Character.prototype.energy = 100;
+Character.prototype.ammo = 3;
 
 //Character.prototype.Sprite = g_sprites.walk;
 
@@ -146,7 +147,13 @@ Character.prototype.update = function(dt)
 		}
 
 		if (eatKey(this.KEY_THROW)) {
-			this.throwDagger();
+			if(this.ammo >0){
+				this.throwDagger();
+				if(this.ammo > 0){
+					this.ammo -= 1;
+				}
+			}
+			
 		}
 
 		if (eatKey(this.KEY_DASH_LEFT)) {
@@ -194,7 +201,12 @@ Character.prototype.update = function(dt)
 		}
 
 		if (eatKey(this.KEY_THROW)) {
-			this.throwDagger();
+			if(this.ammo >0){
+				this.throwDagger();
+				if(this.ammo > 0){
+					this.ammo -= 1;
+				}
+			}
 		}
 
 		if (eatKey(this.KEY_DASH_LEFT)) {
@@ -468,7 +480,7 @@ Character.prototype.render = function (ctx)
 };
 
 Character.prototype.throwDagger = function() {
-	entityManager._generateProjectile({cx : this.cx + this.direction*this.halfWidth,
+	entityManager._generateProjectile({cx : this.cx + this.direction*this.halfWidth + this.direction*50,
 								  	   cy : this.cy,
 
 									     velX : 10*this.direction,

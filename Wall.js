@@ -64,6 +64,11 @@ Wall.prototype.stopMe = function (entity, side){
 
 // Assumes entity is within the bounding circle
 Wall.prototype.collidesWith = function (entity, oldX, oldY, nextX, nextY) {
+	
+	if(entity === Projectile){
+
+		console.log("xxx")
+	}
 	var entUpperBound = nextY - entity.halfHeight;
 	var entLowerBound = nextY + entity.halfHeight;
 	var entRightBound = nextX + entity.halfWidth;

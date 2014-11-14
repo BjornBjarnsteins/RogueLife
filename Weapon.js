@@ -45,10 +45,10 @@ Weapon.prototype.update = function(dt, character)
 {   
     if(character){
         if(character.direction === 1){
-            this.cx = character.cx + 72;
+            this.cx = character.cx + 73;
             this.cy = character.cy;
         }else{
-            this.cx = character.cx -72;
+            this.cx = character.cx -73;
             this.cy = character.cy;
         }
 

@@ -42,13 +42,18 @@ weapon : null,
 
 _currentRoomID : null,
 
+_oldRoomID : 1,
+
 setRoom : function (room) {
-	var oldRoomID = this._currentRoomID;
+	
+
 	this._currentRoomID = room.getRoomID();
-	if (this._characters[oldRoomID][0]) {
-		this._characters[this._currentRoomID] = [this._characters[oldRoomID][0]];
-		this._characters[oldRoomID].splice(0, 1);
+	console.log(this._oldRoomID, this._currentRoomID)
+	if (this._characters[this._oldRoomID][0]) {
+		this._characters[this._currentRoomID] = [this._characters[this._oldRoomID][0]];
+		this._characters[this._oldRoomID].splice(0, 1);
 	}
+
 },
 
 KEY_INSERT_WALL : "1".charCodeAt(0),
@@ -174,7 +179,6 @@ _spawnPowerup : function (descr, roomID) {
 
 _spawnChest : function (descr, roomID) {
 
-	console.log("here");
 	var newChest = new Chest(descr);
 	if (!this._chests[roomID]) this._chests[roomID] = [newChest];
 	else this._chests[roomID].push(newChest);
@@ -245,8 +249,36 @@ update: function(du) {
                 ++i;
             }
         }
+
     }
 
+},
+
+CleanSmanager: function(du){
+
+	for (var c = 0; c < this._categories.length; ++c) {
+
+        var aCategory = this._categories[c][this._oldRoomID];
+		if (!aCategory) continue;
+        var i = 0;
+
+		while (i < aCategory.length) {
+            var status = aCategory[i].update(du);
+
+            if (status === this.KILL_ME_NOW) {
+                // remove the dead guy, and shuffle the others down to
+                // prevent a confusing gap from appearing in the array
+
+                aCategory.splice(i,1);
+            }
+            else if(status === -2) {
+            	console.log("here");
+            	//do death stuff
+            }else{
+                ++i;
+            }
+        }
+    }
 },
 
 render: function(ctx) {

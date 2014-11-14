@@ -15,7 +15,11 @@ Chest.prototype.render = function(ctx){
 
 		g_sprites.Chest.drawAt(ctx, x, y);
 
-		ctx.restore();
+		
+		
+
+			ctx.restore();
+		
 }
 
 Chest.prototype.takeDamage = function(amnt){
@@ -33,7 +37,10 @@ Chest.prototype.update = function(dt){
 		return this.KILL_ME_NOW;	
 	} 
 
-	spatialManager.register(this);
+	if(this.roomID === entityManager._currentRoomID){
+		spatialManager.register(this);
+	}
+
 }
 
 Chest.prototype.dropPowerUp = function(){

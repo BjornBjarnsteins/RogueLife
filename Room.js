@@ -108,7 +108,8 @@ Room.prototype.SpawnChest = function (row, col) {
 	if (this.grid[row][col]) return;
 
 	this.grid[row][col] = entityManager._spawnChest({cx : col*this.tileWidth +50,
-												   cy : row*this.tileHeight + this.tileHeight/2},
+												   cy : row*this.tileHeight + this.tileHeight/2,
+													roomID : this._roomID},
 
 												 this._roomID);
 };
@@ -205,8 +206,9 @@ Room.prototype.interiorDesign = function (scheme) {
 				this.insertSpikeTrapInTile(row, col);
 			}
 			if (scheme[row][col] === "C") {
-				if(Math.random() > 0.3 )
-				this.SpawnChest(row, col);
+				if(Math.random() > 0.3 ){
+					this.SpawnChest(row, col);
+				}
 			}
 
 		}

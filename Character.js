@@ -268,10 +268,26 @@ Character.prototype.update = function(dt)
 	}*/
 
 	// Handle room changes
-	if (this.cy < 0) dungeon.goUp(this);
-	else if (this.cy > g_canvas.height) dungeon.goDown(this);
-	else if (this.cx < 0) dungeon.goLeft(this);
-	else if (this.cx > g_canvas.width) dungeon.goRight(this);
+	if (this.cy < 0) {
+		
+		dungeon.goUp(this);
+		entityManager.CleanSmanager(dt);
+	}
+	else if (this.cy > g_canvas.height){
+
+		dungeon.goDown(this);
+		entityManager.CleanSmanager(dt);
+	} 
+	else if (this.cx < 0){
+
+		dungeon.goLeft(this);
+		entityManager.CleanSmanager(dt);
+	} 
+	else if (this.cx > g_canvas.width){
+
+		dungeon.goRight(this);
+		entityManager.CleanSmanager(dt);
+	} 
 
 	spatialManager.register(this);
 	if (this.weapon) this.weapon.update(dt, this);

@@ -14,7 +14,7 @@ SpikeTrap.prototype.isActive = false;
 SpikeTrap.prototype.activateTrap = function(){
 	
 	if(!this.isActive){
-		this.timeActive = 0.8*SECS_TO_NOMINALS;
+		this.timeActive = 0.7*SECS_TO_NOMINALS;
 		this.isActive = true
 	}
 };

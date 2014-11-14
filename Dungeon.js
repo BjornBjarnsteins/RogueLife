@@ -127,6 +127,7 @@ var dungeon = {
 	},
 
 	enterRoom : function (room, character) {
+		
 		this._currentRoom = room;
 		entityManager.setRoom(room);
 		room.enter(character);
@@ -134,21 +135,30 @@ var dungeon = {
 	},
 
 	goUp : function (character) {
+
+		entityManager._oldRoomID = this._currentRoom.getRoomID();
 		this.currentPosY--;
 		this.updatePosition(character);
 	},
 
 	goDown : function (character) {
+
+		entityManager._oldRoomID = this._currentRoom.getRoomID();
 		this.currentPosY++;
 		this.updatePosition(character);
 	},
 
 	goRight : function (character) {
+
+		entityManager._oldRoomID = this._currentRoom.getRoomID();
 		this.currentPosX++;
 		this.updatePosition(character);
 	},
 
 	goLeft : function (character) {
+
+		entityManager._oldRoomID = this._currentRoom.getRoomID();
+		
 		this.currentPosX--;
 		this.updatePosition(character);
 	},

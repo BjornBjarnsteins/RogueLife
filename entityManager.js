@@ -87,12 +87,12 @@ KILL_ME_NOW : -1,
 deferredSetup : function () {
 
     this._categories = [this._platforms,
-    					this._walls, 
-    					this._characters, 
-    					this._projectiles, 
-    					this._spikes, 
-    					this._spikestrap, 
-    					this._powerups, 
+    					this._walls,
+    					this._characters,
+    					this._projectiles,
+    					this._spikes,
+    					this._spikestrap,
+    					this._powerups,
     					this._chests
     					];
 },
@@ -214,6 +214,22 @@ _removePlatform : function (platform, roomID) {
 
 	if (index !== -1) this._platforms[roomID].splice(index, 1);
 },
+
+_removePowerup : function (powerup, roomID) {
+	var index = -1;
+
+	if (!this._powerups[roomID]) return;
+
+	for (var i = 0; i < this._powerups.length; i++) {
+		if (this._powerups[roomID][i] === powerup) {
+			index = i;
+			break;
+		}
+	}
+
+	if (index !== -1) this._powerups[roomID].splice(index, 1);
+},
+
 
 update: function(du) {
 

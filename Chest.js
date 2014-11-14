@@ -31,11 +31,11 @@ Chest.prototype.update = function(dt){
 	spatialManager.unregister(this);
 
 	if(this.Dead){
-		
+
 		this.dropPowerUp();
 		this.kill();
-		return this.KILL_ME_NOW;	
-	} 
+		return this.KILL_ME_NOW;
+	}
 
 	if(this.roomID === entityManager._currentRoomID){
 		spatialManager.register(this);
@@ -54,7 +54,7 @@ Chest.prototype.dropPowerUp = function(){
 	entityManager._spawnPowerup({	cx : this.cx,
 									cy : this.cy,
 									velX : randomxVel,
-									velY : -15}, 
+									velY : -5},
 									entityManager._currentRoomID);
 
 }

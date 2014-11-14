@@ -234,6 +234,11 @@ Character.prototype.update = function(dt)
 
 	var hitEntity = this.findHitEntity();
 
+	// if hitEntity is a powerup, pick it up
+	util.maybeCall(hitEntity.resolveEffect,
+				   hitEntity,
+				   [this]);
+
 	var hitObstacles = dungeon.getCurrentRoom().getObstaclesInRange(this);
 
 	var collisionCode = -1;

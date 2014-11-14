@@ -1,13 +1,18 @@
 Powerup = function (descr) {
 	this.setup(descr);
+
+	this.randomizeEffect();
 };
 
 Powerup.prototype = new Entity();
 Powerup.prototype.halfHeight = 10;
 Powerup.prototype.halfWidth = 10;
-Powerup.prototype.velY = 7;
+Powerup.prototype.velX = 0;
+Powerup.prototype.velY = 1;
 
 Powerup.prototype.update = function (du) {
+	spatialManager.unregister(this);
+
 	var accelX = 0;
 	var accelY = this.computeGravity();
 
@@ -24,16 +29,17 @@ Powerup.prototype.update = function (du) {
 	var collisionCode = -1;
 
 	for (var i = 0; i < hitObstacles.length; i++) {
-		if(!hitObstacles[i]._isDeadNow){
-			collisionCode = util.maybeCall(hitObstacles[i].collidesWith,
+		collisionCode = util.maybeCall(hitObstacles[i].collidesWith,
 									   hitObstacles[i],
 									   [this, oldX, oldY, nextX, nextY, false]);
-		}
+
 		this.resolveCollision(collisionCode);
 	}
 
 	this.cx += this.aveVelX * du;
 	this.cy += this.aveVelY * du;
+
+	spatialManager.register(this)
 };
 
 Powerup.prototype.resolveCollision = function(collisionCode) {
@@ -53,6 +59,15 @@ Powerup.prototype.resolveCollision = function(collisionCode) {
 		this.velX = 0;
 		this.aveVelX = 0;
 	}
+};
+
+Powerup.prototype.resolveEffect = function (player) {
+	this.effect(player);
+	entityManager._removePowerup(this, entityManager._currentRoomID);
+};
+
+Powerup.prototype.randomizeEffect = function () {
+	this.effect = function () { console.log("picking up powerup") };
 };
 
 Powerup.prototype.render = function (ctx) {

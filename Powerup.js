@@ -70,6 +70,16 @@ Powerup.prototype.resolveEffect = function (player) {
 	entityManager._removePowerup(this, entityManager._currentRoomID);
 };
 
+Powerup.prototype.permanentEffects = [
+	function (player) {
+		player.life += 10;
+	},
+
+	function (player) {
+		player.energyRegen += 5;
+	}
+	];
+
 Powerup.prototype.randomizeEffect = function () {
 	this.effect = function () { console.log("picking up powerup") };
 };

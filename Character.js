@@ -13,8 +13,10 @@ Character.prototype.velY=0;
 Character.prototype.aveVelX=0;
 Character.prototype.aveVelY=0;
 Character.prototype.weapon=null;
+Character.prototype.maxLife = 100;
 Character.prototype.life = 100;
 Character.prototype.energy = 100;
+Character.prototype.energyRegen = 20 / SECS_TO_NOMINALS;
 Character.prototype.ammo = 3;
 
 //Character.prototype.Sprite = g_sprites.walk;
@@ -153,7 +155,7 @@ Character.prototype.update = function(dt)
 					this.ammo -= 1;
 				}
 			}
-			
+
 		}
 
 		if (eatKey(this.KEY_DASH_LEFT)) {
@@ -286,7 +288,7 @@ Character.prototype.update = function(dt)
 
 	// Handle room changes
 	if (this.cy < 0) {
-		
+
 		dungeon.goUp(this);
 		entityManager.CleanSmanager(dt);
 	}
@@ -294,22 +296,24 @@ Character.prototype.update = function(dt)
 
 		dungeon.goDown(this);
 		entityManager.CleanSmanager(dt);
-	} 
+	}
 	else if (this.cx < 0){
 
 		dungeon.goLeft(this);
 		entityManager.CleanSmanager(dt);
-	} 
+	}
 	else if (this.cx > g_canvas.width){
 
 		dungeon.goRight(this);
 		entityManager.CleanSmanager(dt);
-	} 
+	}
 
 	spatialManager.register(this);
 	if (this.weapon) this.weapon.update(dt, this);
 
-	if (this.energy < 100) this.energy += dt/2;
+	console.log(this.energyRegen);
+
+	if (this.energy < 100) this.energy += dt * this.energyRegen;
 	else this.energy = 100;
 
 	if (this.life < 0) {

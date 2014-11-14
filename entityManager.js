@@ -37,6 +37,7 @@ _spikes		 : [],
 _spikestrap  : [],
 _powerups	 : [],
 _chests		 : [],
+_door 		 : [],
 
 weapon : null,
 
@@ -93,7 +94,8 @@ deferredSetup : function () {
     					this._spikes,
     					this._spikestrap,
     					this._powerups,
-    					this._chests
+    					this._chests,
+    					this._door
     					];
 },
 
@@ -183,6 +185,14 @@ _spawnChest : function (descr, roomID) {
 	if (!this._chests[roomID]) this._chests[roomID] = [newChest];
 	else this._chests[roomID].push(newChest);
 	return newChest;
+},
+
+_makeDoor : function (descr, roomID) {
+
+	var newDoor = new Door(descr);
+	if (!this._door[roomID]) this._door[roomID] = [newDoor];
+	else this._door[roomID].push(newDoor);
+	return newDoor;
 },
 
 // Cleanup stuff

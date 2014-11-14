@@ -39,6 +39,9 @@ var dungeon = {
 				if (this.grid[i][j - 1]) adjacent.push(this.grid[i][j - 1]);*/
 
 				this.grid[i][j].interiorDesign(getRandomScheme(adjacent));
+				if(i===1 && j===0){
+					this.grid[i][j].insertDoor();
+				}
 			}
 		}
 

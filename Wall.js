@@ -66,8 +66,6 @@ Wall.prototype.stopMe = function (entity, side){
 Wall.prototype.collidesWith = function (entity, oldX, oldY, nextX, nextY) {
 	
 	if(entity === Projectile){
-
-		console.log("xxx")
 	}
 	var entUpperBound = nextY - entity.halfHeight;
 	var entLowerBound = nextY + entity.halfHeight;

@@ -127,6 +127,18 @@ Room.prototype.insertSpikeTrapInTile = function (row, col) {
 												 this._roomID);
 };
 
+Room.prototype.insertDoor = function () {
+
+	this.grid[0][9] = entityManager._makeDoor({cx : 0*this.tileWidth + this.tileWidth/2,
+												   cy : 10*this.tileHeight ,
+
+												   halfHeight : this.tileHeight,
+												   halfWidth  : this.tileWidth/2,
+												   locked 	  : false	},
+
+												 this._roomID);
+};
+
 
 Room.prototype.emptyTile = function (row, col) {
 	entityManager._removeWall(this.grid[row][col], this._roomID);

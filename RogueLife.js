@@ -48,7 +48,7 @@ function updateSimulation(du) {
 
 	if (!g_musicmute) {
 		if (entityManager._getPlayer().life > 20) {
-			if (g_audio.soundtrack2.sound) g_audio.soundtrack2.sound.pause();
+			if (g_audio.soundtrack2 && g_audio.soundtrack2.sound) g_audio.soundtrack2.sound.pause();
 			if (g_audio.soundtrack) g_audio.soundtrack.soundtrackPlay();
 		} else {
 			if (g_audio.soundtrack) g_audio.soundtrack.sound.pause();

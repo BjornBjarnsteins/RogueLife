@@ -1,6 +1,8 @@
 Powerup = function (descr) {
 	this.setup(descr);
 
+	this.initializeEffects();
+
 	this.randomizeEffect();
 };
 
@@ -12,7 +14,7 @@ Powerup.prototype.velY = 1;
 
 Powerup.prototype.takeDamage = function(a){
 	return;
-}
+};
 
 Powerup.prototype.update = function (du) {
 	spatialManager.unregister(this);
@@ -43,7 +45,7 @@ Powerup.prototype.update = function (du) {
 	this.cx += this.aveVelX * du;
 	this.cy += this.aveVelY * du;
 
-	spatialManager.register(this)
+	spatialManager.register(this);
 };
 
 Powerup.prototype.resolveCollision = function(collisionCode) {
@@ -68,14 +70,53 @@ Powerup.prototype.resolveCollision = function(collisionCode) {
 Powerup.prototype.resolveEffect = function (player) {
 	this.effect(player);
 	entityManager._removePowerup(this, entityManager._currentRoomID);
+	spatialManager.unregister(this);
 };
 
 Powerup.prototype.randomizeEffect = function () {
-	this.effect = function () { console.log("picking up powerup") };
+	var isPermanent = Math.floor(Math.random()*2);
+
+	if (isPermanent) {
+		var seed = Math.floor(Math.random()*this.permanentEffects.length);
+
+
+		this.effect = this.permanentEffects[seed].effect;
+
+		if (this.permanentEffects[seed].sprite) {
+			this.sprite = this.permanentEffects[seed].sprite;
+		} else {
+			this.sprite = g_sprites.unknownEffect;
+		}
+
+	} else {
+		this.effect = function () { console.log("temporary"); };
+
+		this.sprite = g_sprites.unknownEffect;
+	}
 };
 
 Powerup.prototype.render = function (ctx) {
-	// placeholder
-	// við viljum hafa sprites
-	util.fillCircle(ctx, this.cx, this.cy, this.halfWidth, "red");
+	if (this.sprite) {
+		this.sprite.drawCentredAt(ctx, this.cx, this.cy, 0);
+	} else {
+		util.fillCircle(ctx, this.cx, this.cy, this.halfWidth, "red");
+	}
+};
+
+Powerup.prototype.initializeEffects = function () {
+	this.permanentEffects = [
+		{effect : function (player) {
+			console.log("+10 hp");
+			player.maxLife += 10;
+			player.life += 10;
+		},
+		 sprite : g_sprites.plusMaxHealth
+		},
+
+		{effect : function (player) {
+			console.log("+5 energy regen");
+			player.energyRegen += 5;
+		}
+		}
+	];
 };

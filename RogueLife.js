@@ -46,7 +46,7 @@ function updateSimulation(du) {
 
 	dungeon.update(du);
 
-	if (!g_musicmute) {	
+	if (!g_musicmute) {
 		if (entityManager._getPlayer().life > 20) {
 			g_audio.soundtrack2.sound.pause();
 			g_audio.soundtrack.soundtrackPlay();
@@ -91,7 +91,7 @@ function processDiagnostics() {
 	if (eatKey(KEY_GRID_TOGGLE)) g_toggleGrid = !g_toggleGrid;
 
 	if (eatKey(KEY_MUTE_TOGGLE)) g_mute = !g_mute;
-	
+
 	if (eatKey(KEY_MUSICMUTE_TOGGLE)) g_musicmute = !g_musicmute;
 }
 
@@ -142,7 +142,9 @@ function requestPreloads() {
       Platform    : "sprites/platform.png",
       Ground      : "sprites/Ground.png",
       outSide     : "sprites/outSide.png",
-      Chest       : "sprites/Chest.png"
+      Chest       : "sprites/Chest.png",
+	  xEffect	  : "sprites/questionmark.png",
+	  heart		  : "sprites/heart.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -158,7 +160,7 @@ function preloadDone() {
                               sx    : 0,
                               sy    : 0,
                               Width : 10,
-                              Height : 4}
+                              Height : 4};
     g_sprites.dagger = new Sprite(constructorObjects);
 
     //Running
@@ -176,7 +178,7 @@ function preloadDone() {
                                       sx    : col * cellWidth,
                                       sy    : row * cellHeight,
                                       Width : cellWidth,
-                                      Height: cellHeight}
+                                      Height: cellHeight};
             wSprite = new Sprite(constructorObjects);
             walking.push(wSprite);
         }
@@ -189,7 +191,7 @@ function preloadDone() {
                               sx    : 256,
                               sy    : 960,
                               Width : cellWidth,
-                              Height : cellHeight}
+                              Height : cellHeight};
 
 
     g_sprites.dash = new Sprite(constructorObjects);
@@ -199,7 +201,7 @@ function preloadDone() {
                               sx    : 320,
                               sy    : 195,
                               Width : cellWidth,
-                              Height : cellHeight}
+                              Height : cellHeight};
 
 
     g_sprites.jump = new Sprite(constructorObjects);
@@ -210,7 +212,7 @@ function preloadDone() {
                               sx    : 130,
                               sy    : 1280,
                               Width : cellWidth,
-                              Height : cellHeight}
+                              Height : cellHeight};
 
     g_sprites.crouch = new Sprite(constructorObjects);
 
@@ -230,7 +232,7 @@ function preloadDone() {
                                       sx    : 64 + cellWidth*col,
                                       sy    : row * cellHeight,
                                       Width : cellWidth,
-                                      Height: cellHeight}
+                                      Height: cellHeight};
             aSprite = new Sprite(constructorObjects);
             attacking.push(aSprite);
         }
@@ -243,7 +245,7 @@ function preloadDone() {
                               sx    : 0,
                               sy    : 0,
                               Width : 100,
-                              Height : 100}
+                              Height : 100};
 
 
     g_sprites.wall = new Sprite(constructorObjects);
@@ -253,7 +255,7 @@ function preloadDone() {
                               sx    : 0,
                               sy    : 0,
                               Width : 200,
-                              Height : 100}
+                              Height : 100};
 
 
     g_sprites.Chest = new Sprite(constructorObjects);
@@ -263,7 +265,7 @@ function preloadDone() {
                               sx    : 0,
                               sy    : 0,
                               Width : 100,
-                              Height : 100}
+                              Height : 100};
 
 
     g_sprites.Trap = new Sprite(constructorObjects);
@@ -273,7 +275,7 @@ function preloadDone() {
                               sx    : 0,
                               sy    : 0,
                               Width : 750,
-                              Height : 500}
+                              Height : 500};
 
 
     g_sprites.Background = new Sprite(constructorObjects);
@@ -283,7 +285,7 @@ function preloadDone() {
                               sx    : 0,
                               sy    : 0,
                               Width : 750,
-                              Height : 500}
+                              Height : 500};
 
 
     g_sprites.outSide = new Sprite(constructorObjects);
@@ -293,7 +295,7 @@ function preloadDone() {
                               sx    : 0,
                               sy    : 0,
                               Width : 50,
-                              Height : 20}
+                              Height : 20};
 
 
     g_sprites.Platform = new Sprite(constructorObjects);
@@ -304,10 +306,32 @@ function preloadDone() {
                               sx    : 0,
                               sy    : 0,
                               Width : 100,
-                              Height : 100}
+                              Height : 100};
 
 
     g_sprites.Ground = new Sprite(constructorObjects);
+
+	// Powerups
+	// Unknown powerup
+    var constructorObjects = {image : g_images.xEffect,
+                              sx    : 0,
+                              sy    : 0,
+                              Width : 20,
+                              Height : 20};
+
+
+    g_sprites.unknownEffect = new Sprite(constructorObjects);
+
+	// +Health powerup
+	var constructorObjects = {image : g_images.heart,
+                              sx    : 0,
+                              sy    : 0,
+                              Width : 20,
+                              Height : 20};
+
+	g_sprites.plusMaxHealth = new Sprite(constructorObjects);
+
+	console.log("g_sprites: " + g_sprites);
 
     //creates initial objects
 	dungeon.init();

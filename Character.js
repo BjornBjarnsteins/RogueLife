@@ -13,8 +13,11 @@ Character.prototype.velY=0;
 Character.prototype.aveVelX=0;
 Character.prototype.aveVelY=0;
 Character.prototype.weapon=null;
+Character.prototype.maxLife = 100;
 Character.prototype.life = 100;
+Character.prototype.maxEnergy = 100;
 Character.prototype.energy = 100;
+Character.prototype.energyRegen = 20 / SECS_TO_NOMINALS;
 Character.prototype.ammo = 3;
 Character.prototype.hasKey = false;
 
@@ -154,7 +157,7 @@ Character.prototype.update = function(dt)
 					this.ammo -= 1;
 				}
 			}
-			
+
 		}
 
 		if (eatKey(this.KEY_DASH_LEFT)) {
@@ -287,7 +290,7 @@ Character.prototype.update = function(dt)
 
 	// Handle room changes
 	if (this.cy < 0) {
-		
+
 		dungeon.goUp(this);
 		entityManager.CleanSmanager(dt);
 	}
@@ -295,17 +298,17 @@ Character.prototype.update = function(dt)
 
 		dungeon.goDown(this);
 		entityManager.CleanSmanager(dt);
-	} 
+	}
 	else if (this.cx < 0){
 
 		dungeon.goLeft(this);
 		entityManager.CleanSmanager(dt);
-	} 
+	}
 	else if (this.cx > g_canvas.width){
 
 		dungeon.goRight(this);
 		entityManager.CleanSmanager(dt);
-	} 
+	}
 
 	if (this.cx < 60 && this.cx > 50 && this.cy === 510 && entityManager._currentRoomID === 11){
 
@@ -320,8 +323,8 @@ Character.prototype.update = function(dt)
 	spatialManager.register(this);
 	if (this.weapon) this.weapon.update(dt, this);
 
-	if (this.energy < 100) this.energy += dt/2;
-	else this.energy = 100;
+	if (this.energy < this.maxEnergy) this.energy += dt * this.energyRegen;
+	else this.energy = this.maxEnergy;
 
 	if (this.life < 0) {
 		g_audio.placeholder.Play();
@@ -584,6 +587,9 @@ Character.prototype.getRadius = function() {
 };
 
 Character.prototype.takeDamage = function(amount){
+	this.sendMessage(amount, "red");
+
+	console.log(amount);
 
 	if (this.life > 0) {
 		this.life = this.life - amount;
@@ -599,10 +605,23 @@ Character.prototype.takeDamage = function(amount){
 
 };
 
+Character.prototype.sendMessage = function (msg, style) {
+	if (!style) var style = "black";
+
+	entityManager._generateMessage({message : msg,
+
+									cx : this.cx,
+									cy : this.cy - this.halfHeight,
+
+									fillStyle : style});
+};
+
 /*Character.prototype.death = function() {
 
 	//Það þarf death animation.
 	//Game over screen?
+
+	// Fade to black -> byrjar aftur frá byrjun í nýju dungeoni
 
 }
 */

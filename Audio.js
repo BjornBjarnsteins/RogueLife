@@ -113,7 +113,7 @@ var requiredSounds = {
 	dashy		: "sounds/Dash.mp3",
 	landing		: "sounds/land.mp3",
 	coll		: "sounds/collision.mp3",
-	dmg			: "sounds/pain.mp3",
+	dmg			: "sounds/Pain.mp3",
 	walk		: "sounds/coolguy.mp3",
 	soundtrack	: "sounds/soundtrack.mp3",
 	soundtrack2 : "sounds/intenseSoundtrack.mp3"

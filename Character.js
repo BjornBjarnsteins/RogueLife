@@ -150,13 +150,7 @@ Character.prototype.update = function(dt)
 		}
 
 		if (eatKey(this.KEY_THROW)) {
-			if(this.ammo >0){
 				this.throwDagger();
-				if(this.ammo > 0){
-					this.ammo -= 1;
-				}
-			}
-
 		}
 
 		if (eatKey(this.KEY_DASH_LEFT)) {
@@ -483,6 +477,8 @@ Character.prototype.render = function (ctx)
 };
 
 Character.prototype.throwDagger = function() {
+	if (this.ammo <= 0) return;
+
 	entityManager._generateProjectile({cx : this.cx + this.direction*this.halfWidth + this.direction*50,
 								  	   cy : this.cy,
 
@@ -492,6 +488,7 @@ Character.prototype.throwDagger = function() {
                        sprite : g_sprites.dagger },
 
 									 entityManager._currentRoomID);
+	this.ammo--;
 };
 
 Character.prototype.jump = function() {

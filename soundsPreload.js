@@ -13,11 +13,11 @@ var s_ctx = canvas.getContext("2d");
 */
 
 Audio.prototype.asyncLoad = function(src, asyncCallback) {
-	
+
 	this.oncanplaythrough	= asyncCallback;
 	this.onerror 		 	= asyncCallback;
 	this.onloadstart 	 	= asyncCallback;
-    
+
 	console.log("requesting sound src of ", src);
     this.src = src;
 };
@@ -34,10 +34,10 @@ function soundsPreload(requiredSounds,
         currentSound,
         preloadHandler;
 
-   
+
     numSoundsRequired = Object.keys(requiredSounds).length;
 
-	
+
     preloadHandler = function () {
 
        // console.log("preloadHandler called with this=", this);
@@ -46,32 +46,34 @@ function soundsPreload(requiredSounds,
 		this.oncanplaythrough = null;
 		this.onerror = null;
 		this.onloadstart = null;
-		
-		
+
+
         numSoundsHandled += 1;
-		
-		
+
+
         if (numSoundsHandled === numSoundsRequired) {
             console.log("all preload sounds handled");
             console.log("loadedSounds=", loadedSounds);
             console.log("");
             console.log("performing completion callback");
-			
+
 			completionCallback();
-		
+
             console.log("completion callback done");
             console.log("");
-        
-        }
-        
+
+		} else {
+			console.log("loadedSounds=", loadedSounds);
+		}
+
     };
 
-   
-   
+
+
     for (currentName in requiredSounds) {
-        
+
         if (requiredSounds.hasOwnProperty(currentName)) {
-            
+
             console.log("preloading sound", currentName);
             currentSound = new Audio();
             currentSound.name = currentName;

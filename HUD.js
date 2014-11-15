@@ -29,11 +29,25 @@ var HUD = {
 		ctx.restore();
 	},
 
+	renderDaggersLeft : function (ctx) {
+		ctx.save();
+
+		var player = entityManager._getPlayer();
+		g_sprites.dagger.drawAt(ctx, 700, 550);
+		ctx.font = "20px georgia";
+		ctx.textAlign = "left";
+		ctx.baseLine = "middle";
+		ctx.fillText(player.ammo, 750, 580);
+
+		ctx.restore();
+	},
+
 	render : function (ctx) {
 		if (!this._showHUD) return;
 
 		this.renderLifeBar(ctx);
 		this.renderEnergyBar(ctx);
+		this.renderDaggersLeft(ctx);
 	},
 
 	update : function (du) {

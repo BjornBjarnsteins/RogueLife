@@ -64,9 +64,9 @@ function soundsPreload(requiredSounds,
 
         }
 
-		console.log("loadedSounds=", loadedSounds);
-
     };
+
+	console.log("loadedSounds=", loadedSounds);
 
 
 

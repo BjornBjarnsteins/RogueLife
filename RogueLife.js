@@ -48,11 +48,11 @@ function updateSimulation(du) {
 
 	if (!g_musicmute) {
 		if (entityManager._getPlayer().life > 20) {
-			g_audio.soundtrack2.sound.pause();
-			g_audio.soundtrack.soundtrackPlay();
+			if (g_audio.soundtrack2.sound) g_audio.soundtrack2.sound.pause();
+			if (g_audio.soundtrack) g_audio.soundtrack.soundtrackPlay();
 		} else {
-			g_audio.soundtrack.sound.pause();
-			g_audio.soundtrack2.soundtrackPlay();
+			if (g_audio.soundtrack) g_audio.soundtrack.sound.pause();
+			if (g_audio.soundtrack2.sound) g_audio.soundtrack2.soundtrackPlay();
 		}
 	}
 	else {

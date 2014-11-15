@@ -38,6 +38,7 @@ _spikestrap  : [],
 _powerups	 : [],
 _chests		 : [],
 _door 		 : [],
+_messages	 : [],
 
 weapon : null,
 
@@ -95,7 +96,8 @@ deferredSetup : function () {
     					this._spikestrap,
     					this._powerups,
     					this._chests,
-    					this._door
+    					this._door,
+						this._messages
     					];
 },
 
@@ -240,6 +242,15 @@ _removePowerup : function (powerup, roomID) {
 	if (index !== -1) this._powerups[roomID].splice(index, 1);
 },
 
+// message stuff
+_generateMessage : function (descr, roomID) {
+	if (!roomID) roomID = this._currentRoomID;
+
+	var newMessage = new Message(descr);
+	if (!this._messages[roomID]) this._messages[roomID] = [newMessage];
+	else this._messages[roomID].push(newMessage);
+	return newMessage;
+},
 
 update: function(du) {
 

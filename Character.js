@@ -576,6 +576,9 @@ Character.prototype.getRadius = function() {
 };
 
 Character.prototype.takeDamage = function(amount){
+	this.sendMessage(amount, "red");
+
+	console.log(amount);
 
 	if (this.life > 0) {
 		this.life = this.life - amount;
@@ -591,10 +594,23 @@ Character.prototype.takeDamage = function(amount){
 
 };
 
+Character.prototype.sendMessage = function (msg, style) {
+	if (!style) var style = "black";
+
+	entityManager._generateMessage({message : msg,
+
+									cx : this.cx,
+									cy : this.cy - this.halfHeight,
+
+									fillStyle : style});
+};
+
 /*Character.prototype.death = function() {
 
 	//Það þarf death animation.
 	//Game over screen?
+
+	// Fade to black -> byrjar aftur frá byrjun í nýju dungeoni
 
 }
 */

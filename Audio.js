@@ -106,17 +106,17 @@ Sound.prototype.reset = function (){
 //
 var requiredSounds = {
 
-	placeholder	: "sounds/placeholder.mp3",
-	knifethrow  : "sounds/Woosh.mp3",
-	swordshit	: "sounds/Sword.mp3",
-	jumpy		: "sounds/Jump.mp3",
-	dashy		: "sounds/Dash.mp3",
-	landing		: "sounds/land.mp3",
-	coll		: "sounds/collision.mp3",
-	dmg			: "sounds/Pain.mp3",
-	walk		: "sounds/coolguy.mp3",
-	soundtrack	: "sounds/soundtrack.mp3",
-	soundtrack2 : "sounds/intenseSoundtrack.mp3"
+	placeholder	: "sounds/placeholder.ogg",
+	knifethrow  : "sounds/Woosh.ogg",
+	swordshit	: "sounds/Sword.ogg",
+	jumpy		: "sounds/Jump.ogg",
+	dashy		: "sounds/Dash.ogg",
+	landing		: "sounds/land.ogg",
+	coll		: "sounds/collision.ogg",
+	dmg			: "sounds/Pain.ogg",
+	walk		: "sounds/coolguy.ogg",
+	soundtrack	: "sounds/soundtrack.ogg",
+	soundtrack2 : "sounds/intenseSoundtrack.ogg"
 
 };
 

@@ -125,7 +125,7 @@ _getPlayer : function () {
 
 getPlayerList : function () {
     return this.characters[this._currentRoomID];
-}
+},
 
 
 // Generators
@@ -170,14 +170,14 @@ _makeSpikeTrap : function  (descr, roomID) {
 looseArrow : function (startX,startY,speedX,speedY,roomID)
 {
 	var descr ={cx:startX,
-                                        cy:startY,
-                                        velX=speedX,
-                                        velY=speedY,
-                                        halfWidth=10
-                                        };
+                cy:startY,
+				velX:speedX,
+				velY:speedY,
+				halfWidth:10
+                };
     this._generateProjectile(descr,roomID);
 },
-    
+
 
 _generateProjectile : function (descr, roomID) {
 	var newProjectile = new Projectile(descr);

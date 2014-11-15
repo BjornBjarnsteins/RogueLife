@@ -16,6 +16,7 @@ Character.prototype.weapon=null;
 Character.prototype.life = 100;
 Character.prototype.energy = 100;
 Character.prototype.ammo = 3;
+Character.prototype.hasKey = false;
 
 //Character.prototype.Sprite = g_sprites.walk;
 
@@ -304,6 +305,16 @@ Character.prototype.update = function(dt)
 
 		dungeon.goRight(this);
 		entityManager.CleanSmanager(dt);
+	} 
+
+	if (this.cx < 60 && this.cx > 50 && this.cy === 510 && entityManager._currentRoomID === 11){
+
+		if(!this.hasKey){
+
+			entityManager._door[11][0].locked = true;
+		}else{
+			entityManager._door[11][0].locked = false;
+		}
 	} 
 
 	spatialManager.register(this);

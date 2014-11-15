@@ -147,8 +147,8 @@ function requestPreloads() {
 	  heart		  : "sprites/heart.png"
     };
 
+	preLoadAudio();
     imagesPreload(requiredImages, g_images, preloadDone);
-    preLoadAudio();
 
 
 }

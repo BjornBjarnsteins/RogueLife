@@ -62,11 +62,11 @@ function soundsPreload(requiredSounds,
             console.log("completion callback done");
             console.log("");
 
-        }
+		} else {
+			console.log("loadedSounds=", loadedSounds);
+		}
 
     };
-
-	console.log("loadedSounds=", loadedSounds);
 
 
 

@@ -15,6 +15,7 @@ Character.prototype.aveVelY=0;
 Character.prototype.weapon=null;
 Character.prototype.maxLife = 100;
 Character.prototype.life = 100;
+Character.prototype.maxEnergy = 100;
 Character.prototype.energy = 100;
 Character.prototype.energyRegen = 20 / SECS_TO_NOMINALS;
 Character.prototype.ammo = 3;
@@ -311,8 +312,8 @@ Character.prototype.update = function(dt)
 	spatialManager.register(this);
 	if (this.weapon) this.weapon.update(dt, this);
 
-	if (this.energy < 100) this.energy += dt * this.energyRegen;
-	else this.energy = 100;
+	if (this.energy < this.maxEnergy) this.energy += dt * this.energyRegen;
+	else this.energy = this.maxEnergy;
 
 	if (this.life < 0) {
 		g_audio.placeholder.Play();

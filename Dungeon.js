@@ -76,7 +76,6 @@ var dungeon = {
 
 		while (i < steps) {
 			var stepSeed = Math.floor(Math.random()*4);
-			console.log(i);
 			if (stepSeed === 0) {
 				// step up
 				if(posX === 0 && posY === 1 ) continue;
@@ -130,11 +129,10 @@ var dungeon = {
 	},
 
 	enterRoom : function (room, character) {
-		
+
 		this._currentRoom = room;
 		entityManager.setRoom(room);
 		room.enter(character);
-		this.printLayoutToConsole();
 	},
 
 	goUp : function (character) {
@@ -161,7 +159,7 @@ var dungeon = {
 	goLeft : function (character) {
 
 		entityManager._oldRoomID = this._currentRoom.getRoomID();
-		
+
 		this.currentPosX--;
 		this.updatePosition(character);
 	},
@@ -181,8 +179,6 @@ var dungeon = {
 	},
 
 	printLayoutToConsole : function () {
-		console.log("dungeon layout:");
-
 		for (var i = 0; i < this.grid.length; i++) {
 			var lineString1 = "";
 			var lineString2 = "";
@@ -206,8 +202,6 @@ var dungeon = {
 					else lineString2 += "    ";
 				}
 			}
-			console.log(lineString1);
-			console.log(lineString2);
 		}
 	},
 

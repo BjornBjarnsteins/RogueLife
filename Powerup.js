@@ -1,6 +1,8 @@
 Powerup = function (descr) {
 	this.setup(descr);
 
+	this.initializeEffects();
+
 	this.randomizeEffect();
 };
 
@@ -71,21 +73,6 @@ Powerup.prototype.resolveEffect = function (player) {
 	spatialManager.unregister(this);
 };
 
-Powerup.prototype.permanentEffects = [
-	{effect : function (player) {
-			console.log("+10 hp");
-			player.maxLife += 10;
-			player.life += 10;
-		}
-	},
-
-	{effect : function (player) {
-			console.log("+5 energy regen");
-			player.energyRegen += 5;
-		}
-	}
-	];
-
 Powerup.prototype.randomizeEffect = function () {
 	var isPermanent = Math.floor(Math.random()*2);
 
@@ -114,4 +101,22 @@ Powerup.prototype.render = function (ctx) {
 	} else {
 		util.fillCircle(ctx, this.cx, this.cy, this.halfWidth, "red");
 	}
+};
+
+Powerup.prototype.initializeEffects = function () {
+	this.permanentEffects = [
+		{effect : function (player) {
+			console.log("+10 hp");
+			player.maxLife += 10;
+			player.life += 10;
+		},
+		 sprite : g_sprites.plusMaxHealth
+		},
+
+		{effect : function (player) {
+			console.log("+5 energy regen");
+			player.energyRegen += 5;
+		}
+		}
+	];
 };

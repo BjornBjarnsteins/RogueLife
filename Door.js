@@ -9,27 +9,13 @@ Door.prototype.halfWidth = 50;
 Door.prototype.render = function(ctx){
 
 
+		ctx.save();
 		var x = this.cx-25;
 		var y = this.cy+1-this.halfHeight;
 
 		g_sprites.Gate.drawAt(ctx, x, y);
 
-		
-		
-
-			ctx.restore();
-		/*ctx.save();
-
-		util.fillBox(ctx,
-				 this.cx-this.halfWidth,
-				 this.cy-50,
-				 this.halfWidth*2,
-				 this.halfHeight*2,
-				 "purple");
-
-
-		ctx.restore();*/
-	
+		ctx.restore();
 		
 }
 

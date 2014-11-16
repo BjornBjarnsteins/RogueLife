@@ -56,7 +56,7 @@ Projectile.prototype.update = function (dt) {
     var nextX = this.cx + this.velX * dt;
     var nextY = this.cy ;
 
-    if(oldX >= nextX ){
+    if(oldX > nextX ){
         this.direction = Math.PI;
     }
 
@@ -112,6 +112,7 @@ Projectile.prototype.takeProjectileHit = function () {
 };
 
 Projectile.prototype.render = function (ctx) {
+    console.log(this)
     if (this.sprite) {
       this.sprite.drawCentredAt(ctx, this.cx-this.halfWidth, this.cy-this.halfHeight-20,
                                 this.direction,

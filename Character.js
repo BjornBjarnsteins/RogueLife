@@ -27,6 +27,8 @@ Character.prototype.currentInvulnDur = 0;
 
 Character.prototype.score = 0;
 
+Character.prototype.deathAnimationTimeIndex = 0;
+
 //Character.prototype.Sprite = g_sprites.walk;
 
 // Direction is either 1 or -1. 1 means right, -1 means left
@@ -49,6 +51,7 @@ Character.prototype.STATE_DASHING = 4;
 Character.prototype.STATE_ATTACKING = 5;
 Character.prototype.STATE_FALLING = 6;
 Character.prototype.STATE_CROUCHING = 7;
+Character.prototype.STATE_DEAD = 7;
 
 Character.prototype.prevState = 1;
 
@@ -332,9 +335,17 @@ Character.prototype.update = function(dt)
 	if (this.energy < this.maxEnergy) this.energy += dt * this.energyRegen;
 	else this.energy = this.maxEnergy;
 
-	if (this.life < 0) {
+	if (this.life === 0) {
+		console.log("ég á að vera dáinn")
 		g_audio.placeholder.Play();
-		return -2;
+		this.state = this.STATE_DEAD;
+		if(this.deathAnimationTimeIndex < 100){
+			this.deathAnimationTimeIndex += dt;
+		}else{
+
+			return this.KILL_ME_NOW;
+		}
+
 	}
 
 };
@@ -425,6 +436,21 @@ Character.prototype.render = function (ctx)
 
     	g_sprites.walk[index].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
     	if (index === 1) g_audio.walk.Play();
+
+	}
+	else if(this.state === this.STATE_DEAD)
+    {
+
+    	var index = Math.floor(this.deathAnimationTimeIndex/20);
+
+    	sx = g_sprites.Die[index].sx;
+		sy = g_sprites.Die[index].sy;
+	   	height = g_sprites.Die[index].height;
+	   	width = g_sprites.Die[index].width;
+	   	image = g_sprites.Die[index];
+
+
+    	g_sprites.Die[index].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
 
 	}
 	else if(this.state === this.STATE_ATTACKING)

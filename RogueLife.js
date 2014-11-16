@@ -47,13 +47,15 @@ function updateSimulation(du) {
 	dungeon.update(du);
 
 	if (!g_musicmute) {
-		if (entityManager._getPlayer().life > 20) {
-			if (g_audio.soundtrack2 && g_audio.soundtrack2.sound) g_audio.soundtrack2.sound.pause();
-			if (g_audio.soundtrack) g_audio.soundtrack.soundtrackPlay();
-		} else {
-			if (g_audio.soundtrack) g_audio.soundtrack.sound.pause();
-			if (g_audio.soundtrack2.sound) g_audio.soundtrack2.soundtrackPlay();
-		}
+    if(entityManager._getPlayer()){
+  		if (entityManager._getPlayer().life > 20) {
+  			if (g_audio.soundtrack2 && g_audio.soundtrack2.sound) g_audio.soundtrack2.sound.pause();
+  			if (g_audio.soundtrack) g_audio.soundtrack.soundtrackPlay();
+  		} else {
+  			if (g_audio.soundtrack) g_audio.soundtrack.sound.pause();
+  			if (g_audio.soundtrack2.sound) g_audio.soundtrack2.soundtrackPlay();
+  		}
+    }
 	}
 	else {
 		g_audio.soundtrack2.sound.pause();
@@ -187,6 +189,29 @@ function preloadDone() {
     }
 
     g_sprites.walk = walking;
+
+     //dying
+    var cellHeight = 64;
+    var cellWidth = 64;
+    var numRows = 21;
+    var numCols = 6;
+
+    var dying = [];
+    var dSprite;
+
+    for (var row = 20; row < numRows; ++row) {
+        for (var col = 0; col < numCols; ++col) {
+            var constructorObjects = {image : g_images.character,
+                                      sx    : col * cellWidth,
+                                      sy    : row * cellHeight,
+                                      Width : cellWidth,
+                                      Height: cellHeight};
+            dSprite = new Sprite(constructorObjects);
+            dying.push(dSprite);
+        }
+    }
+
+    g_sprites.Die = dying;
 
     //dashing
     var constructorObjects = {image : g_images.character,

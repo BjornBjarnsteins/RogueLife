@@ -57,11 +57,12 @@ var HUD = {
 
 	render : function (ctx) {
 		if (!this._showHUD) return;
-
-		this.renderLifeBar(ctx);
-		this.renderEnergyBar(ctx);
-		this.renderDaggersLeft(ctx);
-		this.renderScore(ctx);
+		if(entityManager._getPlayer()){
+			this.renderLifeBar(ctx);
+			this.renderEnergyBar(ctx);
+			this.renderDaggersLeft(ctx);
+			this.renderScore(ctx);
+		}
 	},
 
 	update : function (du) {

@@ -7,8 +7,8 @@ Powerup = function (descr) {
 };
 
 Powerup.prototype = new Entity();
-Powerup.prototype.halfHeight = 10;
-Powerup.prototype.halfWidth = 10;
+Powerup.prototype.halfHeight = 20;
+Powerup.prototype.halfWidth = 20;
 Powerup.prototype.velX = 0;
 Powerup.prototype.velY = 1;
 
@@ -135,6 +135,11 @@ Powerup.prototype.initializeEffects = function () {
 			player.gainLife(50);
 			player.sendMessage("+50 HP", "green");
 		}
+		},
+		{effect : function (player) {
+			player.ammo += 3;
+			player.sendMessage("+3 knives", "green");
+		},
 		}
 
 	];

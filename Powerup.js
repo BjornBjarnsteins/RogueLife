@@ -138,8 +138,9 @@ Powerup.prototype.initializeEffects = function () {
 		},
 		{effect : function (player) {
 			player.ammo += 3;
-			player.sendMessage("+3 knives", "green");
+			player.sendMessage("+3 daggers", "green");
 		},
+		 sprite : g_sprites.dagger
 		}
 
 	];

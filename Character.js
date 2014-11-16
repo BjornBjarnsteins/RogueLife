@@ -25,6 +25,8 @@ Character.prototype.tempSpeedBonus = 0;
 Character.prototype.invulnDur = 0.5*SECS_TO_NOMINALS;
 Character.prototype.currentInvulnDur = 0;
 
+Character.prototype.score = 0;
+
 //Character.prototype.Sprite = g_sprites.walk;
 
 // Direction is either 1 or -1. 1 means right, -1 means left

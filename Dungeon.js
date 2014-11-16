@@ -135,7 +135,7 @@ var dungeon = {
 				if (!this.grid[i][j].isAccessible()) delete this.grid[i][j];
 			}
 		}
-		
+
 
 		this.grid[largestX][largestY].makeKey();
 	},

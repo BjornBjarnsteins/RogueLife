@@ -32,8 +32,8 @@ Key.prototype.render = function (ctx) {
 
 	if(this.roomID === entityManager._currentRoomID){
 		ctx.save();
-		var x = this.cx;
-		var y = this.cy;
+		var x = this.cx-45;
+		var y = this.cy-15;
 
 		g_sprites.Key.drawAt(ctx, x, y);
 

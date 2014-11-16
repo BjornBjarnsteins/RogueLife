@@ -42,12 +42,26 @@ var HUD = {
 		ctx.restore();
 	},
 
+	renderScore : function (ctx) {
+		ctx.save();
+
+
+		var player = entityManager._getPlayer();
+		ctx.font = "20px georgia";
+		ctx.textAlign = "left";
+		ctx.baseLine = "middle";
+		ctx.fillText("Score: "+player.score, 910, 25);
+
+		ctx.restore();
+	},
+
 	render : function (ctx) {
 		if (!this._showHUD) return;
 
 		this.renderLifeBar(ctx);
 		this.renderEnergyBar(ctx);
 		this.renderDaggersLeft(ctx);
+		this.renderScore(ctx);
 	},
 
 	update : function (du) {

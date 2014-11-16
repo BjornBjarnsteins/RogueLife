@@ -223,6 +223,10 @@ Character.prototype.update = function(dt)
 			this.state = this.STATE_STANDING;
 		} else if (eatKey(this.KEY_UP)) {
 			this.state = this.STATE_STANDING;
+		}else if (keys[this.KEY_RIGHT]) {
+			this.state = this.STATE_STANDING;
+		} else if (keys[this.KEY_LEFT]) {
+			this.state = this.STATE_STANDING;
 		}
 	} else if(this.state === this.STATE_ATTACKING){
 

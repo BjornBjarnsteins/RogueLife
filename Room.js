@@ -129,8 +129,8 @@ Room.prototype.insertSpikeTrapInTile = function (row, col) {
 
 Room.prototype.insertDoor = function () {
 
-	this.grid[1][0] = entityManager._makeDoor({cx : 0*this.tileWidth + this.tileWidth/2,
-												   cy : 10*this.tileHeight ,
+	this.grid[1][0] = entityManager._makeDoor({cx : 0*this.tileWidth + this.tileWidth/2 ,
+												   cy : 10*this.tileHeight -100,
 
 												   halfHeight : this.tileHeight,
 												   halfWidth  : this.tileWidth/2,

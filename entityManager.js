@@ -51,7 +51,7 @@ setRoom : function (room) {
 
 
 	this._currentRoomID = room.getRoomID();
-	console.log(this._oldRoomID, this._currentRoomID)
+	
 	if (this._characters[this._oldRoomID][0]) {
 		this._characters[this._currentRoomID] = [this._characters[this._oldRoomID][0]];
 		this._characters[this._oldRoomID].splice(0, 1);
@@ -90,6 +90,7 @@ KILL_ME_NOW : -1,
 deferredSetup : function () {
 
     this._categories = [this._platforms,
+    					this._door,
     					this._walls,
     					this._characters,
     					this._projectiles,
@@ -97,7 +98,6 @@ deferredSetup : function () {
     					this._spikestrap,
     					this._powerups,
     					this._chests,
-    					this._door,
 						this._messages,
 						this._key
     					];

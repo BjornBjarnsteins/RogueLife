@@ -8,7 +8,17 @@ Door.prototype.halfWidth = 50;
 
 Door.prototype.render = function(ctx){
 
-		ctx.save();
+
+		var x = this.cx-25;
+		var y = this.cy+1-this.halfHeight;
+
+		g_sprites.Gate.drawAt(ctx, x, y);
+
+		
+		
+
+			ctx.restore();
+		/*ctx.save();
 
 		util.fillBox(ctx,
 				 this.cx-this.halfWidth,
@@ -18,7 +28,8 @@ Door.prototype.render = function(ctx){
 				 "purple");
 
 
-		ctx.restore();
+		ctx.restore();*/
+	
 		
 }
 
@@ -28,6 +39,19 @@ Door.prototype.takeDamage = function(amnt){
 }
 
 Door.prototype.update = function(dt){
+
+	if(this.locked){
+		if(this.cy < 500 ){
+			this.cy += dt;
+		}
+	}else{
+		if(entityManager._currentRoomID === 11){
+			console.log("er að updata-a gate")
+			if(this.cy > 400){
+				this.cy -= dt;
+			}
+		}
+	}
 
 	return;
 
@@ -52,7 +76,7 @@ Door.prototype.stopMe = function (entity, side){
 
 // Assumes entity is within the bounding circle
 Door.prototype.collidesWith = function (entity, oldX, oldY, nextX, nextY) {
-	
+
 	if(this.locked){
 		var entUpperBound = nextY - entity.halfHeight;
 		var entLowerBound = nextY + entity.halfHeight;

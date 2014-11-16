@@ -33,6 +33,7 @@ Projectile.prototype.cy = 200;
 Projectile.prototype.velX = 1;
 Projectile.prototype.velY = 1;
 Projectile.prototype.fallsThrough = -1;
+Projectile.prototype.direction = 0;
 
 
 Projectile.prototype.halfWidth = 5;
@@ -55,6 +56,9 @@ Projectile.prototype.update = function (dt) {
     var nextX = this.cx + this.velX * dt;
     var nextY = this.cy ;
 
+    if(oldX >= nextX ){
+        this.direction = Math.PI;
+    }
 
     if(this.cx > 1000 ||
         this.cx < 0){
@@ -110,8 +114,8 @@ Projectile.prototype.takeProjectileHit = function () {
 Projectile.prototype.render = function (ctx) {
     if (this.sprite) {
       this.sprite.drawCentredAt(ctx, this.cx-this.halfWidth, this.cy-this.halfHeight-20,
-                                this.velX < 0 ? Math.PI : 0,
-                                this.velX < 0 ? 1 : 0);
+                                this.direction,
+                                this.direction);
     } else {
       util.fillBox(ctx,
 				           this.cx-this.halfWidth*2,

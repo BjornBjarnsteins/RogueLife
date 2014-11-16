@@ -144,7 +144,8 @@ function requestPreloads() {
       outSide     : "sprites/outSide.png",
       Chest       : "sprites/Chest.png",
 	  xEffect	  : "sprites/questionmark.png",
-	  heart		  : "sprites/heart.png"
+	  heart		  : "sprites/heart.png",
+      Gate    : "sprites/gate.png"
     };
 
 	preLoadAudio();
@@ -258,7 +259,18 @@ function preloadDone() {
                               Height : 100};
 
 
-    g_sprites.Chest = new Sprite(constructorObjects);
+    g_sprites.Chest = new Sprite(constructorObjects); 
+
+
+    //Gate
+    var constructorObjects = {image : g_images.Gate,
+                              sx    : 0,
+                              sy    : 0,
+                              Width : 50,
+                              Height : 100};
+
+
+    g_sprites.Gate = new Sprite(constructorObjects);
 
      //SpikeTrap
     var constructorObjects = {image : g_images.Trap,

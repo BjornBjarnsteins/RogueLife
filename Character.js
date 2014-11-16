@@ -201,12 +201,7 @@ Character.prototype.update = function(dt)
 		}
 
 		if (eatKey(this.KEY_THROW)) {
-			if(this.ammo >0){
-				this.throwDagger();
-				if(this.ammo > 0){
-					this.ammo -= 1;
-				}
-			}
+			this.throwDagger();
 		}
 
 		if (eatKey(this.KEY_DASH_LEFT)) {

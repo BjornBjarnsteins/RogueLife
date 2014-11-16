@@ -117,6 +117,18 @@ Powerup.prototype.initializeEffects = function () {
 			console.log("+5 energy regen");
 			player.energyRegen += 5;
 		}
+		},
+		{effect : function (player) {
+			console.log("+x damage")
+			//player.attack += x
 		}
+		},
+		{effect : function (player) {
+			player.maxJumps++;
+		}
+		}
+
 	];
+
+	this.temporaryEffects = [];
 };

@@ -20,6 +20,8 @@ Character.prototype.energy = 100;
 Character.prototype.energyRegen = 20 / SECS_TO_NOMINALS;
 Character.prototype.ammo = 3;
 Character.prototype.hasKey = false;
+Character.prototype.speed = 5;
+Character.prototype.tempSpeedBonus = 0;
 
 //Character.prototype.Sprite = g_sprites.walk;
 
@@ -96,8 +98,8 @@ Character.prototype.update = function(dt)
 			if(this.state !== this.STATE_RUNNING){
 				this.movedFrom = this.cx;
 			}
-			this.cx -=dt*5;
 			this.direction = -1;
+			this.move(dt, this.direction);
 
 			if(this.state !== this.STATE_FALLING ){
 
@@ -113,8 +115,8 @@ Character.prototype.update = function(dt)
 			if(this.state !== this.STATE_RUNNING){
 				this.movedFrom = this.cx;
 			}
-			this.cx +=dt*5;
 			this.direction = 1;
+			this.move(dt, this.direction);
 
 			if(this.state !== this.STATE_FALLING ){
 
@@ -314,7 +316,7 @@ Character.prototype.update = function(dt)
 		}else{
 			entityManager._door[11][0].locked = false;
 		}
-	} 
+	}
 
 	spatialManager.register(this);
 	if (this.weapon) this.weapon.update(dt, this);
@@ -502,6 +504,10 @@ Character.prototype.throwDagger = function() {
 
 									 entityManager._currentRoomID);
 	this.ammo--;
+};
+
+Character.prototype.move = function (du, direction) {
+	this.cx += direction * (this.speed + this.tempSpeedBonus) * du;
 };
 
 Character.prototype.jump = function() {

@@ -30,14 +30,22 @@ Key.prototype.resolveEffect = function (player) {
 Key.prototype.render = function (ctx) {
 		
 
-		util.fillCircle(ctx, this.cx-25, this.cy-25, this.halfWidth, "red");
+	if(this.roomID === entityManager._currentRoomID){
+		ctx.save();
+		var x = this.cx;
+		var y = this.cy;
+
+		g_sprites.Key.drawAt(ctx, x, y);
+
+		ctx.restore();
+	}
+		
 	
 };
 
 
 Key.prototype.effect = function(player){
 
-	console.log("WHY!!!!")
 	entityManager._door[11][0].locked = false;
 	player.hasKey = true;
 }

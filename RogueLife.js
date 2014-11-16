@@ -145,7 +145,8 @@ function requestPreloads() {
       Chest       : "sprites/Chest.png",
 	  xEffect	  : "sprites/questionmark.png",
 	  heart		  : "sprites/heart.png",
-      Gate    : "sprites/gate.png"
+      Gate    : "sprites/gate.png",
+      Key     : "sprites/key.png"
     };
 
 	preLoadAudio();
@@ -322,6 +323,17 @@ function preloadDone() {
 
 
     g_sprites.Ground = new Sprite(constructorObjects);
+    
+
+    //Key
+    var constructorObjects = {image : g_images.Key,
+                              sx    : 0,
+                              sy    : 0,
+                              Width : 50,
+                              Height : 50};
+
+
+    g_sprites.Key = new Sprite(constructorObjects);
 
 	// Powerups
 	// Unknown powerup

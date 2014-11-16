@@ -141,8 +141,8 @@ Room.prototype.insertDoor = function () {
 
 Room.prototype.makeKey = function (x,y) {
 
-	this.grid[10][18] = entityManager._makeKey({     cx : 18*this.tileWidth + this.tileWidth,
-												   cy : 10*this.tileHeight + this.tileHeight ,
+	this.grid[10][18] = entityManager._makeKey({     cx : 19*this.tileWidth - this.tileWidth,
+												   cy : 11*this.tileHeight - this.tileHeight ,
 
 												   halfHeight : 5,
 												   halfWidth  : 5,

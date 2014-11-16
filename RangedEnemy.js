@@ -15,6 +15,12 @@ RangedEnemy.prototype.halfWidth=40;
 
 RangedEnemy.prototype.direction=1;
 
+RangedEnemy.prototype.flinchTime=0.5*SECS_TO_NOMINALS;
+RangedEnemy.prototype.currentFlinchTime=0;
+RangedEnemy.prototype.flinchDirection=-1;
+
+RangedEnemy.prototype.hitPoints=15;
+
 RangedEnemy.prototype.isAttacking=false;
 RangedEnemy.prototype.arrowSpeed=7;
 RangedEnemy.prototype.attackCooldown=1*SECS_TO_NOMINALS;
@@ -36,14 +42,26 @@ RangedEnemy.prototype.render = function(ctx)
 
 RangedEnemy.prototype.update = function(dt)
 {
-    characters = entityManager.getPlayers();
+
+   var characters = entityManager.getPlayers();
+
+    //Face player 1
+    var playerX =characters[0].cx;
+    if(playerX<This.cx)
+        this.direction=-1;
+    else
+        this.direction=1;
+    
+    this.flinchMaybe(dt);
+
+    //attack player
     if(this.currentCooldownTime<0)
     {
         for(var i=0;i<characters.length;i++)
         {
-            target=characters[i];
+            var target=characters[i];
     
-            distToTarget=util.getDistSq(this.cx,
+            var distToTarget=util.getDistSq(this.cx,
                                         this.cy,
                                         target.cx,
                                         target.cy);
@@ -61,6 +79,14 @@ RangedEnemy.prototype.update = function(dt)
      }
 	    
 };
+
+RangedEnemy.prototype.takeDamage(pain)
+{
+    this.hitPoints -= pain;
+    //flinch away from player
+    this.currentFlinchTime = this.flinchTime;
+}
+    
 
 RangedEnemy.prototype.attack = function(targetX,targetY)
 {
@@ -94,6 +120,20 @@ RangedEnemy.prototype.attack = function(targetX,targetY)
                               entityManager._currentRoomID);
 
 };
+
+RangedEnemy.prototype.flinchMaybe(dt);
+{
+    if(this.currentFlinchTime>0)
+    {
+        this.cx += this.flinchDirection*5*dt
+        this.currentFlinchTime -= dt;
+    }
+    else
+    {
+        this.flinchDirection = -this.direction;
+        this.currentFlinchTime =0;
+    }
+}
 
 
 

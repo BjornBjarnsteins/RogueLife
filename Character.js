@@ -22,6 +22,8 @@ Character.prototype.ammo = 3;
 Character.prototype.hasKey = false;
 Character.prototype.speed = 5;
 Character.prototype.tempSpeedBonus = 0;
+Character.prototype.invulnDur = 0.5*SECS_TO_NOMINALS;
+Character.prototype.currentInvulnDur = 0;
 
 //Character.prototype.Sprite = g_sprites.walk;
 
@@ -58,6 +60,7 @@ Character.prototype.KEY_RIGHT = "D".charCodeAt(0);
 Character.prototype.KEY_THROW = " ".charCodeAt(0);
 Character.prototype.KEY_DASH_RIGHT = "E".charCodeAt(0);
 Character.prototype.KEY_DASH_LEFT = "Q".charCodeAt(0);
+Character.prototype.inputsLocked = false;
 
 //TODO:Images and sounds for character
 
@@ -77,7 +80,8 @@ Character.prototype.update = function(dt)
 
 	//console.log(this.state)
 
-	if (this.state === this.STATE_STANDING ||
+	if (this.inputsLocked) {}
+	else if (this.state === this.STATE_STANDING ||
 		this.state === this.STATE_RUNNING  ||
 		this.state === this.STATE_FALLING
 	    ) {
@@ -312,6 +316,9 @@ Character.prototype.update = function(dt)
 			entityManager._door[11][0].locked = false;
 		}
 	}
+
+	this.currentInvulnDur--;
+	this.inputsLocked = this.currentInvulnDur > 0;
 
 	spatialManager.register(this);
 	if (this.weapon) this.weapon.update(dt, this);
@@ -587,9 +594,9 @@ Character.prototype.getRadius = function() {
 };
 
 Character.prototype.takeDamage = function(amount){
-	this.sendMessage(amount, "red");
+	if (this.currentInvulnDur > 0);
 
-	console.log(amount);
+	this.sendMessage(amount, "red");
 
 	if (this.life > 0) {
 		this.life = this.life - amount;
@@ -597,6 +604,9 @@ Character.prototype.takeDamage = function(amount){
 
 		g_audio.dmg.Play();
 		}
+
+	this.currentInvulnDur = this.invulnDur;
+	this.inputsLocked = true;
 
 
 

@@ -308,11 +308,15 @@ update: function(du) {
                 // remove the dead guy, and shuffle the others down to
                 // prevent a confusing gap from appearing in the array
 
+                if(aCategory[0].life === 0){
+
+                	//restart the game if the thing that died was the player
+                	
+                	requestPreloads();
+                }
                 aCategory.splice(i,1);
-            }
-            else if(status === -2) {
-            	console.log("here");
-            	//do death stuff
+
+
             }else{
                 ++i;
             }

@@ -317,7 +317,7 @@ Character.prototype.update = function(dt)
 	}
 
 
-	if (this.cx < 60 && this.cx > 50 && this.cy === 510 && entityManager._currentRoomID === 11){
+	if (this.cx < 200 && this.cx > 50 && this.cy === 510 && entityManager._currentRoomID === 11){
 		if(!this.hasKey){
 
 			entityManager._door[11][0].locked = true;
@@ -336,7 +336,6 @@ Character.prototype.update = function(dt)
 	else this.energy = this.maxEnergy;
 
 	if (this.life === 0) {
-		console.log("ég á að vera dáinn")
 		g_audio.placeholder.Play();
 		this.state = this.STATE_DEAD;
 		if(this.deathAnimationTimeIndex < 100){

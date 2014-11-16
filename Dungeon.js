@@ -41,6 +41,7 @@ var dungeon = {
 				this.grid[i][j].interiorDesign(getRandomScheme(adjacent));
 				if(i===1 && j===0){
 					this.grid[i][j].insertDoor();
+
 				}
 			}
 		}
@@ -74,6 +75,9 @@ var dungeon = {
 		var posX = this.currentPosX;
 		var posY = this.currentPosY;
 
+		var largestX = 0;
+		var largestY = 0;
+
 		while (i < steps) {
 			var stepSeed = Math.floor(Math.random()*4);
 			if (stepSeed === 0) {
@@ -90,6 +94,9 @@ var dungeon = {
 
 				this.grid[posX][posY++].addBottomExit();
 				this.grid[posX][posY].addTopExit();
+				if(largestY < posY ){
+					largestY = posY;
+				}
 			} else if (stepSeed === 2) {
 				// step left
 				if(posX === 1 && posY === 0 ) continue;
@@ -103,10 +110,17 @@ var dungeon = {
 
 				this.grid[posX++][posY].addRightExit();
 				this.grid[posX][posY].addLeftExit();
+
+				if(largestX < posX ){
+					largestX = posX;
+				}
 			}
 
 			i++;
 		}
+
+
+		this.grid[largestX][largestY].makeKey();
 
 		this.makeOutdoors();
 

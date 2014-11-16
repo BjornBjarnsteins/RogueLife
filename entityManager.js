@@ -39,6 +39,7 @@ _powerups	 : [],
 _chests		 : [],
 _door 		 : [],
 _messages	 : [],
+_key 		 : [],
 
 weapon : null,
 
@@ -97,7 +98,8 @@ deferredSetup : function () {
     					this._powerups,
     					this._chests,
     					this._door,
-						this._messages
+						this._messages,
+						this._key
     					];
 },
 
@@ -257,6 +259,18 @@ _removePowerup : function (powerup, roomID) {
 	}
 
 	if (index !== -1) this._powerups[roomID].splice(index, 1);
+},
+
+_makeKey : function (descr, roomID) {
+
+	var newKey = new Key(descr);
+	if (!this._key[roomID]) this._key[roomID] = [newKey];
+	else this._key[roomID].push(newKey);
+	return newKey;
+},
+
+_removeKey : function (roomID) {
+	this._key.splice(0, 1);
 },
 
 // message stuff

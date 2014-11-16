@@ -245,6 +245,7 @@ Character.prototype.update = function(dt)
 	var hitEntity = this.findHitEntity();
 
 	// if hitEntity is a powerup, pick it up
+	//also if it is a key
 	util.maybeCall(hitEntity.resolveEffect,
 				   hitEntity,
 				   [this]);
@@ -263,6 +264,7 @@ Character.prototype.update = function(dt)
 		this.resolveCollision(collisionCode);
 		if(collisionCode === -1){break;}
 	}
+
 
 	//console.log("velX: " + this.velX + " velY: " + this.velY);
 	//console.log("aveVelX: " + aveVel.X + " aveVelY: " + aveVel.Y);
@@ -304,8 +306,8 @@ Character.prototype.update = function(dt)
 		entityManager.CleanSmanager(dt);
 	}
 
-	if (this.cx < 60 && this.cx > 50 && this.cy === 510 && entityManager._currentRoomID === 11){
 
+	if (this.cx < 60 && this.cx > 50 && this.cy === 510 && entityManager._currentRoomID === 11){
 		if(!this.hasKey){
 
 			entityManager._door[11][0].locked = true;

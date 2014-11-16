@@ -15,7 +15,7 @@ Door.prototype.render = function(ctx){
 				 this.cy-50,
 				 this.halfWidth*2,
 				 this.halfHeight*2,
-				 "white");
+				 "purple");
 
 
 		ctx.restore();
@@ -28,7 +28,6 @@ Door.prototype.takeDamage = function(amnt){
 }
 
 Door.prototype.update = function(dt){
-
 
 	return;
 
@@ -69,15 +68,17 @@ Door.prototype.collidesWith = function (entity, oldX, oldY, nextX, nextY) {
 				if (entity.getLowerBound() <= this.getUpperBound()) {
 					this.groundMe(entity);
 					return entity.TOP_COLLISION;
+
 				} else if (entity.getUpperBound() >= this.getLowerBound()) {
-	        entity.snapTo(entity.cx, this.getLowerBound() + entity.halfHeight);
+	        		entity.snapTo(entity.cx, this.getLowerBound() + entity.halfHeight);
 					return entity.BOTTOM_COLLISION;
+
 				} else if (oldX < this.cx){
 					this.stopMe(entity, -1);
+
 				} else {
 					this.stopMe(entity, 1);
 				}
-
 				return entity.SIDE_COLLISION;
 			}
 		}

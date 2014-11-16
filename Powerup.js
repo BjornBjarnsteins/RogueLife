@@ -100,25 +100,26 @@ Powerup.prototype.render = function (ctx) {
 Powerup.prototype.initializeEffects = function () {
 	this.permanentEffects = [
 		{effect : function (player) {
-			console.log("+10 hp");
 			player.maxLife += 10;
 			player.life += 10;
+			player.sendMessage("+10 max HP", "yellow");
 		},
 		 sprite : g_sprites.plusMaxHealth
 		},
 
 		{effect : function (player) {
-			console.log("+5 energy regen");
 			player.energyRegen += 5;
+			player.sendMessage("+5 energy regen", "yellow");
 		}
 		},
 		{effect : function (player) {
-			console.log("+x damage")
 			//player.attack += x
+			player.sendMessage("+x attack", "yellow");
 		}
 		},
 		{effect : function (player) {
 			player.maxJumps++;
+			player.sendMessage("+1 air jump", "yellow");
 		}
 		}
 
@@ -126,8 +127,13 @@ Powerup.prototype.initializeEffects = function () {
 
 	this.temporaryEffects = [
 		{effect : function (player) {
-			console.log("temp +ms");
 			player.tempSpeedBonus += 1;
+			player.sendMessage("speed boost!", "green");
+		}
+		},
+		{effect : function (player) {
+			player.gainLife(50);
+			player.sendMessage("+50 HP", "green");
 		}
 		}
 

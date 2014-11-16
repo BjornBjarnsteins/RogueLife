@@ -621,6 +621,11 @@ Character.prototype.sendMessage = function (msg, style) {
 									fillStyle : style});
 };
 
+Character.prototype.gainLife = function (amount) {
+	this.life += amount;
+	if (this.life > this.maxLife) this.life = this.maxLife;
+};
+
 /*Character.prototype.death = function() {
 
 	//Það þarf death animation.

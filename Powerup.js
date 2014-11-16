@@ -76,21 +76,15 @@ Powerup.prototype.resolveEffect = function (player) {
 Powerup.prototype.randomizeEffect = function () {
 	var isPermanent = Math.floor(Math.random()*2);
 
-	if (isPermanent) {
-		var seed = Math.floor(Math.random()*this.permanentEffects.length);
+	var effectsArray = isPermanent ? this.permanentEffects : this.temporaryEffects;
 
+	var seed = Math.floor(Math.random()*effectsArray.length);
 
-		this.effect = this.permanentEffects[seed].effect;
+	this.effect = effectsArray[seed].effect;
 
-		if (this.permanentEffects[seed].sprite) {
-			this.sprite = this.permanentEffects[seed].sprite;
-		} else {
-			this.sprite = g_sprites.unknownEffect;
-		}
-
+	if (effectsArray[seed].sprite) {
+		this.sprite = effectsArray[seed].sprite;
 	} else {
-		this.effect = function () { console.log("temporary"); };
-
 		this.sprite = g_sprites.unknownEffect;
 	}
 };
@@ -130,5 +124,12 @@ Powerup.prototype.initializeEffects = function () {
 
 	];
 
-	this.temporaryEffects = [];
+	this.temporaryEffects = [
+		{effect : function (player) {
+			console.log("temp +ms");
+			player.tempSpeedBonus += 1;
+		}
+		}
+
+	];
 };

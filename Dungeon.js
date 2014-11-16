@@ -120,21 +120,24 @@ var dungeon = {
 		}
 
 
-		this.grid[largestX][largestY].makeKey();
-
 		this.makeOutdoors();
 
-		this.removeInaccessibleRooms();
+		this.removeInaccessibleRooms(largestX,largestY);
 
 		this.printLayoutToConsole();
 	},
 
-	removeInaccessibleRooms : function () {
+	removeInaccessibleRooms : function (largestX,largestY) {
 		for (var i = 0; i < this.grid.length; i++) {
 			for (var j = 0; j < this.grid[i].length; j++) {
+
+				if (!this.grid[largestX][largestY].isAccessible())largestX--
 				if (!this.grid[i][j].isAccessible()) delete this.grid[i][j];
 			}
 		}
+		
+
+		this.grid[largestX][largestY].makeKey();
 	},
 
 	makeOutdoors : function(){

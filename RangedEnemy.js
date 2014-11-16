@@ -1,4 +1,5 @@
 
+//TODO:gravity and flinching, will be the same for MeleeEnemy
 
 this.prototype=new Entity();
 
@@ -15,6 +16,9 @@ RangedEnemy.prototype.halfWidth=40;
 RangedEnemy.prototype.direction=1;
 
 RangedEnemy.prototype.isAttacking=false;
+RangedEnemy.prototype.arrowSpeed=7;
+RangedEnemy.prototype.attackCooldown=1*SECS_TO_NOMINALS;
+RangedEnemy.prototype.currentAttackCooldown=1*SECS_TO_NOMINALS;
 
 
 RangedEnemy.prototype.render = function(ctx)
@@ -33,21 +37,29 @@ RangedEnemy.prototype.render = function(ctx)
 RangedEnemy.prototype.update = function(dt)
 {
     characters = entityManager.getPlayers();
-    for(var i=0;i<characters.length;i++)
+    if(this.currentCooldownTime<0)
     {
-        target=characters[i];
-
-        distToTarget=util.getDistSq(this.cx,
-                                    this.cy,
-                                    target.cx,
-                                    target.cy);
-        if(distToTarget<this.range)
+        for(var i=0;i<characters.length;i++)
         {
-            this.attack(target.cx,target.cy);
-            break;
+            target=characters[i];
+    
+            distToTarget=util.getDistSq(this.cx,
+                                        this.cy,
+                                        target.cx,
+                                        target.cy);
+            if(distToTarget<this.range)
+            {
+                this.attack(target.cx,target.cy);
+                this.currentCooldownTime=this.attackCooldown;
+                break;
+            }
         }
-    }
-	
+     }
+     else
+     {
+        this.currentCooldownTime -= dt;
+     }
+	    
 };
 
 RangedEnemy.prototype.attack = function(targetX,targetY)

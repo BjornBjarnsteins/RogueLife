@@ -7,5 +7,6 @@ var startscreen = {
 		ctx.scale(10, 10);
 		ctx.restore();
 	}
+
 }
 		

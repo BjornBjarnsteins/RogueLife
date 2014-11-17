@@ -51,7 +51,7 @@ Character.prototype.STATE_DASHING = 4;
 Character.prototype.STATE_ATTACKING = 5;
 Character.prototype.STATE_FALLING = 6;
 Character.prototype.STATE_CROUCHING = 7;
-Character.prototype.STATE_DEAD = 7;
+Character.prototype.STATE_DEAD = 8;
 
 Character.prototype.prevState = 1;
 
@@ -68,6 +68,22 @@ Character.prototype.KEY_DASH_LEFT = "Q".charCodeAt(0);
 Character.prototype.inputsLocked = false;
 
 //TODO:Images and sounds for character
+
+Character.prototype.ResetGame = function(){
+	dungeon.init();
+	this.cx = 100;
+	this.cy = 510;
+	this.life = 100;
+	this.direction = 1;
+	this.maxJumps = 3;
+	this.maxLife = 100;
+	this.maxEnergy = 100;
+	this.state = this.STATE_STANDING;
+	this.prevState = 1;
+	this.inAir = false;
+	this.wasJumping = false;
+	this.tempSpeedBonus = 0;
+}
 
 Character.prototype.update = function(dt)
 {
@@ -450,6 +466,7 @@ Character.prototype.render = function (ctx)
 
 
     	g_sprites.Die[index].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
+
 
 	}
 	else if(this.state === this.STATE_ATTACKING)

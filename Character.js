@@ -693,11 +693,17 @@ Character.prototype.death = function() {
 	
 	this.state = this.STATE_STANDING;
 	this.life = this.maxLife;
+	this.cx = 100;
+	this.cy = 510;
+	this.deathAnimationTimeIndex = 0;
+	this.direction = 1;
 
+	spatialManager.cleanOut();
 	dungeon.clearDungeon();
 	dungeon._nextRoomID = 1;
 	dungeon.init();
 	entityManager.init(this);
+	entityManager._oldRoomID = 1;
 	this.resetTemporaryVars();
 	dungeon._nextRoomID = 1;
 };

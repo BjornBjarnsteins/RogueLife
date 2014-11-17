@@ -42,6 +42,13 @@ getNewSpatialID : function() {
 
 },
 
+cleanOut : function(){
+	
+	this._entities.splice(0,this._entities.length);
+	this._nextSpatialID = 1;
+	
+},
+
 register: function(entity) {
     var pos = entity.getPos();
     var spatialID = entity.getSpatialID();

@@ -53,7 +53,7 @@ setRoom : function (room) {
 
 
 	this._currentRoomID = room.getRoomID();
-	
+
 	if (this._characters[this._oldRoomID][0]) {
 		this._characters[this._currentRoomID] = [this._characters[this._oldRoomID][0]];
 		this._characters[this._oldRoomID].splice(0, 1);
@@ -199,7 +199,7 @@ _generateParticles : function (descr, roomID) {
 		else this._particles[roomID].push(newParticle);
 
 		return newParticle;
-	
+
 },
 
 // Powerup stuff
@@ -242,6 +242,10 @@ _removeWall : function (wall, roomID) {
 	}
 
 	if (index !== -1) this._walls[roomID].splice(index, 1);
+},
+
+_emptyRoom : function (roomID) {
+
 },
 
 _removePlatform : function (platform, roomID) {
@@ -324,7 +328,7 @@ update: function(du) {
                 if(aCategory[0].life === 0){
 
                 	//restart the game if the thing that died was the player
-                	//but i cant do it :( 
+                	//but i cant do it :(
                 	aCategory[0].life = 100;
 
                 }else{

@@ -18,6 +18,7 @@
 		},
 
 		init : function () {
+      console.log("initializing dungeon");
 			this.currentPosX = 0;
 			this.currentPosY = 0;
 			this.initializeDungeonGrid();

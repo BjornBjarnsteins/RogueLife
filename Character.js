@@ -690,9 +690,11 @@ Character.prototype.death = function() {
 	this.state = this.STATE_STANDING;
 	this.life = this.maxLife;
 	dungeon.clearDungeon();
+	dungeon._nextRoomID = 1;
 	dungeon.init();
 	entityManager.init(this);
 	this.resetTemporaryVars();
+	dungeon._nextRoomID = 1;
 };
 
 Character.prototype.resetTemporaryVars = function() {

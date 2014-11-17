@@ -383,10 +383,14 @@ function preloadDone() {
 	console.log("g_sprites: " + g_sprites);
 
     //creates initial objects
-	dungeon.init();
+	  dungeon.init();
     entityManager.init();
 
     main.init();
+}
+
+function restart(){
+  main.init();
 }
 
 

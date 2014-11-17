@@ -47,6 +47,7 @@ _currentRoomID : null,
 
 _oldRoomID : 1,
 
+
 setRoom : function (room) {
 
 
@@ -311,10 +312,13 @@ update: function(du) {
                 if(aCategory[0].life === 0){
 
                 	//restart the game if the thing that died was the player
-                	
-                	requestPreloads();
+                	//but i cant do it :( 
+                	aCategory[0].life = 100;
+
+                }else{
+                	console.log("her nuna")
+                	aCategory.splice(i,1);
                 }
-                aCategory.splice(i,1);
 
 
             }else{

@@ -18,6 +18,7 @@
 		},
 
 		init : function () {
+      console.log("initializing dungeon");
 			this.currentPosX = 0;
 			this.currentPosY = 0;
 			this.initializeDungeonGrid();
@@ -133,7 +134,10 @@
 				for (var j = 0; j < this.grid[i].length; j++) {
 
 					if (!this.grid[largestX][largestY].isAccessible())largestX--
-					if (!this.grid[i][j].isAccessible()) delete this.grid[i][j];
+					if (!this.grid[i][j].isAccessible()) {
+            this.grid[i][j].emptyRoom();
+            delete this.grid[i][j];
+          }
 				}
 			}
 
@@ -145,6 +149,19 @@
 			this.grid[0][0].addRightExit();
 			this.grid[1][0].addLeftExit();
 		},
+
+    clearDungeon : function(){
+      for (var i = 0; i < this.grid.length; i++) {
+        if (!this.grid[i]) continue;
+
+        for (var j = 0; j < this.grid[i].length; j++) {
+          if (this.grid[i][j]) {
+            this.grid[i][j].emptyRoom();
+            delete this.grid[i][j];
+          }
+        }
+      }
+    },
 
 		enterRoom : function (room, character) {
 

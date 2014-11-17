@@ -351,14 +351,13 @@ Character.prototype.update = function(dt)
 	if (this.energy < this.maxEnergy) this.energy += dt * this.energyRegen;
 	else this.energy = this.maxEnergy;
 
-	if (this.life === 0) {
+	if (this.life <= 0) {
 		g_audio.placeholder.Play();
 		this.state = this.STATE_DEAD;
 		if(this.deathAnimationTimeIndex < 100){
 			this.deathAnimationTimeIndex += dt;
 		}else{
-
-			return this.KILL_ME_NOW;
+      this.death();
 		}
 
 	}
@@ -686,12 +685,7 @@ Character.prototype.gainLife = function (amount) {
 	if (this.life > this.maxLife) this.life = this.maxLife;
 };
 
-/*Character.prototype.death = function() {
-
-	//Það þarf death animation.
-	//Game over screen?
-
-	// Fade to black -> byrjar aftur frá byrjun í nýju dungeoni
-
-}
-*/
+Character.prototype.death = function() {
+  dungeon.clearDungeon();
+  dungeon.init();
+};

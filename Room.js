@@ -64,6 +64,14 @@ Room.prototype.emptyTileAt = function(x, y) {
 	this.emptyTile(row, col);
 };
 
+Room.prototype.emptyRoom = function () {
+  for (var row = 0; row < this.gridRows; row++) {
+		for (var col = 0; col < this.gridCols; col++) {
+			this.emptyTile(row, col);
+		}
+	}
+};
+
 Room.prototype.insertWallInTile = function (row, col, type) {
 	if (this.grid[row][col]) return;
 	var tipa = type;
@@ -153,8 +161,12 @@ Room.prototype.makeKey = function (x,y) {
 };
 
 Room.prototype.emptyTile = function (row, col) {
-	entityManager._removeWall(this.grid[row][col], this._roomID);
-	entityManager._removePlatform(this.grid[row][col], this._roomID);
+  if (this.grid[row][col] instanceof Wall) entityManager._removeWall(this.grid[row][col], this._roomID);
+	else if (this.grid[row][col] instanceof Platform) entityManager._removePlatform(this.grid[row][col], this._roomID);
+  /*else if (this.grid[row][col] instanceof Spike) entityManager._removeSpike(this.grid[row][col], this._roomID);
+  else if (this.grid[row][col] instanceof SpikeTrap) entityManager._removeSpikeTrap(this.grid[row][col], this._roomID);
+  else if (this.grid[row][col] instanceof Key) entityManager._removeKey(this._roomID);
+  else if (this.grid[row][col] instanceof Door) entityManager._removeDoor(this._roomID);*/
 
 	this.grid[row][col] = null;
 };

@@ -42,7 +42,9 @@ Weapon.prototype.direction=1;
 Weapon.prototype.KEY_ATTACK="N".charCodeAt(0);
 
 Weapon.prototype.update = function(dt, character)
-{   
+{    
+
+    
     if(character){
         if(character.direction === 1){
             this.cx = character.cx + 73;
@@ -56,9 +58,10 @@ Weapon.prototype.update = function(dt, character)
     
     if(keys[this.KEY_ATTACK]&&this.currentAttackTime===0)
     {
-	   //Play the attack sound
+    	   //Play the attack sound
 	   g_audio.swordshit.Play();
 	   this.currentAttackTime=this.maximumAttackTime;
+
        this.activeAttack = true;
     }
 

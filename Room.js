@@ -64,6 +64,14 @@ Room.prototype.emptyTileAt = function(x, y) {
 	this.emptyTile(row, col);
 };
 
+Room.prototype.emptyRoom = function () {
+  for (var row = 0; row < this.gridRows; row++) {
+		for (var col = 0; col < this.gridCols; col++) {
+			this.emptyTile(row, col);
+		}
+	}
+};
+
 Room.prototype.insertWallInTile = function (row, col, type) {
 	if (this.grid[row][col]) return;
 	var tipa = type;

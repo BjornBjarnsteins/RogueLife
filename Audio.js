@@ -119,7 +119,8 @@ var requiredSounds = {
 	soundtrack2 : "sounds/intenseSoundtrack.ogg",
 	startsound 	: "sounds/starttheme.ogg",
 	deathsound  : "sounds/death.ogg",
-	dying		: "sounds/dying.ogg"
+	dying		: "sounds/dying.ogg",
+	victory 	: "sounds/victory.ogg"
 
 };
 

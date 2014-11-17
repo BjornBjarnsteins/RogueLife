@@ -7,9 +7,16 @@ var startscreen = {
 		g_sprites.logo.drawAt(ctx,0,0);
 		ctx.restore();
 	},	
+	
 	deathrender : function(ctx) {
 		ctx.save();
 		g_sprites.death.drawAt(ctx,0,0);
+		ctx.restore();
+	},
+	
+	victoryrender : function(ctx) {
+		ctx.save();
+		g_sprites.victory.drawAt(ctx,0,0);
 		ctx.restore();
 	}
 

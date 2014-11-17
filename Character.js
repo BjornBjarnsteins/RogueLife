@@ -1,6 +1,6 @@
 Character = function(descr)
 {
-    this.setup(descr);
+	this.setup(descr);
 };
 
 Character.prototype = new Entity();
@@ -34,8 +34,8 @@ Character.prototype.deathAnimationTimeIndex = 0;
 // Direction is either 1 or -1. 1 means right, -1 means left
 Character.prototype.direction=1;
 // Placeholder value
-Character.prototype.maxJumps = 3;
-Character.prototype.jumpsLeft = 3;
+Character.prototype.maxJumps = 2;
+Character.prototype.jumpsLeft = 2;
 Character.prototype.inAir = false;
 Character.prototype.wasJumping = false;
 Character.prototype.isDashing = false;
@@ -88,13 +88,13 @@ Character.prototype.ResetGame = function(){
 Character.prototype.update = function(dt)
 {
 
-    spatialManager.unregister(this);
-    //Gravity computation should probably be moved
-    //to entity manager when we get one of those up
-    var accelX=0;
-    var accelY=this.computeGravity();
+	spatialManager.unregister(this);
+	//Gravity computation should probably be moved
+	//to entity manager when we get one of those up
+	var accelX=0;
+	var accelY=this.computeGravity();
 
-    var oldX = this.cx;
+	var oldX = this.cx;
 	var oldY = this.cy;
 
 	var fallsThrough = false;
@@ -103,14 +103,14 @@ Character.prototype.update = function(dt)
 
 	if (this.inputsLocked) {}
 	else if (this.state === this.STATE_STANDING ||
-		this.state === this.STATE_RUNNING  ||
-		this.state === this.STATE_FALLING
-	    ) {
+			 this.state === this.STATE_RUNNING  ||
+			 this.state === this.STATE_FALLING
+			) {
 
 
 
 		if( this.velY === 0 				  &&
-			this.state === this.STATE_FALLING ){
+		   this.state === this.STATE_FALLING ){
 
 
 			this.state = this.STATE_STANDING
@@ -152,8 +152,8 @@ Character.prototype.update = function(dt)
 		}
 
 		if(!keys[this.KEY_LEFT] 			  &&
-			!keys[this.KEY_RIGHT] 			  &&
-			this.state !== this.STATE_FALLING ){
+		   !keys[this.KEY_RIGHT] 			  &&
+		   this.state !== this.STATE_FALLING ){
 
 			this.state = this.STATE_STANDING;
 			this.movedFrom = 0;
@@ -178,7 +178,7 @@ Character.prototype.update = function(dt)
 		}
 
 		if (eatKey(this.KEY_THROW)) {
-				this.throwDagger();
+			this.throwDagger();
 		}
 
 		if (eatKey(this.KEY_DASH_LEFT)) {
@@ -265,8 +265,8 @@ Character.prototype.update = function(dt)
 	this.applyAccel(accelX,accelY,dt);
 
 	// s = s + v_ave * t
-    var nextX = this.cx + this.aveVelX * dt;
-    var nextY = this.cy + this.aveVelY * dt;
+	var nextX = this.cx + this.aveVelX * dt;
+	var nextY = this.cy + this.aveVelY * dt;
 
 	var hitEntity = this.findHitEntity();
 
@@ -283,8 +283,8 @@ Character.prototype.update = function(dt)
 	for (var i = 0; i < hitObstacles.length; i++) {
 		if(!hitObstacles[i]._isDeadNow){
 			collisionCode = util.maybeCall(hitObstacles[i].collidesWith,
-									   hitObstacles[i],
-									   [this, oldX, oldY, nextX, nextY, fallsThrough]);
+										   hitObstacles[i],
+										   [this, oldX, oldY, nextX, nextY, fallsThrough]);
 		}
 
 		this.resolveCollision(collisionCode);
@@ -297,8 +297,8 @@ Character.prototype.update = function(dt)
 
 
 	// s = s + v_ave * t
-    this.cx += dt * this.aveVelX;
-    this.cy += dt * this.aveVelY;
+	this.cx += dt * this.aveVelX;
+	this.cy += dt * this.aveVelY;
 
 	if (this.velY > 0) {}//this.state = this.STATE_FALLING;
 
@@ -357,7 +357,7 @@ Character.prototype.update = function(dt)
 		if(this.deathAnimationTimeIndex < 100){
 			this.deathAnimationTimeIndex += dt;
 		}else{
-      this.death();
+			this.death();
 		}
 
 	}
@@ -366,7 +366,7 @@ Character.prototype.update = function(dt)
 
 Character.prototype.resolveCollision = function(collisionCode) {
 	if (collisionCode === this.TOP_COLLISION ||
-	    collisionCode === this.BOTTOM_COLLISION) {
+		collisionCode === this.BOTTOM_COLLISION) {
 		this.velY = 0;
 		this.aveVelY = 0;
 		if(this.state !== this.STATE_DASHING){
@@ -388,151 +388,151 @@ Character.prototype.resolveCollision = function(collisionCode) {
 
 Character.prototype.hasJumpsLeft = function()
 {
-     return this.jumpsLeft !== 0;
+	return this.jumpsLeft !== 0;
 };
 
 Character.prototype.clampToBounds = function()
 {
-    var leftBoundary = 0+this.halfWidth;
-    var rightBoundary = g_canvas.width-this.halfWidth;
+	var leftBoundary = 0+this.halfWidth;
+	var rightBoundary = g_canvas.width-this.halfWidth;
 
-    var topBoundary = 0+this.halfHeight;
-    var bottomBoundary = g_canvas.height-this.halfHeight;
+	var topBoundary = 0+this.halfHeight;
+	var bottomBoundary = g_canvas.height-this.halfHeight;
 
 	var oldY = this.cy;
-    //uses already provided clamping function
-    this.cx=util.clampRange(this.cx,leftBoundary,rightBoundary);
-    this.cy=util.clampRange(this.cy,topBoundary,bottomBoundary);
+	//uses already provided clamping function
+	this.cx=util.clampRange(this.cx,leftBoundary,rightBoundary);
+	this.cy=util.clampRange(this.cy,topBoundary,bottomBoundary);
 
-    if (this.cy < oldY) this.resetJumps();
+	if (this.cy < oldY) this.resetJumps();
 
 };
 
 Character.prototype.render = function (ctx)
 {
-   	var sx ;
-   	var sy ;
-   	var height;
-   	var width ;
-   	var image ;
-   	var x = this.cx;
-   	var y = this.cy;
-   	var flip;
-   	if(this.direction === 1){
-   		flip = true;
-   	}else{
-   		flip = false;
-    }
+	var sx ;
+	var sy ;
+	var height;
+	var width ;
+	var image ;
+	var x = this.cx;
+	var y = this.cy;
+	var flip;
+	if(this.direction === 1){
+		flip = true;
+	}else{
+		flip = false;
+	}
 
-    if(this.state === this.STATE_STANDING )
-    {
+	if(this.state === this.STATE_STANDING )
+	{
 
-    	sx = g_sprites.walk[0].sx;
-	   	sy = g_sprites.walk[0].sy;
-	   	height = g_sprites.walk[0].height;
-	   	width = g_sprites.walk[0].width;
+		sx = g_sprites.walk[0].sx;
+		sy = g_sprites.walk[0].sy;
+		height = g_sprites.walk[0].height;
+		width = g_sprites.walk[0].width;
 		image = g_sprites.walk[0];
 
 		g_sprites.walk[0].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
-    }
-    else if(this.state === this.STATE_RUNNING)
-    {
+	}
+	else if(this.state === this.STATE_RUNNING)
+	{
 
-    	var distanceTraveled = Math.abs(this.movedFrom - this.cx);
-    	var index = Math.floor((distanceTraveled / 65*9) % 9);
+		var distanceTraveled = Math.abs(this.movedFrom - this.cx);
+		var index = Math.floor((distanceTraveled / 65*9) % 9);
 
-    	sx = g_sprites.walk[index].sx;
+		sx = g_sprites.walk[index].sx;
 		sy = g_sprites.walk[index].sy;
-	   	height = g_sprites.walk[index].height;
-	   	width = g_sprites.walk[index].width;
-	   	image = g_sprites.walk[index];
+		height = g_sprites.walk[index].height;
+		width = g_sprites.walk[index].width;
+		image = g_sprites.walk[index];
 
 
-    	g_sprites.walk[index].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
-    	if (index === 1) g_audio.walk.Play();
+		g_sprites.walk[index].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
+		if (index === 1) g_audio.walk.Play();
 
 	}
 	else if(this.state === this.STATE_DEAD)
-    {
+	{
 
-    	var index = Math.floor(this.deathAnimationTimeIndex/20);
+		var index = Math.floor(this.deathAnimationTimeIndex/20);
 
-    	sx = g_sprites.Die[index].sx;
+		sx = g_sprites.Die[index].sx;
 		sy = g_sprites.Die[index].sy;
-	   	height = g_sprites.Die[index].height;
-	   	width = g_sprites.Die[index].width;
-	   	image = g_sprites.Die[index];
+		height = g_sprites.Die[index].height;
+		width = g_sprites.Die[index].width;
+		image = g_sprites.Die[index];
 
 
-    	g_sprites.Die[index].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
+		g_sprites.Die[index].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
 
 
 	}
 	else if(this.state === this.STATE_ATTACKING)
-    {
+	{
 
-    	var time = entityManager.weapon.currentAttackTime;
-    	if(time > 5){
-    		index = 0;
-    	} else if(time > 4){
-    		index = 1;
-    	}else if(time > 3){
-    		index = 2;
-    	}else if(time > 2){
-    		index = 4;
-    	}else {
-    		index = 5;
-    	}
+		var time = entityManager.weapon.currentAttackTime;
+		if(time > 5){
+			index = 0;
+		} else if(time > 4){
+			index = 1;
+		}else if(time > 3){
+			index = 2;
+		}else if(time > 2){
+			index = 4;
+		}else {
+			index = 5;
+		}
 
-    	sx = g_sprites.attackSw[index].sx;
+		sx = g_sprites.attackSw[index].sx;
 		sy = g_sprites.attackSw[index].sy;
-	   	height = g_sprites.attackSw[index].height;
-	   	width = g_sprites.attackSw[index].width;
-	   	image = g_sprites.attackSw[index];
-	   	flip = !flip;
+		height = g_sprites.attackSw[index].height;
+		width = g_sprites.attackSw[index].width;
+		image = g_sprites.attackSw[index];
+		flip = !flip;
 
 
-    	g_sprites.attackSw[index].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
+		g_sprites.attackSw[index].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
 
 	} else if (this.state === this.STATE_JUMPING || this.state === this.STATE_FALLING) {
 
 		sx = g_sprites.jump.sx;
 		sy = g_sprites.jump.sy;
-	   	height = g_sprites.jump.height;
-	   	width = g_sprites.jump.width;
-	   	image = g_sprites.jump;
-	   	flip = !flip;
+		height = g_sprites.jump.height;
+		width = g_sprites.jump.width;
+		image = g_sprites.jump;
+		flip = !flip;
 
-    	g_sprites.jump.drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
+		g_sprites.jump.drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
 
 	} else if (this.state === this.STATE_CROUCHING){
 
 		sx = g_sprites.crouch.sx;
 		sy = g_sprites.crouch.sy;
-	   	height = g_sprites.crouch.height;
-	   	width = g_sprites.crouch.width;
-	   	image = g_sprites.crouch;
+		height = g_sprites.crouch.height;
+		width = g_sprites.crouch.width;
+		image = g_sprites.crouch;
 
-    	g_sprites.crouch.drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
+		g_sprites.crouch.drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
 
 	}else if (this.state === this.STATE_DASHING){
 
 		sx = g_sprites.dash.sx;
 		sy = g_sprites.dash.sy;
-	   	height = g_sprites.dash.height;
-	   	width = g_sprites.dash.width;
-	   	image = g_sprites.dash;
-	   	flip = !flip;
+		height = g_sprites.dash.height;
+		width = g_sprites.dash.width;
+		image = g_sprites.dash;
+		flip = !flip;
 
-    	g_sprites.dash.drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
+		g_sprites.dash.drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
 
 	}else {util.fillBox(ctx,
-				 this.cx-this.halfWidth,
-				 this.cy-this.halfHeight,
-				 this.halfWidth*2,
-				 this.halfHeight*2,
-				 "red");
-	}
+						this.cx-this.halfWidth,
+						this.cy-this.halfHeight,
+						this.halfWidth*2,
+						this.halfHeight*2,
+						"red");
+		  }
 
 	if (this.weapon) this.weapon.render(ctx);
 
@@ -544,14 +544,14 @@ Character.prototype.throwDagger = function() {
 	if (this.ammo <= 0) return;
 
 	entityManager._generateProjectile({cx : this.cx + this.direction*this.halfWidth + this.direction*50,
-								  	   cy : this.cy,
+									   cy : this.cy,
 
-									     velX : 10*this.direction,
-									     velY : 0,
+									   velX : 10*this.direction,
+									   velY : 0,
 
-                       sprite : g_sprites.dagger },
+									   sprite : g_sprites.dagger },
 
-									 entityManager._currentRoomID);
+									  entityManager._currentRoomID);
 	this.ammo--;
 };
 
@@ -578,17 +578,17 @@ Character.prototype.jump = function() {
 };
 
 Character.prototype.stopJumping = function() {
-  //console.log("stopping jump");
+	//console.log("stopping jump");
 
 	this.wasJumping = false;
 
-  this.state = this.STATE_FALLING;
+	this.state = this.STATE_FALLING;
 
-  if (this.velY > 0) return;
+	if (this.velY > 0) return;
 
 	this.velY += 15;
 
-  if (this.velY > 0) this.velY = 0;
+	if (this.velY > 0) this.velY = 0;
 };
 
 Character.prototype.dash = function (dir) {
@@ -650,17 +650,17 @@ Character.prototype.takeDamage = function(amount){
 		this.cy -= 25;
 
 		g_audio.dmg.Play();
-		}
+	}
 
 	this.currentInvulnDur = this.invulnDur;
 	this.inputsLocked = true;
 
 	for(var i = 0; i < 5; i++){
-			entityManager._generateParticles({	cx : this.cx,
-										cy : this.cy,
-										colr : "red"},
-										entityManager._currentRoomID);
-		}
+		entityManager._generateParticles({	cx : this.cx,
+										  cy : this.cy,
+										  colr : "red"},
+										 entityManager._currentRoomID);
+	}
 
 
 
@@ -686,7 +686,14 @@ Character.prototype.gainLife = function (amount) {
 };
 
 Character.prototype.death = function() {
-  var character = dungeon.clearDungeon();
-  dungeon.init();
-	entityManager.init();
+	this.state = this.STATE_STANDING;
+	this.life = this.maxLife;
+	dungeon.clearDungeon();
+	dungeon.init();
+	entityManager.init(this);
+	this.resetTemporaryVars();
+};
+
+Character.prototype.resetTemporaryVars = function() {
+	this.tempSpeedBonus = 0;
 };

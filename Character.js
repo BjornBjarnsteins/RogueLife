@@ -43,6 +43,7 @@ Character.prototype.dashSpeed = 20;
 Character.prototype.dashDuration = 0.1*SECS_TO_NOMINALS;
 Character.prototype.currentDashDuration = 0;
 Character.prototype.movedFrom = 0;
+Character.prototype.deathysound = false;
 
 Character.prototype.STATE_STANDING = 1;
 Character.prototype.STATE_RUNNING = 2;
@@ -352,7 +353,10 @@ Character.prototype.update = function(dt)
 	else this.energy = this.maxEnergy;
 
 	if (this.life <= 0) {
-		g_audio.placeholder.Play();
+		if (!this.deathysound) {
+			g_audio.dying.Play();
+			this.deathysound = true;
+			}
 		this.state = this.STATE_DEAD;
 		if(this.deathAnimationTimeIndex < 100){
 			this.deathAnimationTimeIndex += dt;
@@ -687,6 +691,8 @@ Character.prototype.gainLife = function (amount) {
 
 Character.prototype.death = function() {
 	g_deathscreen = true;
+	this.deathysound = false;
+	
 	this.state = this.STATE_STANDING;
 	this.life = this.maxLife;
 	dungeon.clearDungeon();

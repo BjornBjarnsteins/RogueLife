@@ -100,8 +100,6 @@ Character.prototype.update = function(dt)
 
 	var fallsThrough = false;
 
-	//console.log(this.state)
-
 	if (this.inputsLocked) {}
 	else if (this.state === this.STATE_STANDING ||
 			 this.state === this.STATE_RUNNING  ||
@@ -194,7 +192,7 @@ Character.prototype.update = function(dt)
 			}
 		}
 
-		var isAttacking = entityManager.weapon.isAttacking();
+		var isAttacking = this.weapon.isAttacking();
 		if(isAttacking){
 
 			this.prevState = this.state;
@@ -204,7 +202,7 @@ Character.prototype.update = function(dt)
 		}
 	} else if (this.state === this.STATE_JUMPING ) {
 
-		if(!entityManager.weapon.isAttacking){
+		if(!this.weapon.isAttacking){
 
 			this.prevState = this.state;
 			this.state = this.STATE_ATTACKING;
@@ -252,7 +250,7 @@ Character.prototype.update = function(dt)
 		}
 	} else if(this.state === this.STATE_ATTACKING){
 
-		var isAttacking = entityManager.weapon.isAttacking();
+		var isAttacking = this.weapon.isAttacking();
 		if(!isAttacking){
 
 			this.state = this.prevState;
@@ -473,9 +471,9 @@ Character.prototype.render = function (ctx)
 
 	}
 	else if(this.state === this.STATE_ATTACKING)
-	{
+	{	
 
-		var time = entityManager.weapon.currentAttackTime;
+		var time = this.weapon.currentAttackTime;
 		if(time > 5){
 			index = 0;
 		} else if(time > 4){
@@ -695,10 +693,17 @@ Character.prototype.death = function() {
 	
 	this.state = this.STATE_STANDING;
 	this.life = this.maxLife;
+	this.cx = 100;
+	this.cy = 510;
+	this.deathAnimationTimeIndex = 0;
+	this.direction = 1;
+
+	spatialManager.cleanOut();
 	dungeon.clearDungeon();
 	dungeon._nextRoomID = 1;
 	dungeon.init();
 	entityManager.init(this);
+	entityManager._oldRoomID = 1;
 	this.resetTemporaryVars();
 	dungeon._nextRoomID = 1;
 };

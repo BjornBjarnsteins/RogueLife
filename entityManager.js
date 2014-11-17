@@ -48,6 +48,18 @@ _currentRoomID : null,
 
 _oldRoomID : 1,
 
+reseting : function(){
+
+	this._walls = [];
+	this._platforms = [];
+	this._walls = [];
+	this._spikes = [];
+	this._spikestrap = [];
+	this._key = [];
+	this._particles = [];
+
+
+},
 
 setRoom : function (room) {
 
@@ -129,6 +141,7 @@ init: function(player) {
 },
 
 _getPlayer : function () {
+
 	return this._characters[this._currentRoomID][0];
 },
 
@@ -143,6 +156,7 @@ _spawnPlayer : function(descr, roomID) {
 	var newCharacter = new Character(descr);
 	if (!this._characters[roomID]) this._characters[roomID] = [newCharacter];
 	else this._characters[roomID].push(newCharacter);
+
 	return newCharacter;
 },
 
@@ -336,6 +350,7 @@ update: function(du) {
                 	//restart the game if the thing that died was the player
                 	//but i cant do it :(
                 	aCategory[0].life = 100;
+                	restart();
 
                 }else{
                 	console.log("her nuna")

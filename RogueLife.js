@@ -105,7 +105,9 @@ function processDiagnostics() {
 
 	if (eatKey(KEY_MUSICMUTE_TOGGLE)) g_musicmute = !g_musicmute;
 	
-	if (eatKey(KEY_STARTSCREEN)) g_startscreen = !g_startscreen;
+	if (g_startscreen) {
+		if (eatKey(KEY_STARTSCREEN)) g_startscreen = !g_startscreen;
+	}
 }
 
 

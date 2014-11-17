@@ -40,6 +40,7 @@ _chests		 : [],
 _door 		 : [],
 _messages	 : [],
 _key 		 : [],
+_particles   : [],
 
 weapon : null,
 
@@ -100,7 +101,8 @@ deferredSetup : function () {
     					this._powerups,
     					this._chests,
 						this._messages,
-						this._key
+						this._key,
+						this._particles
     					];
 },
 
@@ -188,6 +190,16 @@ _generateProjectile : function (descr, roomID) {
 	else this._projectiles[roomID].push(newProjectile);
 
 	return newProjectile;
+},
+
+_generateParticles : function (descr, roomID) {
+
+		var newParticle = new Particle(descr);
+		if (!this._particles[roomID]) this._particles[roomID] = [newParticle];
+		else this._particles[roomID].push(newParticle);
+
+		return newParticle;
+	
 },
 
 // Powerup stuff

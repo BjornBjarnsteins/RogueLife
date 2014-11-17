@@ -34,6 +34,12 @@ Chest.prototype.update = function(dt){
 
 		this.dropPowerUp();
 		this.kill();
+		for(var i = 0; i < 5; i++){
+			entityManager._generateParticles({	cx : this.cx,
+										cy : this.cy,
+										colr : "pink"},
+										entityManager._currentRoomID);
+		}
 		return this.KILL_ME_NOW;
 	}
 

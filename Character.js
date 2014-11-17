@@ -656,6 +656,13 @@ Character.prototype.takeDamage = function(amount){
 	this.currentInvulnDur = this.invulnDur;
 	this.inputsLocked = true;
 
+	for(var i = 0; i < 5; i++){
+			entityManager._generateParticles({	cx : this.cx,
+										cy : this.cy,
+										colr : "red"},
+										entityManager._currentRoomID);
+		}
+
 
 
 

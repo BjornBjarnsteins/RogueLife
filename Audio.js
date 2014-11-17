@@ -73,25 +73,25 @@ Sound.prototype.soundtrackPlay = function () {
 
 // Loop the sound
 
-/*Sound.prototype.resetPlay = function (){
+Sound.prototype.resetPlay = function (){
 
 	this.reset();
-	this.playSound();
+	this.sound.play();
 };
-*/
+
 
 
 
 
 // Continuous sounds
 
-/*
+
 
 Sound.prototype.reset = function (){
 
 	this.sound.currentTime = 0;
 };
-*/
+
 
 
 
@@ -118,7 +118,8 @@ var requiredSounds = {
 	soundtrack	: "sounds/soundtrack.ogg",
 	soundtrack2 : "sounds/intenseSoundtrack.ogg",
 	startsound 	: "sounds/starttheme.ogg",
-	deathsound  : "sounds/death.ogg"
+	deathsound  : "sounds/death.ogg",
+	dying		: "sounds/dying.ogg"
 
 };
 

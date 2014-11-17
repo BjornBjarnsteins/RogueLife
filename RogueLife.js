@@ -50,6 +50,7 @@ function updateSimulation(du) {
 	if (!g_musicmute) {
     g_audio.startsound.sound.pause();
     g_audio.deathsound.sound.pause();
+    g_audio.deathsound.reset();
     if(entityManager._getPlayer()){
   		if (entityManager._getPlayer().life > 20) {
   				if (g_audio.soundtrack2 && g_audio.soundtrack2.sound) g_audio.soundtrack2.sound.pause();
@@ -69,12 +70,16 @@ function updateSimulation(du) {
 			g_audio.deathsound.sound.pause();
 		}
 	}
-	else if (g_startscreen) g_audio.startsound.soundtrackPlay();
-	else {
-		g_audio.soundtrack2.sound.pause();
-		g_audio.soundtrack.sound.pause();
-		g_audio.startsound.sound.pause();
-		g_audio.deathsound.soundtrackPlay();
+	
+	else if (!g_musicmute) {
+		if (g_startscreen) g_audio.startsound.soundtrackPlay();
+		else {
+			g_audio.soundtrack2.sound.pause();
+			g_audio.soundtrack.sound.pause();
+			g_audio.soundtrack2.reset();
+			g_audio.soundtrack.reset();
+			g_audio.deathsound.soundtrackPlay();
+		}
 	}
 		
 }

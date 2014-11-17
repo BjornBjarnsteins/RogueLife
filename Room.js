@@ -65,11 +65,8 @@ Room.prototype.emptyTileAt = function(x, y) {
 };
 
 Room.prototype.emptyRoom = function () {
-  for (var row = 0; row < this.gridRows; row++) {
-		for (var col = 0; col < this.gridCols; col++) {
-			this.emptyTile(row, col);
-		}
-	}
+	console.log("emptying room: " + this._roomID);
+	entityManager._emptyRoom(this._roomID);
 };
 
 Room.prototype.insertWallInTile = function (row, col, type) {

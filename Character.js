@@ -353,19 +353,29 @@ Character.prototype.update = function(dt)
 		this.forTheStartScreen = 0;
 
 	}else if(this.introAnimation > 510){
+		if(this.ShouldPlay){
+			g_audio.poof.Play();
+			this.ShouldPlay = false;
+		}
 		this.forTheStartScreen = 3;
 
 	}else if(this.introAnimation > 490){
 		this.forTheStartScreen = 1;
+		this.ShouldPlay = true;
 
 	}else if(this.introAnimation > 60){
 		this.forTheStartScreen = 2;
 
 	}else if(this.introAnimation > 40){
+		if(this.ShouldPlay){
+			g_audio.poof.Play();
+			this.ShouldPlay = false;
+		}
 		this.forTheStartScreen = 3;
 		
 	}
 	else if(this.introAnimation > 10){
+		this.ShouldPlay = true;
 		this.forTheStartScreen = 0;
 		
 	}

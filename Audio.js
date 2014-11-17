@@ -122,7 +122,8 @@ var requiredSounds = {
 	dying		: "sounds/dying.ogg",
 	victory 	: "sounds/victory.ogg",
 	key 		: "sounds/key.ogg",
-	Door		: "sounds/Door.ogg"
+	Door		: "sounds/Door.ogg",
+	poof		: "sounds/poof.ogg"
 
 };
 

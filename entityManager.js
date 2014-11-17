@@ -106,14 +106,18 @@ deferredSetup : function () {
     					];
 },
 
-init: function() {
+init: function(player) {
 
     this.weapon = new Weapon();
-	this._spawnPlayer({cx : 100,
-			   cy : g_canvas.height - 100,
-			   weapon: this.weapon},
 
-					 this._currentRoomID);
+	if (player) this._characters[this._currentRoomID] = [player];
+	else {
+		this._spawnPlayer({cx : 100,
+						   cy : g_canvas.height - 100,
+						   weapon: this.weapon},
+
+						  this._currentRoomID);
+	}
 
 	console.log(this._walls.length);
 
@@ -245,7 +249,9 @@ _removeWall : function (wall, roomID) {
 },
 
 _emptyRoom : function (roomID) {
-
+	for (var c = 0; c < this._categories.length; ++c) {
+		this._categories[c][roomID] = [];
+    }
 },
 
 _removePlatform : function (platform, roomID) {

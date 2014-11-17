@@ -40,6 +40,7 @@ function gatherInputs() {
 function updateSimulation(du) {
     processDiagnostics();
       		
+    if (!g_startscreen) {
     entityManager.update(du);
 
 	HUD.update(du);
@@ -48,10 +49,7 @@ function updateSimulation(du) {
 
 	if (!g_musicmute) {
     if(entityManager._getPlayer()){
-  		if (g_startscreen) g_audio.startsound.soundtrackPlay();
-  		else {
-  			g_audio.startsound.sound.pause();
-  			if (entityManager._getPlayer().life > 20) {
+  		if (entityManager._getPlayer().life > 20) {
   				if (g_audio.soundtrack2 && g_audio.soundtrack2.sound) g_audio.soundtrack2.sound.pause();
   				if (g_audio.soundtrack) g_audio.soundtrack.soundtrackPlay();
   			} else {
@@ -59,14 +57,16 @@ function updateSimulation(du) {
   				if (g_audio.soundtrack2.sound) g_audio.soundtrack2.soundtrackPlay();
   			}
   		}
-    }
-	}
-	else {
-		g_audio.soundtrack2.sound.pause();
-		g_audio.soundtrack.sound.pause();
-		g_audio.startsound.sound.pause();
+  	}
+    
 	
+		else {
+			g_audio.soundtrack2.sound.pause();
+			g_audio.soundtrack.sound.pause();
+			g_audio.startsound.sound.pause();
+		}
 	}
+	else g_audio.startsound.soundtrackPlay();
 }
 
 // GAME-SPECIFIC DIAGNOSTICS

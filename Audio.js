@@ -117,7 +117,8 @@ var requiredSounds = {
 	walk		: "sounds/coolguy.ogg",
 	soundtrack	: "sounds/soundtrack.ogg",
 	soundtrack2 : "sounds/intenseSoundtrack.ogg",
-	startsound 	: "sounds/starttheme.ogg"
+	startsound 	: "sounds/starttheme.ogg",
+	deathsound  : "sounds/death.ogg"
 
 };
 

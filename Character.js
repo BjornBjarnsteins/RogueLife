@@ -686,6 +686,7 @@ Character.prototype.gainLife = function (amount) {
 };
 
 Character.prototype.death = function() {
+	g_deathscreen = true;
 	this.state = this.STATE_STANDING;
 	this.life = this.maxLife;
 	dungeon.clearDungeon();

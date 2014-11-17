@@ -40,7 +40,7 @@ function gatherInputs() {
 function updateSimulation(du) {
     processDiagnostics();
       		
-    if (!g_startscreen) {
+    if (!g_startscreen && !g_deathscreen) {
     entityManager.update(du);
 
 	HUD.update(du);
@@ -49,6 +49,7 @@ function updateSimulation(du) {
 
 	if (!g_musicmute) {
     g_audio.startsound.sound.pause();
+    g_audio.deathsound.sound.pause();
     if(entityManager._getPlayer()){
   		if (entityManager._getPlayer().life > 20) {
   				if (g_audio.soundtrack2 && g_audio.soundtrack2.sound) g_audio.soundtrack2.sound.pause();
@@ -65,9 +66,17 @@ function updateSimulation(du) {
 			g_audio.soundtrack2.sound.pause();
 			g_audio.soundtrack.sound.pause();
 			g_audio.startsound.sound.pause();
+			g_audio.deathsound.sound.pause();
 		}
 	}
-	else g_audio.startsound.soundtrackPlay();
+	else if (g_startscreen) g_audio.startsound.soundtrackPlay();
+	else {
+		g_audio.soundtrack2.sound.pause();
+		g_audio.soundtrack.sound.pause();
+		g_audio.startsound.sound.pause();
+		g_audio.deathsound.soundtrackPlay();
+	}
+		
 }
 
 // GAME-SPECIFIC DIAGNOSTICS
@@ -81,6 +90,7 @@ var g_toggleGrid = false;
 var g_mute = false;
 var g_musicmute = false;
 var g_startscreen = true;
+var g_deathscreen = false;
 
 var KEY_MIXED   = keyCode('M');
 var KEY_AVE_VEL = keyCode('V');
@@ -108,6 +118,9 @@ function processDiagnostics() {
 	if (g_startscreen) {
 		if (eatKey(KEY_STARTSCREEN)) g_startscreen = !g_startscreen;
 	}
+	if (g_deathscreen) {
+		if (eatKey(KEY_STARTSCREEN)) g_deathscreen = !g_deathscreen;
+	}
 }
 
 
@@ -127,7 +140,7 @@ function processDiagnostics() {
 
 function renderSimulation(ctx) {
 
-    if (!g_startscreen) {
+    if (!g_startscreen && !g_deathscreen) {
     entityManager.render(ctx);
 
 	HUD.render(ctx);
@@ -139,7 +152,8 @@ function renderSimulation(ctx) {
 	if (g_toggleGrid) dungeon._currentRoom.render(ctx);
 	}
 	
-	else startscreen.render(ctx);
+	else if (g_startscreen) startscreen.startrender(ctx);
+	else startscreen.deathrender(ctx);
 }
 
 
@@ -166,7 +180,8 @@ function requestPreloads() {
 	  heart		  : "sprites/heart.png",
       Gate    : "sprites/gate.png",
       Key     : "sprites/key.png",
-      logo	  : "sprites/logo.png"
+      logo	  : "sprites/logo.png",
+      death	  : "sprites/death.png"
     };
 
 	preLoadAudio();
@@ -407,6 +422,14 @@ function preloadDone() {
 							
 	g_sprites.logo = new Sprite(constructorObjects);
 	
+	var constructorObjects = {image : g_images.death,
+							  sx	: 0,
+							  sy	: 0,
+							  Width	: 750,
+							  Height: 500};
+							  
+	g_sprites.death = new Sprite(constructorObjects);
+
 	
 
 	console.log("g_sprites: " + g_sprites);

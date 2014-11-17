@@ -1,10 +1,15 @@
 "use strict";
 
 var startscreen = {	
-	render : function(ctx) {
+	
+	startrender : function(ctx) {
 		ctx.save();
 		g_sprites.logo.drawAt(ctx,0,0);
-		ctx.scale(10, 10);
+		ctx.restore();
+	},	
+	deathrender : function(ctx) {
+		ctx.save();
+		g_sprites.death.drawAt(ctx,0,0);
 		ctx.restore();
 	}
 

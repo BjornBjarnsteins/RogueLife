@@ -48,6 +48,7 @@ function updateSimulation(du) {
 	dungeon.update(du);
 
 	if (!g_musicmute) {
+    g_audio.startsound.sound.pause();
     if(entityManager._getPlayer()){
   		if (entityManager._getPlayer().life > 20) {
   				if (g_audio.soundtrack2 && g_audio.soundtrack2.sound) g_audio.soundtrack2.sound.pause();

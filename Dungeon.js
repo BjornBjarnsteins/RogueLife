@@ -27,8 +27,10 @@
 		},
 
 		initializeDungeonGrid : function () {
+			this.grid = null;
 			this.grid = new Array(10);
 			for (var i = 0; i < this.grid.length; i++) {
+				this.grid[i] = null;
 				this.grid[i] = new Array(10);
 				for (var j = 0; j < this.grid[i].length; j++) {
 					this.grid[i][j] = new Room();

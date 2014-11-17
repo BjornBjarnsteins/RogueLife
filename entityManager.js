@@ -48,6 +48,36 @@ _currentRoomID : null,
 
 _oldRoomID : 1,
 
+reseting : function(){
+	this._walls = null;
+	this._platforms = null;
+	this._walls = null;
+	this._spikes = null;
+	this._spikestrap = null;
+	this._powerups = null;
+	this._chests = null;
+	this._door = null;
+	this._messages = null;
+	this._key = null;
+	this._particles = null; 
+
+	this._walls = [];
+	this._platforms = [];
+	this._walls = [];
+	this._spikes = [];
+	this._spikestrap = [];
+	this._powerups = [];
+	this._chests = [];
+	this._door = [];
+	this._messages = [];
+	this._key = [];
+	this._particles = [];
+
+	this._currentRoomID  = 1;
+	this._spawnPlayer();
+
+
+},
 
 setRoom : function (room) {
 
@@ -125,6 +155,7 @@ init: function() {
 },
 
 _getPlayer : function () {
+
 	return this._characters[this._currentRoomID][0];
 },
 
@@ -139,6 +170,7 @@ _spawnPlayer : function(descr, roomID) {
 	var newCharacter = new Character(descr);
 	if (!this._characters[roomID]) this._characters[roomID] = [newCharacter];
 	else this._characters[roomID].push(newCharacter);
+
 	return newCharacter;
 },
 
@@ -199,7 +231,7 @@ _generateParticles : function (descr, roomID) {
 		else this._particles[roomID].push(newParticle);
 
 		return newParticle;
-	
+
 },
 
 // Powerup stuff
@@ -326,6 +358,7 @@ update: function(du) {
                 	//restart the game if the thing that died was the player
                 	//but i cant do it :( 
                 	aCategory[0].life = 100;
+                	restart();
 
                 }else{
                 	console.log("her nuna")

@@ -390,7 +390,11 @@ function preloadDone() {
 }
 
 function restart(){
-  main.init();
+
+  dungeon.init();
+    entityManager.init();
+
+    main.init();
 }
 
 

@@ -34,6 +34,8 @@ var dungeon = {
 			for (var j = 0; j < this.grid[i].length; j++) {
 				this.grid[i][j] = new Room();
 
+				console.log(this.grid[i][j]._roomID)
+
 				var adjacent = [];
 				/*if (this.grid[i - 1]) adjacent.push(this.grid[i - 1][j]);
 					if (this.grid[i][j - 1]) adjacent.push(this.grid[i][j - 1]);*/

@@ -686,14 +686,17 @@ Character.prototype.gainLife = function (amount) {
 };
 
 Character.prototype.death = function() {
+	g_deathscreen = true;
 	this.state = this.STATE_STANDING;
 	this.life = this.maxLife;
 
 	//entityManager.reseting();
 	dungeon.clearDungeon();
+	dungeon._nextRoomID = 1;
 	dungeon.init();
 	entityManager.init(this);
 	this.resetTemporaryVars();
+	dungeon._nextRoomID = 1;
 };
 
 Character.prototype.resetTemporaryVars = function() {

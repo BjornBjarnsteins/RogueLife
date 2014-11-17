@@ -186,7 +186,8 @@ function requestPreloads() {
       Gate    : "sprites/gate.png",
       Key     : "sprites/key.png",
       logo	  : "sprites/logo.png",
-      death	  : "sprites/death.png"
+      death	  : "sprites/death.png",
+      victory : "sprites/victory.png"
     };
 
 	preLoadAudio();

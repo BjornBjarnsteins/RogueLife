@@ -40,17 +40,23 @@ function gatherInputs() {
 function updateSimulation(du) {
     processDiagnostics();
       		
-    if (!g_startscreen && !g_deathscreen) {
+    if (!g_startscreen && !g_deathscreen && !g_victoryscreen) {
     entityManager.update(du);
 
 	HUD.update(du);
 
 	dungeon.update(du);
+	
+	if (entityManager._currentRoomID === 101 && entityManager._getPlayer().hasKey) {
+		g_victoryscreen = true;
+		}
 
 	if (!g_musicmute) {
     g_audio.startsound.sound.pause();
     g_audio.deathsound.sound.pause();
     g_audio.deathsound.reset();
+    g_audio.victory.sound.pause();
+    
     if(entityManager._getPlayer()){
   		if (entityManager._getPlayer().life > 20) {
   				if (g_audio.soundtrack2 && g_audio.soundtrack2.sound) g_audio.soundtrack2.sound.pause();
@@ -68,17 +74,25 @@ function updateSimulation(du) {
 			g_audio.soundtrack.sound.pause();
 			g_audio.startsound.sound.pause();
 			g_audio.deathsound.sound.pause();
+			g_audio.victory.sound.pause();
 		}
 	}
 	
 	else if (!g_musicmute) {
 		if (g_startscreen) g_audio.startsound.soundtrackPlay();
-		else {
+		else if (g_deathscreen) {
 			g_audio.soundtrack2.sound.pause();
 			g_audio.soundtrack.sound.pause();
 			g_audio.soundtrack2.reset();
 			g_audio.soundtrack.reset();
 			g_audio.deathsound.soundtrackPlay();
+		}
+		else {
+			g_audio.soundtrack2.sound.pause();
+			g_audio.soundtrack.sound.pause();
+			g_audio.soundtrack2.reset();
+			g_audio.soundtrack.reset();
+			g_audio.victory.soundtrackPlay();
 		}
 	}
 		
@@ -96,6 +110,7 @@ var g_mute = false;
 var g_musicmute = false;
 var g_startscreen = true;
 var g_deathscreen = false;
+var g_victoryscreen = false;
 
 var KEY_MIXED   = keyCode('M');
 var KEY_AVE_VEL = keyCode('V');
@@ -145,7 +160,7 @@ function processDiagnostics() {
 
 function renderSimulation(ctx) {
 
-    if (!g_startscreen && !g_deathscreen) {
+    if (!g_startscreen && !g_deathscreen && !g_victoryscreen) {
     entityManager.render(ctx);
 
 	HUD.render(ctx);
@@ -158,7 +173,10 @@ function renderSimulation(ctx) {
 	}
 	
 	else if (g_startscreen) startscreen.startrender(ctx);
-	else startscreen.deathrender(ctx);
+	else if (g_deathscreen) startscreen.deathrender(ctx);
+	else startscreen.victoryrender(ctx);
+	
+	
 }
 
 
@@ -435,6 +453,14 @@ function preloadDone() {
 							  Height: 500};
 							  
 	g_sprites.death = new Sprite(constructorObjects);
+	
+	var constructorObjects = {image : g_images.victory,
+							  sx	: 0,
+							  sy	: 0,
+							  Width	: 750,
+							  Height: 500};
+							  
+	g_sprites.victory = new Sprite(constructorObjects);
 
 	
 
@@ -443,7 +469,7 @@ function preloadDone() {
     //creates initial objects
     
 	dungeon.init();
-    entityManager.init();
+    entityManager.init(); 
 
     main.init();
     
@@ -451,7 +477,7 @@ function preloadDone() {
 
 function restart(){
 
-  dungeon.init();
+    dungeon.init();
     entityManager.init();
 
     main.init();

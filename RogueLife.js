@@ -39,7 +39,8 @@ function gatherInputs() {
 
 function updateSimulation(du) {
     processDiagnostics();
-
+      		
+    if (!g_startscreen) {
     entityManager.update(du);
 
 	HUD.update(du);
@@ -49,18 +50,23 @@ function updateSimulation(du) {
 	if (!g_musicmute) {
     if(entityManager._getPlayer()){
   		if (entityManager._getPlayer().life > 20) {
-  			if (g_audio.soundtrack2 && g_audio.soundtrack2.sound) g_audio.soundtrack2.sound.pause();
-  			if (g_audio.soundtrack) g_audio.soundtrack.soundtrackPlay();
-  		} else {
-  			if (g_audio.soundtrack) g_audio.soundtrack.sound.pause();
-  			if (g_audio.soundtrack2.sound) g_audio.soundtrack2.soundtrackPlay();
+  				if (g_audio.soundtrack2 && g_audio.soundtrack2.sound) g_audio.soundtrack2.sound.pause();
+  				if (g_audio.soundtrack) g_audio.soundtrack.soundtrackPlay();
+  			} else {
+  				if (g_audio.soundtrack) g_audio.soundtrack.sound.pause();
+  				if (g_audio.soundtrack2.sound) g_audio.soundtrack2.soundtrackPlay();
+  			}
   		}
-    }
+  	}
+    
+	
+		else {
+			g_audio.soundtrack2.sound.pause();
+			g_audio.soundtrack.sound.pause();
+			g_audio.startsound.sound.pause();
+		}
 	}
-	else {
-		g_audio.soundtrack2.sound.pause();
-		g_audio.soundtrack.sound.pause();
-	}
+	else g_audio.startsound.soundtrackPlay();
 }
 
 // GAME-SPECIFIC DIAGNOSTICS
@@ -73,6 +79,7 @@ var g_renderSpatialDebug = false;
 var g_toggleGrid = false;
 var g_mute = false;
 var g_musicmute = false;
+var g_startscreen = true;
 
 var KEY_MIXED   = keyCode('M');
 var KEY_AVE_VEL = keyCode('V');
@@ -80,6 +87,7 @@ var KEY_SPATIAL = keyCode('X');
 var KEY_GRID_TOGGLE = keyCode('G');
 var KEY_MUTE_TOGGLE = keyCode('O');
 var KEY_MUSICMUTE_TOGGLE = keyCode('L');
+var KEY_STARTSCREEN = 13;
 
 function processDiagnostics() {
 
@@ -95,6 +103,8 @@ function processDiagnostics() {
 	if (eatKey(KEY_MUTE_TOGGLE)) g_mute = !g_mute;
 
 	if (eatKey(KEY_MUSICMUTE_TOGGLE)) g_musicmute = !g_musicmute;
+	
+	if (eatKey(KEY_STARTSCREEN)) g_startscreen = !g_startscreen;
 }
 
 
@@ -114,6 +124,7 @@ function processDiagnostics() {
 
 function renderSimulation(ctx) {
 
+    if (!g_startscreen) {
     entityManager.render(ctx);
 
 	HUD.render(ctx);
@@ -123,6 +134,9 @@ function renderSimulation(ctx) {
     if (g_renderSpatialDebug) spatialManager.render(ctx);
 
 	if (g_toggleGrid) dungeon._currentRoom.render(ctx);
+	}
+	
+	else startscreen.render(ctx);
 }
 
 
@@ -148,7 +162,8 @@ function requestPreloads() {
 	  xEffect	  : "sprites/questionmark.png",
 	  heart		  : "sprites/heart.png",
       Gate    : "sprites/gate.png",
-      Key     : "sprites/key.png"
+      Key     : "sprites/key.png",
+      logo	  : "sprites/logo.png"
     };
 
 	preLoadAudio();
@@ -379,14 +394,27 @@ function preloadDone() {
                               Height : 20};
 
 	g_sprites.plusMaxHealth = new Sprite(constructorObjects);
+	
+	//Me abusing the sprites to make a start screen
+	var constructorObjects = {image : g_images.logo,
+							  sx	: 0,
+							  sy	: 0,
+							  Width	: 750,
+							  Height: 500};
+							
+	g_sprites.logo = new Sprite(constructorObjects);
+	
+	
 
 	console.log("g_sprites: " + g_sprites);
-
+    
     //creates initial objects
-	  dungeon.init();
+    
+	dungeon.init();
     entityManager.init();
 
     main.init();
+    
 }
 
 function restart(){

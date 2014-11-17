@@ -688,6 +688,8 @@ Character.prototype.gainLife = function (amount) {
 Character.prototype.death = function() {
 	this.state = this.STATE_STANDING;
 	this.life = this.maxLife;
+
+	//entityManager.reseting();
 	dungeon.clearDungeon();
 	dungeon.init();
 	entityManager.init(this);

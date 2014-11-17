@@ -49,32 +49,14 @@ _currentRoomID : null,
 _oldRoomID : 1,
 
 reseting : function(){
-	this._walls = null;
-	this._platforms = null;
-	this._walls = null;
-	this._spikes = null;
-	this._spikestrap = null;
-	this._powerups = null;
-	this._chests = null;
-	this._door = null;
-	this._messages = null;
-	this._key = null;
-	this._particles = null; 
 
 	this._walls = [];
 	this._platforms = [];
 	this._walls = [];
 	this._spikes = [];
 	this._spikestrap = [];
-	this._powerups = [];
-	this._chests = [];
-	this._door = [];
-	this._messages = [];
 	this._key = [];
 	this._particles = [];
-
-	this._currentRoomID  = 1;
-	this._spawnPlayer();
 
 
 },

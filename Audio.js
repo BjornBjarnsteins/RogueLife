@@ -116,7 +116,8 @@ var requiredSounds = {
 	dmg			: "sounds/Pain.ogg",
 	walk		: "sounds/coolguy.ogg",
 	soundtrack	: "sounds/soundtrack.ogg",
-	soundtrack2 : "sounds/intenseSoundtrack.ogg"
+	soundtrack2 : "sounds/intenseSoundtrack.ogg",
+	startsound 	: "sounds/starttheme.ogg"
 
 };
 

@@ -108,8 +108,8 @@ Powerup.prototype.initializeEffects = function () {
 		},
 
 		{effect : function (player) {
-			player.energyRegen += 5;
-			player.sendMessage("+5 energy regen", "yellow");
+			player.energyRegen += 1.5;
+			player.sendMessage("+1.5 energy regen", "yellow");
 		}
 		},
 		{effect : function (player) {

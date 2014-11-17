@@ -120,7 +120,9 @@ var requiredSounds = {
 	startsound 	: "sounds/starttheme.ogg",
 	deathsound  : "sounds/death.ogg",
 	dying		: "sounds/dying.ogg",
-	victory 	: "sounds/victory.ogg"
+	victory 	: "sounds/victory.ogg",
+	key 		: "sounds/key.ogg",
+	Door		: "sounds/Door.ogg"
 
 };
 

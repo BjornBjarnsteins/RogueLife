@@ -30,11 +30,18 @@ function render(ctx) {
     if (g_doClear) {
 
         if(dungeon.currentPosX === 0 && dungeon.currentPosY === 0){
-            
-            if(!entityManager._characters[101][0].forTheStartScreen){
+
+            if(entityManager._characters[101][0].forTheStartScreen === 0){
+                g_sprites.outSide4.drawAt(ctx,0,0);
+
+            }else if(entityManager._characters[101][0].forTheStartScreen === 1){
                 g_sprites.outSide.drawAt(ctx,0,0);
-            }else{
+
+            }else if(entityManager._characters[101][0].forTheStartScreen === 2){
                 g_sprites.outSide2.drawAt(ctx,0,0);
+
+            }else if(entityManager._characters[101][0].forTheStartScreen === 3){
+                g_sprites.outSide3.drawAt(ctx,0,0);
             }
         }else{
             g_sprites.Background.drawAt(ctx,0,0);

@@ -23,6 +23,7 @@ Key.prototype.update = function (du) {
 
 Key.prototype.resolveEffect = function (player) {
 	this.effect(player);
+	g_audio.key.Play();
 	entityManager._removeKey(entityManager._currentRoomID);
 	spatialManager.unregister(this);
 };

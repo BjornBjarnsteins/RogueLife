@@ -24,7 +24,9 @@ Character.prototype.speed = 5;
 Character.prototype.tempSpeedBonus = 0;
 Character.prototype.invulnDur = 0.5*SECS_TO_NOMINALS;
 Character.prototype.currentInvulnDur = 0;
-Character.prototype.forTheStartScreen = false;
+Character.prototype.forTheStartScreen = 0;
+Character.prototype.ShouldPlay = true;
+Character.prototype.introAnimation = 600;
 
 Character.prototype.score = 0;
 
@@ -45,6 +47,7 @@ Character.prototype.dashDuration = 0.1*SECS_TO_NOMINALS;
 Character.prototype.currentDashDuration = 0;
 Character.prototype.movedFrom = 0;
 Character.prototype.deathysound = false;
+Character.prototype.mark = true;
 
 Character.prototype.STATE_STANDING = 1;
 Character.prototype.STATE_RUNNING = 2;
@@ -335,20 +338,41 @@ Character.prototype.update = function(dt)
 
 	if (this.cx < 200 && this.cx > 50 && this.cy === 510 && entityManager._currentRoomID === 11){
 		if(!this.hasKey){
-
+			if(this.ShouldPlay){
+				g_audio.Door.Play();
+				this.ShouldPlay = false;
+			}
+			
 			entityManager._door[11][0].locked = true;
 		}else{
 			entityManager._door[11][0].locked = false;
 		}
 	}
 
-	if(this.cx > 300 ){
-		if(this.cx > 800 ){
-			this.forTheStartScreen = false;
-		}else{
-			this.forTheStartScreen = true;
-		}
+	if(this.introAnimation > 540){
+		this.forTheStartScreen = 0;
+
+	}else if(this.introAnimation > 510){
+		this.forTheStartScreen = 3;
+
+	}else if(this.introAnimation > 490){
+		this.forTheStartScreen = 1;
+
+	}else if(this.introAnimation > 60){
+		this.forTheStartScreen = 2;
+
+	}else if(this.introAnimation > 40){
+		this.forTheStartScreen = 3;
+		
 	}
+	else if(this.introAnimation > 10){
+		this.forTheStartScreen = 0;
+		
+	}
+	if(this.introAnimation > 0){
+		this.introAnimation -= dt;
+	}
+	console.log(this.introAnimation)
 
 	this.currentInvulnDur--;
 	this.inputsLocked = this.currentInvulnDur > 0;
@@ -706,6 +730,7 @@ Character.prototype.death = function() {
 	this.cy = 510;
 	this.deathAnimationTimeIndex = 0;
 	this.direction = 1;
+	this.mark = true;
 
 	spatialManager.cleanOut();
 	dungeon.clearDungeon();

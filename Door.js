@@ -5,6 +5,7 @@ Door = function(descr){
 Door.prototype = new Entity();
 Door.prototype.halfHeight = 25;
 Door.prototype.halfWidth = 50;
+Door.prototype.ShouldPlay = true;
 
 Door.prototype.render = function(ctx){
 
@@ -32,8 +33,11 @@ Door.prototype.update = function(dt){
 		}
 	}else{
 		if(entityManager._currentRoomID === 11){
-			console.log("er að updata-a gate")
 			if(this.cy > 400){
+				if(this.ShouldPlay){
+					g_audio.Door.Play();
+					this.ShouldPlay = false;
+				}
 				this.cy -= dt;
 			}
 		}

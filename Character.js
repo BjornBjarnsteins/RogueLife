@@ -686,6 +686,7 @@ Character.prototype.gainLife = function (amount) {
 };
 
 Character.prototype.death = function() {
-  dungeon.clearDungeon();
+  var character = dungeon.clearDungeon();
   dungeon.init();
+	entityManager.init();
 };

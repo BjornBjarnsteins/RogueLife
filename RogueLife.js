@@ -180,6 +180,7 @@ function requestPreloads() {
       Platform    : "sprites/platform.png",
       Ground      : "sprites/Ground.png",
       outSide     : "sprites/outSide.png",
+      outSide2     : "sprites/outSide2.png",
       Chest       : "sprites/Chest.png",
 	  xEffect	  : "sprites/questionmark.png",
 	  heart		  : "sprites/heart.png",
@@ -365,6 +366,15 @@ function preloadDone() {
 
 
     g_sprites.outSide = new Sprite(constructorObjects);
+
+    var constructorObjects = {image : g_images.outSide2,
+                              sx    : 0,
+                              sy    : 0,
+                              Width : 750,
+                              Height : 500};
+
+
+    g_sprites.outSide2 = new Sprite(constructorObjects);
 
     //Platform
     var constructorObjects = {image : g_images.Platform,

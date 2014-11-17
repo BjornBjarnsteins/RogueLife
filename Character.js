@@ -24,6 +24,7 @@ Character.prototype.speed = 5;
 Character.prototype.tempSpeedBonus = 0;
 Character.prototype.invulnDur = 0.5*SECS_TO_NOMINALS;
 Character.prototype.currentInvulnDur = 0;
+Character.prototype.forTheStartScreen = false;
 
 Character.prototype.score = 0;
 
@@ -338,6 +339,14 @@ Character.prototype.update = function(dt)
 			entityManager._door[11][0].locked = true;
 		}else{
 			entityManager._door[11][0].locked = false;
+		}
+	}
+
+	if(this.cx > 300 ){
+		if(this.cx > 800 ){
+			this.forTheStartScreen = false;
+		}else{
+			this.forTheStartScreen = true;
 		}
 	}
 

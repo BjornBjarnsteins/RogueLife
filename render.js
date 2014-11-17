@@ -30,7 +30,12 @@ function render(ctx) {
     if (g_doClear) {
 
         if(dungeon.currentPosX === 0 && dungeon.currentPosY === 0){
-            g_sprites.outSide.drawAt(ctx,0,0);
+            
+            if(!entityManager._characters[101][0].forTheStartScreen){
+                g_sprites.outSide.drawAt(ctx,0,0);
+            }else{
+                g_sprites.outSide2.drawAt(ctx,0,0);
+            }
         }else{
             g_sprites.Background.drawAt(ctx,0,0);
         }

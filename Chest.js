@@ -24,7 +24,7 @@ Chest.prototype.render = function(ctx){
 
 Chest.prototype.takeDamage = function(amnt){
 
-	g_audio.breaking.Play();
+	
 	this.Dead = true;
 }
 
@@ -35,6 +35,7 @@ Chest.prototype.update = function(dt){
 
 		this.dropPowerUp();
 		this.kill();
+		g_audio.breaking.Play();
 		for(var i = 0; i < 5; i++){
 			entityManager._generateParticles({	cx : this.cx,
 										cy : this.cy,

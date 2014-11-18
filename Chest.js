@@ -24,7 +24,7 @@ Chest.prototype.render = function(ctx){
 
 Chest.prototype.takeDamage = function(amnt){
 
-	g_audio.breaking.Play();
+	
 	this.Dead = true;
 }
 

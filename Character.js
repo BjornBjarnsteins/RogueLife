@@ -741,6 +741,7 @@ Character.prototype.death = function() {
 	this.deathAnimationTimeIndex = 0;
 	this.direction = 1;
 	this.mark = true;
+	this.introAnimation = 600;
 
 	spatialManager.cleanOut();
 	dungeon.clearDungeon();

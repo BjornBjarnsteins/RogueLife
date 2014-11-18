@@ -115,6 +115,7 @@ var g_musicmute = false;
 var g_startscreen = true;
 var g_deathscreen = false;
 var g_victoryscreen = false;
+var g_credits = false;
 var g_fadeout = 1.0;
 var g_dofade = false;
 var g_fadein = false;
@@ -128,6 +129,7 @@ var KEY_GRID_TOGGLE = keyCode('G');
 var KEY_MUTE_TOGGLE = keyCode('O');
 var KEY_MUSICMUTE_TOGGLE = keyCode('L');
 var KEY_STARTSCREEN = 13;
+var KEY_CREDITS = 27;
 
 function processDiagnostics() {
 
@@ -144,6 +146,10 @@ function processDiagnostics() {
 
 	if (eatKey(KEY_MUSICMUTE_TOGGLE)) g_musicmute = !g_musicmute;
 	
+	if (g_startscreen) {
+		if (eatKey(KEY_CREDITS)) g_credits = !g_credits;
+	}
+	
 	if (g_startscreen && !g_dofade) {
 		if (eatKey(KEY_STARTSCREEN)) g_dofade = true;
 	}
@@ -152,6 +158,8 @@ function processDiagnostics() {
 									g_dofade = true;
 									}
 	}
+	
+	
 }
 
 
@@ -170,24 +178,27 @@ function processDiagnostics() {
 // GAME-SPECIFIC RENDERING
 
 function renderSimulation(ctx) {
-	if (g_finished) startscreen.victoryrender(ctx);
-	if (g_deathscreen) startscreen.deathrender(ctx); 
-    if (!g_startscreen && !g_deathscreen || g_fadein) {
+	if (g_startscreen && g_credits) startscreen.creditsrender(ctx);
+	else {
+		if (g_finished) startscreen.victoryrender(ctx);
+		if (g_deathscreen) startscreen.deathrender(ctx); 
+    	if (!g_startscreen && !g_deathscreen || g_fadein) {
     
-   		if (!g_deathscreen && !g_finished) {
-    	entityManager.render(ctx);
+   			if (!g_deathscreen && !g_finished) {
+    		entityManager.render(ctx);
 
-		HUD.render(ctx);
+			HUD.render(ctx);
 
-		dungeon.render(ctx);
+			dungeon.render(ctx);
+		
+    		if (g_renderSpatialDebug) spatialManager.render(ctx);
+
+			if (g_toggleGrid) dungeon._currentRoom.render(ctx);
 	
-    	if (g_renderSpatialDebug) spatialManager.render(ctx);
-
-		if (g_toggleGrid) dungeon._currentRoom.render(ctx);
-	
-		}
+			}
+		}	
+		fade.clusterfuck(ctx);	
 	}
-	fade.clusterfuck(ctx);	
 }
 
 
@@ -219,7 +230,8 @@ function requestPreloads() {
       Key     : "sprites/key.png",
       logo	  : "sprites/logo.png",
       death	  : "sprites/death.png",
-      victory : "sprites/victory.png"
+      victory : "sprites/victory.png",
+      credits : "sprites/credits.png"
     };
 
 	preLoadAudio();
@@ -502,6 +514,14 @@ function preloadDone() {
 							  Height: 500};
 							  
 	g_sprites.victory = new Sprite(constructorObjects);
+	
+	var constructorObjects = {image : g_images.credits,
+							  sx	: 0,
+							  sy	: 0,
+							  Width	: 750,
+							  Height: 500};
+							  
+	g_sprites.credits = new Sprite(constructorObjects);
 
 	
 

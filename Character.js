@@ -294,24 +294,11 @@ Character.prototype.update = function(dt)
 		if(collisionCode === -1){break;}
 	}
 
-
-	//console.log("velX: " + this.velX + " velY: " + this.velY);
-	//console.log("aveVelX: " + aveVel.X + " aveVelY: " + aveVel.Y);
-
-
 	// s = s + v_ave * t
 	this.cx += dt * this.aveVelX;
 	this.cy += dt * this.aveVelY;
 
-	if (this.velY > 0) {}//this.state = this.STATE_FALLING;
-
-	/*var oldCy = this.cy;
-	this.clampToBounds();
-
-	if (this.cy !== oldCy) {
-		this.velY = 0;
-		if (this.cy > 500){} //this.state = this.STATE_STANDING;
-	}*/
+	if (this.velY > 0) {}
 
 	// Handle room changes
 	if (this.cy < 0) {
@@ -382,7 +369,6 @@ Character.prototype.update = function(dt)
 	if(this.introAnimation > 0){
 		this.introAnimation -= dt;
 	}
-	console.log(this.introAnimation)
 
 	this.currentInvulnDur--;
 	this.inputsLocked = this.currentInvulnDur > 0;

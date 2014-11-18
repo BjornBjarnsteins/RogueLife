@@ -609,8 +609,11 @@ Character.prototype.jump = function() {
 	if (this.energy < 20) return;
 
 	this.energy -= 20;
-	this.velY -= 30;
+	this.velY -= 20;
 	this.jumpsLeft--;
+	if(this.jumpsLeft < this.maxJumps-1){
+		this.velY -= 10;
+	}
 	this.inAir = true;
 	this.wasJumping = true;
 	if(this.state !== this.STATE_ATTACKING){

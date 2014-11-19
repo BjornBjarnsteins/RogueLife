@@ -42,7 +42,7 @@ RangedEnemy.prototype.render = function(ctx)
 		 this.cy-this.halfHeight,
 		 this.halfWidth*2,
 		 this.halfHeight*2);
-		   		
+
     ctx.restore();
 
 };
@@ -69,7 +69,7 @@ RangedEnemy.prototype.update = function(dt)
         this.direction=-1;
     else
         this.direction=1;
-    
+
     this.flinchMaybe(dt);
 
     //attack player
@@ -78,7 +78,7 @@ RangedEnemy.prototype.update = function(dt)
         for(var i=0;i<characters.length;i++)
         {
             var target=characters[i];
-    
+
             var distToTarget=util.distSq(this.cx,
                                         this.cy,
                                         target.cx,
@@ -97,12 +97,12 @@ RangedEnemy.prototype.update = function(dt)
      }
 
      this.applyAccel(accelX,accelY,dt);
-     
+
 	 var nextX = this.cx + this.aveVelX * dt;
 	 var nextY = this.cy + this.aveVelY * dt;
-    
+
      spatialManager.register(this);
-	    
+
 	 var hitObstacles = dungeon.getCurrentRoom().getObstaclesInRange(this);
 
      var collisionCode = -1;
@@ -132,7 +132,7 @@ RangedEnemy.prototype.takeDamage = function(pain)
     //flinch away from player
     this.currentFlinchTime = this.flinchTime;
 };
-    
+
 RangedEnemy.prototype.getRadius = function()
 {
     return Math.max(this.halfWidth,this.halfHeight);
@@ -189,7 +189,7 @@ RangedEnemy.prototype.flinchMaybe = function(dt)
 RangedEnemy.prototype.resolveCollision = function(collisionCode)
 {
 	if (collisionCode === this.TOP_COLLISION ||
-		collisionCode === this.BOTTOM_COLLISION) 
+		collisionCode === this.BOTTOM_COLLISION)
     {
 		this.velY = 0;
 		this.aveVelY = 0;
@@ -206,7 +206,12 @@ RangedEnemy.prototype.resolveCollision = function(collisionCode)
 
 };
 
+RangedEnemy.prototype.landOn = function(surfaceY) {
 
+	this.cy = surfaceY - this.halfHeight;
+	this.velY = 0;
+
+};
 
 
 

@@ -165,8 +165,17 @@ Room.prototype.insertRangedEnemy = function (row,col)
                                                          cy:row *this.tileWidth,
                                                          roomID : this._roomID
                                                         },this._roomID);
-}
+};
 
+Room.prototype.insertMeleeEnemy = function (row,col)
+{
+    if(this.grid[row][col])
+        return;
+    this.grid[row][col] =entityManager._makeMeleeEnemy({cx: col*this.tileHeight - 10,
+                                                         cy:row *this.tileWidth,
+                                                         roomID : this._roomID
+                                                        },this._roomID);
+};
 
 
 Room.prototype.emptyTile = function (row, col) {
@@ -259,6 +268,11 @@ Room.prototype.interiorDesign = function (scheme) {
             	if(Math.random() > 0.7 ){
 					this.insertRangedEnemy(row,col);
 				}
+                
+            }
+            if(scheme[row][col] === "M") {
+					this.insertMeleeEnemy(row,col);
+				
                 
             }
 

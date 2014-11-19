@@ -285,7 +285,7 @@ RangedEnemy.prototype.takeDamage = function(pain)
 RangedEnemy.prototype.getRadius = function()
 {
     return Math.max(this.halfWidth,this.halfHeight);
-}
+};
 
 RangedEnemy.prototype.attack = function(targetX,targetY)
 {

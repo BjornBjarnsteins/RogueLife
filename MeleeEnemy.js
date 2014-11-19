@@ -1,20 +1,22 @@
 
 
-this.prototype=new Entity();
+
+
 
 function MeleeEnemy(descr)
 {
     this.setup(descr);
 }
+MeleeEnemy.prototype=new Entity();
 
 MeleeEnemy.prototype.cy =g_canvas.height-150;
 MeleeEnemy.prototype.cx=g_canvas.width/2;
-MeleeEnemy.prototype.halfHeight=70;
+MeleeEnemy.prototype.halfHeight=40;
 MeleeEnemy.prototype.halfWidth=40;
 
 MeleeEnemy.prototype.direction=1;
 MeleeEnemy.prototype.range=210;
-MeleeEnemy.currentWalkLength=0;
+MeleeEnemy.prototype.currentWalkLength=0;
 RangedEnemy.prototype.velX=0;
 RangedEnemy.prototype.velY=0;
 RangedEnemy.prototype.aveVelX=0;
@@ -124,6 +126,11 @@ MeleeEnemy.prototype.resolveCollision = function(collisionCode)
 	}
 
 
+};
+
+MeleeEnemy.prototype.getRadius = function()
+{
+    return Math.max(this.halfWidth,this.halfHeight);
 };
 
 

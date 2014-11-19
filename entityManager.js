@@ -204,7 +204,7 @@ _makeRangedEnemy : function  (descr, roomID) {
 
 _makeMeleeEnemy : function  (descr, roomID) {
 	var newMeleeEnemy = new MeleeEnemy(descr);
-	if (!this._meleeEnemies[roomID]) this._meleeEnemies[roomID] = [newRangedEnemy];
+	if (!this._meleeEnemies[roomID]) this._meleeEnemies[roomID] = [newMeleeEnemy];
 	else this._meleeEnemies[roomID].push(newMeleeEnemy);
 	return newMeleeEnemy;
 },

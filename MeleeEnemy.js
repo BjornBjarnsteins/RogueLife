@@ -20,11 +20,12 @@ MeleeEnemy.prototype.direction=1;
 MeleeEnemy.prototype.range=210;
 
 MeleeEnemy.prototype.currentWalkLength=0;
-MeleeEnemy.currentWalkLength=0;
 MeleeEnemy.prototype.velX=0;
 MeleeEnemy.prototype.velY=0;
 MeleeEnemy.prototype.aveVelX=0;
 MeleeEnemy.prototype.aveVelY=0;
+
+MeleeEnemy.prototype.stepLength=3;
 
 MeleeEnemy.prototype.invulnTime=0.1*SECS_TO_NOMINALS;
 MeleeEnemy.prototype.currentInvulnTime = 0;
@@ -181,8 +182,8 @@ MeleeEnemy.prototype.update = function(dt)
     }
     if(this.currentWalkLength<this.range)
     {
-	this.cx+=this.direction*5*dt;
-	this.currentWalkLength +=5*dt;
+	this.cx+=this.direction*this.stepLength*dt;
+	this.currentWalkLength +=this.stepLength*dt;
     }
     else
     {
@@ -228,8 +229,8 @@ MeleeEnemy.prototype.update = function(dt)
 MeleeEnemy.prototype.attack = function(dt)
 {
 
-    this.cx += this.direction*15*dt;
-    this.currentWalkLength += 15*dt;
+    this.cx += this.direction*this.stepLength*3*dt;
+    this.currentWalkLength += this.stepLength*3*dt;
     if(this.currentWalkLength>this.range/3)
 	this.isAttacking=false;
 

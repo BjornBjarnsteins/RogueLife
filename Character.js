@@ -27,6 +27,7 @@ Character.prototype.currentInvulnDur = 0;
 Character.prototype.forTheStartScreen = 0;
 Character.prototype.ShouldPlay = true;
 Character.prototype.introAnimation = 600;
+Character.prototype.upPressed = false;
 
 Character.prototype.score = 0;
 
@@ -167,8 +168,15 @@ Character.prototype.update = function(dt)
 		//sure he goes upward in all circumstances
 
 		if(keys[this.KEY_UP])
-		{
-			this.jump();
+		{	
+			if(!this.upPressed){
+				this.jump();
+				this.upPressed = true;
+			}
+		}
+
+		if (!keys[this.KEY_UP]) {
+			this.upPressed = false;
 		}
 
 		if (eatKey(this.KEY_DOWN)) {
@@ -211,6 +219,7 @@ Character.prototype.update = function(dt)
 		}
 
 		if (!keys[this.KEY_UP]) {
+			this.upPressed = false;
 			this.stopJumping();
 		}
 
@@ -308,9 +317,14 @@ Character.prototype.update = function(dt)
 
 	if (this.cy !== oldCy) {
 		this.velY = 0;
-		if (this.cy > 500){} //this.state = this.STATE_STANDING;
+		if (this.cy > 500){} //this.state = this.STATE_STANDING;a
 	}*/
 
+	if(this.state === this.STATE_FALLING || this.state === this.STATE_JUMPING){
+		if(this.velY === 0){
+			this.state = this.STATE_STANDING;
+		}
+	}
 	// Handle room changes
 	if (this.cy < 0) {
 

@@ -268,7 +268,7 @@ Character.prototype.update = function(dt)
 	this.applyAccel(accelX,accelY,dt);
 
 	// s = s + v_ave * t
-	var nextX = this.cx + this.aveVelX * dt;
+	var nextX = this.cx;
 	var nextY = this.cy + this.aveVelY * dt;
 
 	var hitEntity = this.findHitEntity();
@@ -423,6 +423,7 @@ Character.prototype.resolveCollision = function(collisionCode) {
 	} else if (collisionCode === this.SIDE_COLLISION) {
 		this.velX = 0;
 		this.aveVelX = 0;
+		//this.cx +=  * this.direction*(-1);
 	} else if(collisionCode === -1) {
 
 

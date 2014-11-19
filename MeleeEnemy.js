@@ -96,7 +96,7 @@ MeleeEnemy.prototype.render = function(ctx)
 			g_audio.orcdeath.Play();
 			this.deadsound = !this.deadsound;
 			}
-		
+
 
 		sx = g_sprites.E2Die[index].sx;
 		sy = g_sprites.E2Die[index].sy;
@@ -155,7 +155,7 @@ MeleeEnemy.prototype.update = function(dt)
 
     if(this.hitPoints<=0)
     {
-    	player = entityManager._getPlayer();
+    	var player = entityManager._getPlayer();
 		this.state = this.STATE_DEAD;
 
 	    if(this.deathAnimationTimeIndex > 110){
@@ -166,6 +166,8 @@ MeleeEnemy.prototype.update = function(dt)
 	                    colr : "green"},
 	                    entityManager._currentRoomID);
 	    }
+
+		player.score += 15;
 	      return entityManager.KILL_ME_NOW;
 	    }else{
 	      this.deathAnimationTimeIndex += dt;
@@ -261,7 +263,7 @@ MeleeEnemy.prototype.getRadius = function()
 MeleeEnemy.prototype.takeDamage =function(pain)
 {
     g_audio.orcpain.Play();
-    
+
     if(this.currentInvulnTime>0)
         return;
     this.hitPoints -= pain;

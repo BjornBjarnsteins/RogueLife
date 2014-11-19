@@ -15,7 +15,7 @@ MeleeEnemy.prototype.halfHeight=40;
 MeleeEnemy.prototype.halfWidth=40;
 
 MeleeEnemy.prototype.direction=1;
-MeleeEnemy.prototype.range=410;
+MeleeEnemy.prototype.range=210;
 
 MeleeEnemy.prototype.currentWalkLength=0;
 MeleeEnemy.currentWalkLength=0;
@@ -23,9 +23,6 @@ MeleeEnemy.prototype.velX=0;
 MeleeEnemy.prototype.velY=0;
 MeleeEnemy.prototype.aveVelX=0;
 MeleeEnemy.prototype.aveVelY=0;
-
-MeleeEnemy.prototype.invulnTime=0.1*SECS_TO_NOMINALS;
-MeleeEnemy.prtotype.currentInvulnTime = 0;
 
 MeleeEnemy.prototype.STATE_STANDING = 1;
 MeleeEnemy.prototype.STATE_ATTACKING = 2;
@@ -47,6 +44,7 @@ MeleeEnemy.prototype.render = function(ctx)
 	var x = this.cx;
 	var y = this.cy;
 	var flip;
+	var index;
 	if(this.direction === 1){
 		flip = true;
 	}else{
@@ -68,7 +66,7 @@ MeleeEnemy.prototype.render = function(ctx)
 	{
 
 		//var distanceTraveled = Math.abs(this.movedFrom - this.cx);
-		var index = 1;//Math.floor((distanceTraveled / 65*9) % 9);
+		index = 1;//Math.floor((distanceTraveled / 65*9) % 9);
 
 		sx = g_sprites.E2walk[index].sx;
 		sy = g_sprites.E2walk[index].sy;
@@ -84,7 +82,7 @@ MeleeEnemy.prototype.render = function(ctx)
 	else if(this.state === this.STATE_DEAD)
 	{
 
-		var index = 1;//Math.floor(this.deathAnimationTimeIndex/20);
+		index = 1;//Math.floor(this.deathAnimationTimeIndex/20);
 
 		sx = g_sprites.E2Die[index].sx;
 		sy = g_sprites.E2Die[index].sy;
@@ -223,12 +221,4 @@ MeleeEnemy.prototype.getRadius = function()
     return Math.max(this.halfWidth,this.halfHeight);
 };
 
-MeleeEnemy.prototype.takeDamage =function(pain)
-{
-    if(this.currentInvulnTime>0)
-        return;
-    this.hitPoints -= pain;
-    this.sendMessage(pain, "red");
-    this.currentInvulnTime=this.invulnTime;
-}
 

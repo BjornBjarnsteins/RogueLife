@@ -161,12 +161,12 @@ Room.prototype.insertRangedEnemy = function (row,col)
 {
     if(this.grid[row][col])
         return;
-    this.grid[row][col] =entityManager._makeRangedEnemy({cx: col*this.tileHeight,
+    this.grid[row][col] =entityManager._makeRangedEnemy({cx: col*this.tileHeight - 10,
                                                          cy:row *this.tileWidth
                                                         },this._roomID);
 }
 
-    
+
 
 Room.prototype.emptyTile = function (row, col) {
   if (this.grid[row][col] instanceof Wall) entityManager._removeWall(this.grid[row][col], this._roomID);

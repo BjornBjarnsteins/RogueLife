@@ -144,6 +144,11 @@ Entity.prototype.getLeftBound = function() {
 	return this.cx - this.halfWidth;
 };
 
+Entity.prototype.snapTo = function (destX, destY) {
+	this.cx = destX;
+	this.cy = destY;
+};
+
 Entity.prototype.TOP_COLLISION = 1;
 Entity.prototype.SIDE_COLLISION = 2;
 Entity.prototype.BOTTOM_COLLISION = 3;

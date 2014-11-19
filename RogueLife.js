@@ -40,7 +40,7 @@ function gatherInputs() {
 function updateSimulation(du) {
     processDiagnostics();
      
-    if (!g_startscreen && !g_deathfade && !g_finished) {
+    if (!g_stopscreen && !g_deathfade && !g_finished) {
     entityManager.update(du);
 
 	HUD.update(du);
@@ -91,7 +91,7 @@ function updateSimulation(du) {
 			g_audio.soundtrack.reset();
 			g_audio.deathsound.soundtrackPlay();
 		}
-		else {
+		else if (g_victoryscreen) {
 			g_audio.soundtrack2.sound.pause();
 			g_audio.soundtrack.sound.pause();
 			g_audio.soundtrack2.reset();
@@ -116,11 +116,15 @@ var g_startscreen = true;
 var g_deathscreen = false;
 var g_victoryscreen = false;
 var g_credits = false;
-var g_fadeout = 1.0;
+var g_fadeout = 0.0;
 var g_dofade = false;
 var g_fadein = false;
 var g_deathfade = false;
 var g_finished = false;
+var g_stopscreen = true;
+var g_showstart = true;
+var g_lastfade = false;
+var g_stop = false;
 
 var KEY_MIXED   = keyCode('M');
 var KEY_AVE_VEL = keyCode('V');
@@ -150,16 +154,12 @@ function processDiagnostics() {
 		if (eatKey(KEY_CREDITS)) g_credits = !g_credits;
 	}
 	
-	if (g_startscreen && !g_dofade) {
+	if (g_startscreen) {
 		if (eatKey(KEY_STARTSCREEN)) g_dofade = true;
 	}
 	if (g_deathscreen) {
-		if (eatKey(KEY_STARTSCREEN)) {
-									g_dofade = true;
-									}
+		if (eatKey(KEY_STARTSCREEN)) g_dofade = true;
 	}
-	
-	
 }
 
 
@@ -180,24 +180,42 @@ function processDiagnostics() {
 function renderSimulation(ctx) {
 	if (g_startscreen && g_credits) startscreen.creditsrender(ctx);
 	else {
-		if (g_finished) startscreen.victoryrender(ctx);
-		if (g_deathscreen) startscreen.deathrender(ctx); 
-    	if (!g_startscreen && !g_deathscreen || g_fadein) {
-    
-   			if (!g_deathscreen && !g_finished) {
-    		entityManager.render(ctx);
-
-			HUD.render(ctx);
-
-			dungeon.render(ctx);
 		
-    		if (g_renderSpatialDebug) spatialManager.render(ctx);
+		//fade.clusterfuck(ctx);
+		
+			
+		if (g_finished) startscreen.victoryrender(ctx);
+		if (!g_stop) {
+			if (g_deathscreen) startscreen.deathrender(ctx); 
+			if (g_startscreen && g_showstart) startscreen.startrender(ctx);
+    	
+    		if (!g_startscreen && !g_deathscreen|| g_fadein) {
+    			if (!g_deathscreen && !g_finished) {
+    			entityManager.render(ctx);
 
-			if (g_toggleGrid) dungeon._currentRoom.render(ctx);
+				HUD.render(ctx);
+
+				dungeon.render(ctx);
+		
+    			if (g_renderSpatialDebug) spatialManager.render(ctx);
+
+				if (g_toggleGrid) dungeon._currentRoom.render(ctx);
 	
-			}
-		}	
-		fade.clusterfuck(ctx);	
+				}
+			}	
+		
+			if (g_startscreen && g_dofade) fade.startfadeout(ctx);
+			if (g_fadein && g_startscreen) fade.startfadein(ctx);
+			//
+			if (g_deathfade && !g_deathscreen && !g_lastfade) fade.startfadeout(ctx);
+			if (g_deathfade && g_deathscreen && !g_dofade) fade.startfadein(ctx);
+			if (g_deathfade && g_deathscreen && g_dofade) fade.startfadeout(ctx);
+			if (g_lastfade) fade.startfadein(ctx);
+			//
+			if (g_victoryscreen && g_dofade) fade.startfadeout(ctx);
+			if (g_finished) fade.startfadein(ctx);
+		}
+		
 	}
 }
 
@@ -215,6 +233,7 @@ function requestPreloads() {
       dagger      : "sprites/dagger.png",
       character   : "sprites/rogueLife.PNG",
       enemy       : "sprites/enemy.png",
+      enemy2       : "sprites/enemy2.png",
       wall        : "sprites/penis.png",
       Trap        : "sprites/midgetcowboys.png",
       Background  : "sprites/interior.png",
@@ -232,7 +251,8 @@ function requestPreloads() {
       logo	  : "sprites/logo.png",
       death	  : "sprites/death.png",
       victory : "sprites/victory.png",
-      credits : "sprites/credits.png"
+      credits : "sprites/credits.png",
+      Arrow   : "sprites/Arrow.png"
     };
 
 	preLoadAudio();
@@ -360,6 +380,16 @@ function preloadDone() {
 
 
     g_sprites.wall = new Sprite(constructorObjects);
+
+    //Arrow
+    var constructorObjects = {image : g_images.Arrow,
+                              sx    : 0,
+                              sy    : 0,
+                              Width : 30,
+                              Height : 2};
+
+
+    g_sprites.Arrow = new Sprite(constructorObjects);
 
     //Chest
     var constructorObjects = {image : g_images.Chest,
@@ -616,6 +646,76 @@ function preloadDone() {
     }
 
     g_sprites.EDie = Edying;
+
+
+    //enemy2 walking
+    var cellHeight = 64;
+    var cellWidth = 64;
+    var numRows = 10;
+    var numCols = 9;
+
+    var E2walking = [];
+    var E2wSprite;
+
+    for (var row = 9; row < numRows; ++row) {
+        for (var col = 0; col < numCols; ++col) {
+            var constructorObjects = {image : g_images.enemy2,
+                                      sx    : col * cellWidth,
+                                      sy    : row * cellHeight,
+                                      Width : cellWidth,
+                                      Height: cellHeight};
+            E2wSprite = new Sprite(constructorObjects);
+            E2walking.push(E2wSprite);
+        }
+    }
+
+    g_sprites.E2walk = E2walking;
+
+     //enemy 2 dying
+    var cellHeight = 64;
+    var cellWidth = 64;
+    var numRows = 21;
+    var numCols = 6;
+
+    var E2dying = [];
+    var E2dSprite;
+
+    for (var row = 20; row < numRows; ++row) {
+        for (var col = 0; col < numCols; ++col) {
+            var constructorObjects = {image : g_images.enemy2,
+                                      sx    : col * cellWidth,
+                                      sy    : row * cellHeight,
+                                      Width : cellWidth,
+                                      Height: cellHeight};
+            E2dSprite = new Sprite(constructorObjects);
+            E2dying.push(E2dSprite);
+        }
+    }
+
+    g_sprites.E2Die = E2dying;
+
+    //enemy 2 attacking
+    var cellHeight = 64;
+    var cellWidth = 64*3;
+    var numRows = 32;
+    var numCols = 6;
+
+    var E2attacking = [];
+    var E2aSprite;
+
+    for (var row = 31; row < numRows; ++row) {
+        for (var col = 0; col < numCols; ++col) {
+            var constructorObjects = {image : g_images.enemy2,
+                                      sx    : 64 + cellWidth*col,
+                                      sy    : row * cellHeight,
+                                      Width : cellWidth,
+                                      Height: cellHeight};
+            E2aSprite = new Sprite(constructorObjects);
+            E2attacking.push(E2aSprite);
+        }
+    }
+
+    g_sprites.E2attackSw = E2attacking;
 
 	console.log("g_sprites: " + g_sprites);
     

@@ -110,8 +110,6 @@ Character.prototype.update = function(dt)
 			 this.state === this.STATE_FALLING
 			) {
 
-
-
 		if( this.velY === 0 				  &&
 		   this.state === this.STATE_FALLING ){
 
@@ -338,10 +336,7 @@ Character.prototype.update = function(dt)
 
 	if (this.cx < 200 && this.cx > 50 && this.cy === 510 && entityManager._currentRoomID === 11){
 		if(!this.hasKey){
-			if(this.ShouldPlay){
-				g_audio.Door.Play();
-				this.ShouldPlay = false;
-			}
+			
 
 			entityManager._door[11][0].locked = true;
 		}else{
@@ -381,6 +376,8 @@ Character.prototype.update = function(dt)
 	}
 	if(this.introAnimation > 0){
 		this.introAnimation -= dt;
+	}else{
+		this.ShouldPlay = true;
 	}
 	//console.log(this.introAnimation)
 
@@ -738,6 +735,7 @@ Character.prototype.death = function() {
 	this.mark = true;
 	this.introAnimation = 600;
 	this.ammo = 3;
+	this.hasKey = false
 
 	spatialManager.cleanOut();
 	dungeon.clearDungeon();
@@ -754,4 +752,8 @@ Character.prototype.death = function() {
 
 Character.prototype.resetTemporaryVars = function() {
 	this.tempSpeedBonus = 0;
+};
+
+Character.prototype.increaseAttack = function (amount) {
+	this.weapon.attack += amount;
 };

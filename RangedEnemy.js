@@ -29,7 +29,7 @@ RangedEnemy.prototype.isAttacking=false;
 RangedEnemy.prototype.arrowSpeed=7;
 RangedEnemy.prototype.attackCooldown=1*SECS_TO_NOMINALS;
 RangedEnemy.prototype.currentAttackCooldown=1*SECS_TO_NOMINALS;
-RangedEnemy.prototype.range=300;
+RangedEnemy.prototype.range=500;
 RangedEnemy.prototype.STATE_STANDING = 1;
 RangedEnemy.prototype.STATE_ATTACKING = 2;
 RangedEnemy.prototype.STATE_RUNNING = 3;
@@ -38,6 +38,7 @@ RangedEnemy.prototype.state = 1;
 RangedEnemy.prototype.drawTime =  1.3*SECS_TO_NOMINALS;
 RangedEnemy.prototype.drawTime2 =  0.3*SECS_TO_NOMINALS;
 RangedEnemy.prototype.shot = false;
+RangedEnemy.prototype.deadsound = false;
 
 
 RangedEnemy.prototype.deathAnimationTimeIndex = 0;
@@ -91,7 +92,7 @@ RangedEnemy.prototype.render = function(ctx)
     if (index === 1) g_audio.walk.Play();
 
   }else if(this.state === this.STATE_ATTACKING)
-  { 
+  {
     var time;
     if(!this.shot){
       time = this.drawTime;
@@ -175,9 +176,17 @@ RangedEnemy.prototype.update = function(dt)
 	var oldY = this.cy;
 
    if(this.hitPoints<=0){
+	
+	if (!this.deadsound) {
+		g_audio.skelly.Play();
+		this.deadsound = !this.deadsound;
+		}
+	
+	player = entityManager._getPlayer();
+	this.state = this.STATE_DEAD;
 
-    this.state = this.STATE_DEAD;
     if(this.deathAnimationTimeIndex > 110){
+		player.score += 10;
       for(var i = 0; i < 5; i++){
       entityManager._generateParticles({  cx : this.cx,
                     cy : this.cy,
@@ -189,9 +198,9 @@ RangedEnemy.prototype.update = function(dt)
       this.deathAnimationTimeIndex += dt;
       return;
     }
-    
+
    }
-        
+
    var characters = entityManager.getPlayerList();
 
     //Face player 1
@@ -280,6 +289,8 @@ RangedEnemy.prototype.takeDamage = function(pain)
     this.sendMessage(pain, "red");
     //flinch away from player
     this.currentFlinchTime = this.flinchTime;
+    
+    g_audio.bones.Play();
 };
 
 RangedEnemy.prototype.getRadius = function()
@@ -317,6 +328,7 @@ RangedEnemy.prototype.attack = function(targetX,targetY)
                               this.cy,
                               arrowSpeedX,
                               arrowSpeedY,
+                              angleToTarget,
                               entityManager._currentRoomID);
 
 };

@@ -39,12 +39,14 @@ Weapon.prototype.currentReach=0;
 Weapon.prototype.direction=1;
 //rotation?
 
+Weapon.prototype.attack = 10;
+
 Weapon.prototype.KEY_ATTACK="N".charCodeAt(0);
 
 Weapon.prototype.update = function(dt, character)
-{    
+{
 
-    
+
     if(character){
         if(character.direction === 1){
             this.cx = character.cx + 73;
@@ -55,7 +57,7 @@ Weapon.prototype.update = function(dt, character)
         }
 
     }
-    
+
     if(keys[this.KEY_ATTACK]&&this.currentAttackTime===0)
     {
     	   //Play the attack sound
@@ -99,10 +101,10 @@ Weapon.prototype.attackUpdate = function(dt)
     }
 
     var hitEntity = this.findHitEntity();
-    
+
     if (hitEntity) {
-        var canTakeHit = hitEntity.takeDamage(10);
-        if (canTakeHit) canTakeHit.call(hitEntity(10));
+        var canTakeHit = hitEntity.takeDamage(this.attack);
+        if (canTakeHit) canTakeHit.call(hitEntity(this.attack));
         return entityManager.KILL_ME_NOW;
 
     }
@@ -117,7 +119,12 @@ Weapon.prototype.getRadius = function(){
 
 Weapon.prototype.render = function(ctx)
 {
-    
+
+};
+
+Weapon.prototype.takeDamage = function(a){
+
+    return;
 };
 
 

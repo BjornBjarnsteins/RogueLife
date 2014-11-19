@@ -210,13 +210,14 @@ _makeMeleeEnemy : function  (descr, roomID) {
 },
 // Projectile stuff
 
-looseArrow : function (startX,startY,speedX,speedY,roomID)
+looseArrow : function (startX,startY,speedX,speedY,angle,roomID)
 {
 	var descr ={cx:startX,
                 cy:startY,
 				velX:speedX,
 				velY:speedY,
-				halfWidth:10
+				halfWidth:10,
+				rotation:angle
                 };
     this._generateProjectile(descr,roomID);
 },

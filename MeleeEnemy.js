@@ -152,7 +152,7 @@ MeleeEnemy.prototype.update = function(dt)
 	this.attack(dt);
 	return;
     }
-    if(this.currentWalkLengt<this.range)
+    if(this.currentWalkLength<this.range)
     {
 	this.cx+=this.direction*5*dt;
 	this.currentWalkLength +=5*dt;

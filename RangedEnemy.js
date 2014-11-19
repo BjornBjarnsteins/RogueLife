@@ -181,9 +181,12 @@ RangedEnemy.prototype.update = function(dt)
 		g_audio.skelly.Play();
 		this.deadsound = !this.deadsound;
 		}
-		
+	
+	player = entityManager._getPlayer();
 	this.state = this.STATE_DEAD;
+
     if(this.deathAnimationTimeIndex > 110){
+		player.score += 10;
       for(var i = 0; i < 5; i++){
       entityManager._generateParticles({  cx : this.cx,
                     cy : this.cy,

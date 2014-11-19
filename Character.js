@@ -336,10 +336,7 @@ Character.prototype.update = function(dt)
 
 	if (this.cx < 200 && this.cx > 50 && this.cy === 510 && entityManager._currentRoomID === 11){
 		if(!this.hasKey){
-			if(this.ShouldPlay){
-				g_audio.Door.Play();
-				this.ShouldPlay = false;
-			}
+			
 
 			entityManager._door[11][0].locked = true;
 		}else{

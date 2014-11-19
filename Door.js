@@ -6,6 +6,8 @@ Door.prototype = new Entity();
 Door.prototype.halfHeight = 25;
 Door.prototype.halfWidth = 50;
 Door.prototype.ShouldPlay = true;
+Door.prototype.ShouldPlay2 = true;
+
 
 Door.prototype.render = function(ctx){
 
@@ -30,6 +32,10 @@ Door.prototype.update = function(dt){
 	if(this.locked){
 		if(this.cy < 500 ){
 			this.cy += dt;
+			if(this.ShouldPlay2){
+					g_audio.Door.Play();
+					this.ShouldPlay2 = false;
+				}
 		}
 	}else{
 		if(entityManager._currentRoomID === 11){

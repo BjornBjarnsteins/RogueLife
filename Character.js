@@ -381,7 +381,7 @@ Character.prototype.update = function(dt)
 	}
 	//console.log(this.introAnimation)
 
-	this.currentInvulnDur--;
+	this.currentInvulnDur-=dt;
 	this.inputsLocked = this.currentInvulnDur > 0;
 
 	spatialManager.register(this);

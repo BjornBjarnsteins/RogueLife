@@ -68,7 +68,8 @@ MeleeEnemy.prototype.render = function(ctx)
 	{
 
 		//var distanceTraveled = Math.abs(this.movedFrom - this.cx);
-		index = Math.floor((this.currentWalkLength / this.range) % 9);
+		index = Math.floor((this.currentWalkLength / 9))%9;
+		console.log(index,this.currentWalkLength,this.range)
 
 		sx = g_sprites.E2walk[index].sx;
 		sy = g_sprites.E2walk[index].sy;

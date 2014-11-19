@@ -215,6 +215,7 @@ function requestPreloads() {
       dagger      : "sprites/dagger.png",
       character   : "sprites/rogueLife.PNG",
       enemy       : "sprites/enemy.png",
+      enemy2       : "sprites/enemy2.png",
       wall        : "sprites/penis.png",
       Trap        : "sprites/midgetcowboys.png",
       Background  : "sprites/interior.png",
@@ -627,6 +628,76 @@ function preloadDone() {
     }
 
     g_sprites.EDie = Edying;
+
+
+    //enemy2 walking
+    var cellHeight = 64;
+    var cellWidth = 64;
+    var numRows = 10;
+    var numCols = 9;
+
+    var E2walking = [];
+    var E2wSprite;
+
+    for (var row = 9; row < numRows; ++row) {
+        for (var col = 0; col < numCols; ++col) {
+            var constructorObjects = {image : g_images.enemy2,
+                                      sx    : col * cellWidth,
+                                      sy    : row * cellHeight,
+                                      Width : cellWidth,
+                                      Height: cellHeight};
+            E2wSprite = new Sprite(constructorObjects);
+            E2walking.push(E2wSprite);
+        }
+    }
+
+    g_sprites.E2walk = E2walking;
+
+     //enemy 2 dying
+    var cellHeight = 64;
+    var cellWidth = 64;
+    var numRows = 21;
+    var numCols = 6;
+
+    var E2dying = [];
+    var E2dSprite;
+
+    for (var row = 20; row < numRows; ++row) {
+        for (var col = 0; col < numCols; ++col) {
+            var constructorObjects = {image : g_images.enemy2,
+                                      sx    : col * cellWidth,
+                                      sy    : row * cellHeight,
+                                      Width : cellWidth,
+                                      Height: cellHeight};
+            E2dSprite = new Sprite(constructorObjects);
+            E2dying.push(E2dSprite);
+        }
+    }
+
+    g_sprites.E2Die = E2dying;
+
+    //enemy 2 attacking
+    var cellHeight = 64;
+    var cellWidth = 64*3;
+    var numRows = 32;
+    var numCols = 6;
+
+    var E2attacking = [];
+    var E2aSprite;
+
+    for (var row = 31; row < numRows; ++row) {
+        for (var col = 0; col < numCols; ++col) {
+            var constructorObjects = {image : g_images.enemy2,
+                                      sx    : 64 + cellWidth*col,
+                                      sy    : row * cellHeight,
+                                      Width : cellWidth,
+                                      Height: cellHeight};
+            E2aSprite = new Sprite(constructorObjects);
+            E2attacking.push(E2aSprite);
+        }
+    }
+
+    g_sprites.E2attackSw = E2attacking;
 
 	console.log("g_sprites: " + g_sprites);
     

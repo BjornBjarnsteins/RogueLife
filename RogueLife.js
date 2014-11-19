@@ -214,6 +214,7 @@ function requestPreloads() {
     var requiredImages = {
       dagger      : "sprites/dagger.png",
       character   : "sprites/rogueLife.PNG",
+      enemy       : "sprites/enemy.png",
       wall        : "sprites/penis.png",
       Trap        : "sprites/midgetcowboys.png",
       Background  : "sprites/interior.png",
@@ -523,7 +524,75 @@ function preloadDone() {
 							  
 	g_sprites.credits = new Sprite(constructorObjects);
 
-	
+	//enemy walk
+    var cellHeight = 64;
+    var cellWidth = 64;
+    var numRows = 10;
+    var numCols = 9;
+
+    var Ewalking = [];
+    var EwSprite;
+
+    for (var row = 9; row < numRows; ++row) {
+        for (var col = 0; col < numCols; ++col) {
+            var constructorObjects = {image : g_images.enemy,
+                                      sx    : col * cellWidth,
+                                      sy    : row * cellHeight,
+                                      Width : cellWidth,
+                                      Height: cellHeight};
+            EwSprite = new Sprite(constructorObjects);
+            Ewalking.push(EwSprite);
+        }
+    }
+
+    g_sprites.Ewalk = Ewalking;
+
+     //enemy dying
+    var cellHeight = 64;
+    var cellWidth = 64;
+    var numRows = 21;
+    var numCols = 6;
+
+    var Edying = [];
+    var EdSprite;
+
+    for (var row = 20; row < numRows; ++row) {
+        for (var col = 0; col < numCols; ++col) {
+            var constructorObjects = {image : g_images.enemy,
+                                      sx    : col * cellWidth,
+                                      sy    : row * cellHeight,
+                                      Width : cellWidth,
+                                      Height: cellHeight};
+            EdSprite = new Sprite(constructorObjects);
+            Edying.push(EdSprite);
+        }
+    }
+
+    g_sprites.EDie = Edying;
+
+    //enemy attacking w. sword
+
+    var cellHeight = 64;
+    var cellWidth = 64;
+    var numRows = 20;
+    var numCols = 13;
+
+    var Eattacking = [];
+    var EaSprite;
+
+    for (var row = 19; row < numRows; ++row) {
+        for (var col = 0; col < numCols; ++col) {
+            var constructorObjects = {image : g_images.enemy,
+                                      sx    : 64 + cellWidth*col,
+                                      sy    : row * cellHeight,
+                                      Width : cellWidth,
+                                      Height: cellHeight};
+            EaSprite = new Sprite(constructorObjects);
+            Eattacking.push(EaSprite);
+        }
+    }
+
+    g_sprites.EattackSw = Eattacking;
 
 	console.log("g_sprites: " + g_sprites);
     

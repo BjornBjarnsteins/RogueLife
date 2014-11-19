@@ -268,7 +268,7 @@ Character.prototype.update = function(dt)
 	this.applyAccel(accelX,accelY,dt);
 
 	// s = s + v_ave * t
-	var nextX = this.cx + this.aveVelX * dt;
+	var nextX = this.cx;
 	var nextY = this.cy + this.aveVelY * dt;
 
 	var hitEntity = this.findHitEntity();
@@ -423,6 +423,7 @@ Character.prototype.resolveCollision = function(collisionCode) {
 	} else if (collisionCode === this.SIDE_COLLISION) {
 		this.velX = 0;
 		this.aveVelX = 0;
+		//this.cx +=  * this.direction*(-1);
 	} else if(collisionCode === -1) {
 
 
@@ -609,7 +610,7 @@ Character.prototype.jump = function() {
 	if (this.energy < 20) return;
 
 	this.energy -= 10;
-	this.velY -= 22;
+	this.velY -= 25;
 	this.jumpsLeft--;
 
 	this.inAir = true;
@@ -736,6 +737,7 @@ Character.prototype.death = function() {
 	this.direction = 1;
 	this.mark = true;
 	this.introAnimation = 600;
+	this.ammo = 3;
 
 	spatialManager.cleanOut();
 	dungeon.clearDungeon();

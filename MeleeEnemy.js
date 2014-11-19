@@ -179,24 +179,25 @@ MeleeEnemy.prototype.update = function(dt)
     //patrol attack routine
     if(this.isAttacking)
     {
-	this.attack(dt);
+		this.attack(dt);
 
-	if(this.roomID === entityManager._currentRoomID){
-	    spatialManager.register(this);
-	}
-	return;
+		if(this.roomID === entityManager._currentRoomID){
+		    spatialManager.register(this);
+		}
+		return;
     }
+    
     if(this.currentWalkLength<this.range)
     {
-	this.cx+=this.direction*this.stepLength*dt;
-	this.currentWalkLength +=this.stepLength*dt;
+		this.cx+=this.direction*this.stepLength*dt;
+		this.currentWalkLength +=this.stepLength*dt;
     }
     else
     {
-	this.direction *=-1;
-	this.currentWalkLength=0;
-	this.isAttacking=true;
-	this.attack(dt);
+		this.direction *=-1;
+		this.currentWalkLength=0;
+		this.isAttacking=true;
+		this.attack(dt);
     }
 
 

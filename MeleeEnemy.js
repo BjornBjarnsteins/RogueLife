@@ -31,6 +31,8 @@ MeleeEnemy.prototype.STATE_ATTACKING = 2;
 MeleeEnemy.prototype.STATE_RUNNING = 3;
 MeleeEnemy.prototype.STATE_DEAD = 4;
 MeleeEnemy.prototype.state = 3;
+MeleeEnemy.prototype.deathAnimationTimeIndex = 0;
+MeleeEnemy.prototype.hitPoints = 40;
 
 MeleeEnemy.prototype.isAttacking=false;
 
@@ -85,7 +87,7 @@ MeleeEnemy.prototype.render = function(ctx)
 	else if(this.state === this.STATE_DEAD)
 	{
 
-		index = 1;//Math.floor(this.deathAnimationTimeIndex/20);
+		index = Math.floor(this.deathAnimationTimeIndex/20);
 
 		sx = g_sprites.E2Die[index].sx;
 		sy = g_sprites.E2Die[index].sy;
@@ -144,7 +146,22 @@ MeleeEnemy.prototype.update = function(dt)
 
     if(this.hitPoints<=0)
     {
-        return entityManager.KILL_ME_NOW;
+    	player = entityManager._getPlayer();
+		this.state = this.STATE_DEAD;
+
+	    if(this.deathAnimationTimeIndex > 110){
+			player.score += 10;
+	      for(var i = 0; i < 5; i++){
+	      entityManager._generateParticles({  cx : this.cx,
+	                    cy : this.cy,
+	                    colr : "green"},
+	                    entityManager._currentRoomID);
+	    }
+	      return entityManager.KILL_ME_NOW;
+	    }else{
+	      this.deathAnimationTimeIndex += dt;
+	      return;
+	    }
     }
 
     //patrol attack routine

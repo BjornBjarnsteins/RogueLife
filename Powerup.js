@@ -69,6 +69,7 @@ Powerup.prototype.resolveCollision = function(collisionCode) {
 
 Powerup.prototype.resolveEffect = function (player) {
 	this.effect(player);
+	player.score += 5;
 	entityManager._removePowerup(this, entityManager._currentRoomID);
 	spatialManager.unregister(this);
 };

@@ -10,7 +10,113 @@ e.g. general collision detection.
 */
 
 "use strict";
-es.length;i++)
+
+/* jshint browser: true, devel: true, globalstrict: true */
+/*
+0        1         2         3         4         5         6         7         8
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+*/
+var spatialManager = {
+
+// "PRIVATE" DATA
+
+_nextSpatialID : 1, // make all valid IDs non-falsey (i.e. don't start at 0)
+
+_entities : [],
+
+// "PRIVATE" METHODS
+//
+// <none yet>
+
+
+// PUBLIC METHODS
+
+getNewSpatialID : function() {
+
+    // TODO: YOUR STUFF HERE!
+    var id=this._nextSpatialID;
+    this._nextSpatialID++;
+    return id;
+
+},
+
+cleanOut : function(){
+
+	this._entities.splice(0,this._entities.length);
+	this._nextSpatialID = 1;
+
+},
+
+register: function(entity) {
+    var pos = entity.getPos();
+    var spatialID = entity.getSpatialID();
+
+    this._entities[spatialID] = entity;
+    // TODO: YOUR STUFF HERE!
+
+},
+
+unregister: function(entity) {
+    var spatialID = entity.getSpatialID();
+
+    this._entities[spatialID]=false;
+
+    // TODO: YOUR STUFF HERE!
+
+},
+
+findEntityInRange: function(posX, posY, radius) {
+//cy,cx,halfWidth,halfHeight
+
+    // TODO: YOUR STUFF HERE!
+    //for(var entity in this._entities)
+    for(var i=0;i<this._entities.length;i++)
+    {
+	var entity=this._entities[i];
+	if(!entity)
+	    continue;
+	/*
+	if(cx-halfWidth>entity.getRightBound()&&
+	   cx+halfWidth<entity.getLeftBound()&&
+	   cy+halfHeight<entity.getUpperBound()&&
+	   cy-halfHeight>entity.getLowerBound())
+	{
+	    continue;
+	}
+	else
+	    return entity;
+	*/
+	var sumRadiiSq = util.square(radius+entity.getRadius());
+	//console.log(sumRadii);
+	var pos = entity.getPos();
+	var distance =util.wrappedDistSq(posX,
+					 posY,
+				 pos.posX,
+					 pos.posY,
+					 g_canvas.width,
+					 g_canvas.height);
+
+	if(distance<sumRadiiSq)
+	{
+	    /*console.log("it's a hit!-------------------------");
+	    console.log(radius);
+	    console.log(entity.getRadius());
+    console.log(posX,posY);
+	    console.log(pos.posX,pos.posY);*/
+	    return entity;
+	}
+
+    }
+
+    return false;
+
+},
+
+render: function(ctx) {
+    var oldStyle = ctx.strokeStyle;
+    ctx.strokeStyle = "red";
+
+    for (var i=0;i<this._entities.length;i++)
     {
         var entity = this._entities[i];
 	if(!entity)
@@ -22,4 +128,4 @@ es.length;i++)
     ctx.strokeStyle = oldStyle;
 }
 
-}
+};

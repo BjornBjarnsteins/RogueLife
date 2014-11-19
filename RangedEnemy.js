@@ -178,6 +178,12 @@ RangedEnemy.prototype.update = function(dt)
 
     this.state = this.STATE_DEAD;
     if(this.deathAnimationTimeIndex > 110){
+      for(var i = 0; i < 5; i++){
+      entityManager._generateParticles({  cx : this.cx,
+                    cy : this.cy,
+                    colr : "white"},
+                    entityManager._currentRoomID);
+    }
       return entityManager.KILL_ME_NOW;
     }else{
       this.deathAnimationTimeIndex += dt;
@@ -243,17 +249,9 @@ RangedEnemy.prototype.update = function(dt)
 	 var nextX = this.cx + this.aveVelX * dt;
 	 var nextY = this.cy + this.aveVelY * dt;
 
-     spatialManager.register(this);
-	    
-       /*
-     var hitEntity= this.findHitEntity();
-     for(var i=0;i<characters.length;i++)
-     {
-        if(characters[i]===hitEntity)
-            hitEntity.takeDamage(15);
-     }
-     */
-           
+  if(this.roomID === entityManager._currentRoomID){
+    spatialManager.register(this);
+  }
 	 var hitObstacles = dungeon.getCurrentRoom().getObstaclesInRange(this);
 
      var collisionCode = -1;

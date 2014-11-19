@@ -594,6 +594,29 @@ function preloadDone() {
 
     g_sprites.EattackSw = Eattacking;
 
+    //Edying
+    var cellHeight = 64;
+    var cellWidth = 64;
+    var numRows = 21;
+    var numCols = 6;
+
+    var Edying = [];
+    var EdSprite;
+
+    for (var row = 20; row < numRows; ++row) {
+        for (var col = 0; col < numCols; ++col) {
+            var constructorObjects = {image : g_images.enemy,
+                                      sx    : col * cellWidth,
+                                      sy    : row * cellHeight,
+                                      Width : cellWidth,
+                                      Height: cellHeight};
+            EdSprite = new Sprite(constructorObjects);
+            Edying.push(EdSprite);
+        }
+    }
+
+    g_sprites.EDie = Edying;
+
 	console.log("g_sprites: " + g_sprites);
     
     //creates initial objects

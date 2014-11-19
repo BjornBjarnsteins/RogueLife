@@ -757,3 +757,7 @@ Character.prototype.death = function() {
 Character.prototype.resetTemporaryVars = function() {
 	this.tempSpeedBonus = 0;
 };
+
+Character.prototype.increaseAttack = function (amount) {
+	this.weapon.attack += amount;
+};

@@ -67,7 +67,7 @@ var dungeon = {
 			}*/
 
 		// Drunkard's walk algorithm
-		this.drunkardsWalk(1);
+		this.drunkardsWalk(150);
 
 	},
 

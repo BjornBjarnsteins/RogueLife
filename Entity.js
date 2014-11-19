@@ -149,6 +149,13 @@ Entity.prototype.snapTo = function (destX, destY) {
 	this.cy = destY;
 };
 
+Entity.prototype.landOn = function(surfaceY) {
+
+	this.cy = surfaceY - this.halfHeight;
+	this.velY = 0;
+};
+
+
 Entity.prototype.TOP_COLLISION = 1;
 Entity.prototype.SIDE_COLLISION = 2;
 Entity.prototype.BOTTOM_COLLISION = 3;

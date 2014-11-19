@@ -153,7 +153,7 @@ MeleeEnemy.prototype.update = function(dt)
     if(this.currentWalkLengt<this.range)
     {
 	this.cx+=this.direction*5;
-	this.currentWalkLength +=5
+	this.currentWalkLength +=5;
     }
     else
     {
@@ -230,5 +230,5 @@ MeleeEnemy.prototype.takeDamage =function(pain)
     this.hitPoints -= pain;
     this.sendMessage(pain, "red");
     this.currentInvulnTime=this.invulnTime;
-}
+};
 

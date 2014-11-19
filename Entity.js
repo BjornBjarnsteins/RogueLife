@@ -98,6 +98,16 @@ Entity.prototype.computeGravity = function()
     return 1.2;
 };
 
+Entity.prototype.sendMessage = function (msg, style) {
+	if (!style) var style = "black";
+
+	entityManager._generateMessage({message : msg,
+
+									cx : this.cx,
+									cy : this.cy - this.halfHeight,
+
+									fillStyle : style});
+};
 Entity.prototype.applyAccel = function(accelX,accelY,dt)
 {
 
@@ -133,6 +143,18 @@ Entity.prototype.getRightBound = function() {
 Entity.prototype.getLeftBound = function() {
 	return this.cx - this.halfWidth;
 };
+
+Entity.prototype.snapTo = function (destX, destY) {
+	this.cx = destX;
+	this.cy = destY;
+};
+
+Entity.prototype.landOn = function(surfaceY) {
+
+	this.cy = surfaceY - this.halfHeight;
+	this.velY = 0;
+};
+
 
 Entity.prototype.TOP_COLLISION = 1;
 Entity.prototype.SIDE_COLLISION = 2;

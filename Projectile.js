@@ -67,8 +67,9 @@ Projectile.prototype.update = function (dt) {
 
     var hitEntity = this.findHitEntity();
     if (hitEntity) {
-        var canTakeHit = hitEntity.takeDamage(5);
-        if (canTakeHit) canTakeHit.call(hitEntity);
+		util.maybeCall(hitEntity.takeDamage(5),
+				   		hitEntity,
+				   		[this]);
         return entityManager.KILL_ME_NOW;
     }
 
@@ -86,9 +87,15 @@ Projectile.prototype.update = function (dt) {
         }
 
         this.resolveCollision(collisionCode);
+
         if(collisionCode === -1){break;}
+		else if (collisionCode === this.TOP_COLLISION ||
+				 collisionCode === this.SIDE_COLLISION ||
+				 collisionCode === this.BOTTOM_COLLISION){
+			return entityManager.KILL_ME_NOW;
+		}
     }
-    
+
     this.cx += this.velX * dt;
     this.cy += this.velY * dt;
 
@@ -118,12 +125,14 @@ Projectile.prototype.render = function (ctx) {
                                 this.direction,
                                 this.direction);
     } else {
-      util.fillBox(ctx,
-				           this.cx-this.halfWidth*2,
-				           this.cy-this.halfHeight*2,
-          				 this.halfWidth*2,
-				           this.halfHeight*2,
-				           "blue");
+      
+        ctx.save();
+        var x = this.cx-9;
+        var y = this.cy- 2;
+
+        g_sprites.Arrow.drawCentredAt(ctx, this.cx, this.cy, this.rotation, false);
+        ctx.restore();
+        //(ctx, cx, cy, rotation, flip
     }
 };
 
@@ -135,7 +144,7 @@ Projectile.prototype.stopMe = function (entity, side){
 
 // Assumes entity is within the bounding circle
 Projectile.prototype.collidesWith = function (entity, oldX, oldY, nextX, nextY) {
-   
+
     console.log("here")
     var entUpperBound = nextY - entity.halfHeight;
     var entLowerBound = nextY + entity.halfHeight;
@@ -168,25 +177,22 @@ Projectile.prototype.collidesWith = function (entity, oldX, oldY, nextX, nextY) 
 }
 
 Projectile.prototype.resolveCollision = function(collisionCode) {
-    if (collisionCode === this.TOP_COLLISION ||
+    /*if (collisionCode === this.TOP_COLLISION ||
         collisionCode === this.BOTTOM_COLLISION) {
-        this.velY = 0;
-        this.aveVelY = 0;
-        if(this.state !== this.STATE_DASHING){
-            this.velX = 0;
-        }
-
-        if (collisionCode === this.BOTTOM_COLLISION){} //g_audio.coll.Play();
+        return entityManager.KILL_ME_NOW;
 
     } else if (collisionCode === this.SIDE_COLLISION) {
         this.velX = 0;
         this.aveVelX = 0;
-    } else if(collisionCode === -1) {
-
-
+    }*/
+	if(collisionCode === -2) {
         this.velX = -this.direction * 7;
         this.velY = -15;
+
+		return 10;
     }
+
+	return entityManager.KILL_ME_NOW;
 };
 
 Projectile.prototype.snapTo = function (destX, destY) {

@@ -233,6 +233,7 @@ function requestPreloads() {
     var requiredImages = {
       dagger      : "sprites/dagger.png",
       character   : "sprites/rogueLife.PNG",
+      enemy       : "sprites/enemy.png",
       wall        : "sprites/penis.png",
       Trap        : "sprites/midgetcowboys.png",
       Background  : "sprites/interior.png",
@@ -250,7 +251,8 @@ function requestPreloads() {
       logo	  : "sprites/logo.png",
       death	  : "sprites/death.png",
       victory : "sprites/victory.png",
-      credits : "sprites/credits.png"
+      credits : "sprites/credits.png",
+      Arrow   : "sprites/Arrow.png"
     };
 
 	preLoadAudio();
@@ -378,6 +380,16 @@ function preloadDone() {
 
 
     g_sprites.wall = new Sprite(constructorObjects);
+
+    //Arrow
+    var constructorObjects = {image : g_images.Arrow,
+                              sx    : 0,
+                              sy    : 0,
+                              Width : 30,
+                              Height : 2};
+
+
+    g_sprites.Arrow = new Sprite(constructorObjects);
 
     //Chest
     var constructorObjects = {image : g_images.Chest,
@@ -542,7 +554,98 @@ function preloadDone() {
 							  
 	g_sprites.credits = new Sprite(constructorObjects);
 
-	
+	//enemy walk
+    var cellHeight = 64;
+    var cellWidth = 64;
+    var numRows = 10;
+    var numCols = 9;
+
+    var Ewalking = [];
+    var EwSprite;
+
+    for (var row = 9; row < numRows; ++row) {
+        for (var col = 0; col < numCols; ++col) {
+            var constructorObjects = {image : g_images.enemy,
+                                      sx    : col * cellWidth,
+                                      sy    : row * cellHeight,
+                                      Width : cellWidth,
+                                      Height: cellHeight};
+            EwSprite = new Sprite(constructorObjects);
+            Ewalking.push(EwSprite);
+        }
+    }
+
+    g_sprites.Ewalk = Ewalking;
+
+     //enemy dying
+    var cellHeight = 64;
+    var cellWidth = 64;
+    var numRows = 21;
+    var numCols = 6;
+
+    var Edying = [];
+    var EdSprite;
+
+    for (var row = 20; row < numRows; ++row) {
+        for (var col = 0; col < numCols; ++col) {
+            var constructorObjects = {image : g_images.enemy,
+                                      sx    : col * cellWidth,
+                                      sy    : row * cellHeight,
+                                      Width : cellWidth,
+                                      Height: cellHeight};
+            EdSprite = new Sprite(constructorObjects);
+            Edying.push(EdSprite);
+        }
+    }
+
+    g_sprites.EDie = Edying;
+
+    //enemy attacking w. sword
+
+    var cellHeight = 64;
+    var cellWidth = 64;
+    var numRows = 20;
+    var numCols = 13;
+
+    var Eattacking = [];
+    var EaSprite;
+
+    for (var row = 19; row < numRows; ++row) {
+        for (var col = 0; col < numCols; ++col) {
+            var constructorObjects = {image : g_images.enemy,
+                                      sx    : 64 + cellWidth*col,
+                                      sy    : row * cellHeight,
+                                      Width : cellWidth,
+                                      Height: cellHeight};
+            EaSprite = new Sprite(constructorObjects);
+            Eattacking.push(EaSprite);
+        }
+    }
+
+    g_sprites.EattackSw = Eattacking;
+
+    //Edying
+    var cellHeight = 64;
+    var cellWidth = 64;
+    var numRows = 21;
+    var numCols = 6;
+
+    var Edying = [];
+    var EdSprite;
+
+    for (var row = 20; row < numRows; ++row) {
+        for (var col = 0; col < numCols; ++col) {
+            var constructorObjects = {image : g_images.enemy,
+                                      sx    : col * cellWidth,
+                                      sy    : row * cellHeight,
+                                      Width : cellWidth,
+                                      Height: cellHeight};
+            EdSprite = new Sprite(constructorObjects);
+            Edying.push(EdSprite);
+        }
+    }
+
+    g_sprites.EDie = Edying;
 
 	console.log("g_sprites: " + g_sprites);
     

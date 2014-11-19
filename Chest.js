@@ -9,16 +9,12 @@ Chest.prototype.Dead = false;
 
 Chest.prototype.render = function(ctx){
 
-		ctx.save();
-		var x = this.cx-50;
-		var y = this.cy+1-this.halfHeight;
+	ctx.save();
+	var x = this.cx-50;
+	var y = this.cy+1-this.halfHeight;
+	g_sprites.Chest.drawAt(ctx, x, y);
 
-		g_sprites.Chest.drawAt(ctx, x, y);
-
-		
-		
-
-			ctx.restore();
+	ctx.restore();
 		
 }
 
@@ -39,7 +35,7 @@ Chest.prototype.update = function(dt){
 		for(var i = 0; i < 5; i++){
 			entityManager._generateParticles({	cx : this.cx,
 										cy : this.cy,
-										colr : "pink"},
+										colr : "purple"},
 										entityManager._currentRoomID);
 		}
 		return this.KILL_ME_NOW;
@@ -53,7 +49,7 @@ Chest.prototype.update = function(dt){
 
 Chest.prototype.dropPowerUp = function(){
 
-	var randomxVel = Math.floor(Math.random()*5);
+	var randomxVel = 1;
 
 	if(Math.random() > 0.5){
 		randomxVel = -randomxVel;
@@ -61,7 +57,7 @@ Chest.prototype.dropPowerUp = function(){
 
 	entityManager._spawnPowerup({	cx : this.cx,
 									cy : this.cy,
-									velX : randomxVel,
+									velX : 0,
 									velY : -5},
 									entityManager._currentRoomID);
 

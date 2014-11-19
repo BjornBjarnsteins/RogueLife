@@ -161,12 +161,13 @@ Room.prototype.insertRangedEnemy = function (row,col)
 {
     if(this.grid[row][col])
         return;
-    this.grid[row][col] =entityManager._makeRangedEnemy({cx: col*this.tileHeight,
-                                                         cy:row *this.tileWidth
+    this.grid[row][col] =entityManager._makeRangedEnemy({cx: col*this.tileHeight - 10,
+                                                         cy:row *this.tileWidth,
+                                                         roomID : this._roomID
                                                         },this._roomID);
 }
 
-    
+
 
 Room.prototype.emptyTile = function (row, col) {
   if (this.grid[row][col] instanceof Wall) entityManager._removeWall(this.grid[row][col], this._roomID);
@@ -255,7 +256,10 @@ Room.prototype.interiorDesign = function (scheme) {
 				}
 			}
             if(scheme[row][col] === "R") {
-                this.insertRangedEnemy(row,col);
+            	if(Math.random() > 0.2 ){
+					this.insertRangedEnemy(row,col);
+				}
+                
             }
 
 		}

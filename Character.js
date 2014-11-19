@@ -269,7 +269,7 @@ Character.prototype.update = function(dt)
 	this.applyAccel(accelX,accelY,dt);
 
 	// s = s + v_ave * t
-	var nextX = this.cx + this.aveVelX * dt;
+	var nextX = this.cx;
 	var nextY = this.cy + this.aveVelY * dt;
 
 	var hitEntity = this.findHitEntity();
@@ -343,7 +343,7 @@ Character.prototype.update = function(dt)
 				g_audio.Door.Play();
 				this.ShouldPlay = false;
 			}
-			
+
 			entityManager._door[11][0].locked = true;
 		}else{
 			entityManager._door[11][0].locked = false;
@@ -373,15 +373,17 @@ Character.prototype.update = function(dt)
 			this.ShouldPlay = false;
 		}
 		this.forTheStartScreen = 3;
-		
+
 	}
 	else if(this.introAnimation > 10){
 		this.ShouldPlay = true;
 		this.forTheStartScreen = 0;
-		
+
 	}
 	if(this.introAnimation > 0){
 		this.introAnimation -= dt;
+	}else{
+		this.ShouldPlay = true;
 	}
 	//console.log(this.introAnimation)
 
@@ -424,6 +426,7 @@ Character.prototype.resolveCollision = function(collisionCode) {
 	} else if (collisionCode === this.SIDE_COLLISION) {
 		this.velX = 0;
 		this.aveVelX = 0;
+		//this.cx +=  * this.direction*(-1);
 	} else if(collisionCode === -1) {
 
 
@@ -515,7 +518,7 @@ Character.prototype.render = function (ctx)
 
 	}
 	else if(this.state === this.STATE_ATTACKING)
-	{	
+	{
 
 		var time = this.weapon.currentAttackTime;
 		if(time > 5){
@@ -609,12 +612,10 @@ Character.prototype.jump = function() {
 	if (!this.hasJumpsLeft()) return;
 	if (this.energy < 20) return;
 
-	this.energy -= 20;
-	this.velY -= 20;
+	this.energy -= 10;
+	this.velY -= 25;
 	this.jumpsLeft--;
-	if(this.jumpsLeft < this.maxJumps-1){
-		this.velY -= 10;
-	}
+
 	this.inAir = true;
 	this.wasJumping = true;
 	if(this.state !== this.STATE_ATTACKING){
@@ -718,16 +719,6 @@ Character.prototype.takeDamage = function(amount){
 
 };
 
-Character.prototype.sendMessage = function (msg, style) {
-	if (!style) var style = "black";
-
-	entityManager._generateMessage({message : msg,
-
-									cx : this.cx,
-									cy : this.cy - this.halfHeight,
-
-									fillStyle : style});
-};
 
 Character.prototype.gainLife = function (amount) {
 	this.life += amount;
@@ -738,9 +729,9 @@ Character.prototype.death = function() {
 	g_deathfade = !g_deathfade;
 	if (g_deathfade === true) g_dofade = true;
 	if (g_deathfade === true) this.deathysound = false;
-	
+
 	if (g_deathfade === false) {
-	
+
 	this.state = this.STATE_STANDING;
 	this.life = this.maxLife;
 	this.cx = 100;
@@ -749,6 +740,7 @@ Character.prototype.death = function() {
 	this.direction = 1;
 	this.mark = true;
 	this.introAnimation = 600;
+	this.ammo = 3;
 
 	spatialManager.cleanOut();
 	dungeon.clearDungeon();
@@ -759,8 +751,8 @@ Character.prototype.death = function() {
 	this.resetTemporaryVars();
 	dungeon._nextRoomID = 1;
 	}
-	
-	
+
+
 };
 
 Character.prototype.resetTemporaryVars = function() {

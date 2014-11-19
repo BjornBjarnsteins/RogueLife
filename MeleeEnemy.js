@@ -30,7 +30,7 @@ MeleeEnemy.prototype.STATE_STANDING = 1;
 MeleeEnemy.prototype.STATE_ATTACKING = 2;
 MeleeEnemy.prototype.STATE_RUNNING = 3;
 MeleeEnemy.prototype.STATE_DEAD = 4;
-MeleeEnemy.prototype.state = 1;
+MeleeEnemy.prototype.state = 3;
 
 MeleeEnemy.prototype.isAttacking=false;
 
@@ -68,7 +68,7 @@ MeleeEnemy.prototype.render = function(ctx)
 	{
 
 		//var distanceTraveled = Math.abs(this.movedFrom - this.cx);
-		index = 1;//Math.floor((distanceTraveled / 65*9) % 9);
+		index = Math.floor((this.currentWalkLength / this.range) % 9);
 
 		sx = g_sprites.E2walk[index].sx;
 		sy = g_sprites.E2walk[index].sy;

@@ -4,7 +4,7 @@ TODO: adapt
 
 entityManager.js
 
-A module which handles arbitrary entity-management for "Asteroids"
+A module which handles arbitrary entity-management for "RogueLife"
 
 
 We create this module as a single global object, and initialise it
@@ -41,6 +41,8 @@ _door 		 : [],
 _messages	 : [],
 _key 		 : [],
 _particles   : [],
+_rangedEnemies:[],
+_meleeEnemies: [],
 
 weapon : null,
 
@@ -114,7 +116,9 @@ deferredSetup : function () {
     					this._chests,
 						this._messages,
 						this._key,
-						this._particles
+						this._particles,
+                        this._rangedEnemies,
+                        this._meleeEnemies
     					];
 },
 
@@ -146,7 +150,7 @@ _getPlayer : function () {
 },
 
 getPlayerList : function () {
-    return this.characters[this._currentRoomID];
+    return this._characters[this._currentRoomID];
 },
 
 
@@ -181,6 +185,8 @@ _makeSpike : function  (descr, roomID) {
 	return newSpike;
 },
 
+
+
 _makeSpikeTrap : function  (descr, roomID) {
 	var newSpiketrap = new SpikeTrap(descr);
 	if (!this._spikestrap[roomID]) this._spikestrap[roomID] = [newSpiketrap];
@@ -188,6 +194,20 @@ _makeSpikeTrap : function  (descr, roomID) {
 	return newSpiketrap;
 },
 
+_makeRangedEnemy : function  (descr, roomID) {
+	var newRangedEnemy = new RangedEnemy(descr);
+	if (!this._rangedEnemies[roomID]) this._rangedEnemies[roomID] = [newRangedEnemy];
+	else this._rangedEnemies[roomID].push(newRangedEnemy);
+	return newRangedEnemy;
+},
+
+
+_makeMeleeEnemy : function  (descr, roomID) {
+	var newMeleeEnemy = new MeleeEnemy(descr);
+	if (!this._meleeEnemies[roomID]) this._meleeEnemies[roomID] = [newRangedEnemy];
+	else this._meleeEnemies[roomID].push(newMeleeEnemy);
+	return newMeleeEnemy;
+},
 // Projectile stuff
 
 looseArrow : function (startX,startY,speedX,speedY,roomID)

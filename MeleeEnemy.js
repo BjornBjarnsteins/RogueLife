@@ -130,6 +130,8 @@ MeleeEnemy.prototype.render = function(ctx)
 MeleeEnemy.prototype.update = function(dt)
 {
     spatialManager.unregister(this);
+    if(this.currentInvulnTime>0)
+        this.currentInvulnTime -=dt;
 
 	var accelX=0;
 	var accelY=this.computeGravity();

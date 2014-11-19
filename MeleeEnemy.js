@@ -25,7 +25,7 @@ MeleeEnemy.prototype.aveVelX=0;
 MeleeEnemy.prototype.aveVelY=0;
 
 MeleeEnemy.prototype.invulnTime=0.1*SECS_TO_NOMINALS;
-MeleeEnemy.prtotype.currentInvulnTime = 0;
+MeleeEnemy.prototype.currentInvulnTime = 0;
 
 MeleeEnemy.prototype.STATE_STANDING = 1;
 MeleeEnemy.prototype.STATE_ATTACKING = 2;
@@ -162,13 +162,13 @@ MeleeEnemy.prototype.update = function(dt)
 	this.isAttacking=true;
 	this.attack(dt);
     }
-    
-   
+
+
     this.applyAccel(accelX,accelY,dt);
 
 	var nextX = this.cx + this.aveVelX * dt;
 	var nextY = this.cy + this.aveVelY * dt;
-    
+
     spatialManager.register(this);
 	var hitObstacles = dungeon.getCurrentRoom().getObstaclesInRange(this);
 
@@ -192,12 +192,12 @@ MeleeEnemy.prototype.update = function(dt)
 
 MeleeEnemy.prototype.attack = function(dt)
 {
-    
+
     this.cx += this.direction*15;
     this.currentWalkLength += 15;
     if(this.currentWalkLength>this.range/3)
 	this.isAttacking=false;
-	
+
 
 };
 

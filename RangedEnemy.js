@@ -33,10 +33,14 @@ RangedEnemy.prototype.range=300;
 RangedEnemy.prototype.STATE_STANDING = 1;
 RangedEnemy.prototype.STATE_ATTACKING = 2;
 RangedEnemy.prototype.STATE_RUNNING = 3;
+RangedEnemy.prototype.STATE_DEAD = 4;
 RangedEnemy.prototype.state = 1;
 RangedEnemy.prototype.drawTime =  1.3*SECS_TO_NOMINALS;
 RangedEnemy.prototype.drawTime2 =  0.3*SECS_TO_NOMINALS;
 RangedEnemy.prototype.shot = false;
+
+
+RangedEnemy.prototype.deathAnimationTimeIndex = 0;
 
 
 RangedEnemy.prototype.render = function(ctx)
@@ -138,6 +142,22 @@ RangedEnemy.prototype.render = function(ctx)
     }
 
   }
+    else if(this.state === this.STATE_DEAD)
+    {
+
+    var index = Math.floor(this.deathAnimationTimeIndex/20);
+
+    sx = g_sprites.EDie[index].sx;
+    sy = g_sprites.EDie[index].sy;
+    height = g_sprites.EDie[index].height;
+    width = g_sprites.EDie[index].width;
+    image = g_sprites.EDie[index];
+
+
+    g_sprites.EDie[index].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
+
+
+  }
     ctx.restore();
 
 };
@@ -154,8 +174,18 @@ RangedEnemy.prototype.update = function(dt)
 	var oldX = this.cx;
 	var oldY = this.cy;
 
-   if(this.hitPoints<=0)
-        return entityManager.KILL_ME_NOW;
+   if(this.hitPoints<=0){
+
+    this.state = this.STATE_DEAD;
+    if(this.deathAnimationTimeIndex > 110){
+      return entityManager.KILL_ME_NOW;
+    }else{
+      this.deathAnimationTimeIndex += dt;
+      return;
+    }
+    
+   }
+        
    var characters = entityManager.getPlayerList();
 
     //Face player 1

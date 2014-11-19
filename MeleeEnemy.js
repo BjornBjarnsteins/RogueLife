@@ -57,7 +57,7 @@ MeleeEnemy.prototype.render = function(ctx)
 		sy = g_sprites.walk[0].sy;
 		height = g_sprites.walk[0].height;
 		width = g_sprites.walk[0].width;
-		image = g_sprites.walk[0];
+		image = g_sprites.E2walk[0];
 
 		g_sprites.E2walk[0].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
 	}

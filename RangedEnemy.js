@@ -252,8 +252,6 @@ RangedEnemy.prototype.update = function(dt)
   if(this.roomID === entityManager._currentRoomID){
     spatialManager.register(this);
   }
-    
-
 	 var hitObstacles = dungeon.getCurrentRoom().getObstaclesInRange(this);
 
      var collisionCode = -1;

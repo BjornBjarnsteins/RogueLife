@@ -9,16 +9,12 @@ Chest.prototype.Dead = false;
 
 Chest.prototype.render = function(ctx){
 
-		ctx.save();
-		var x = this.cx-50;
-		var y = this.cy+1-this.halfHeight;
+	ctx.save();
+	var x = this.cx-50;
+	var y = this.cy+1-this.halfHeight;
+	g_sprites.Chest.drawAt(ctx, x, y);
 
-		g_sprites.Chest.drawAt(ctx, x, y);
-
-		
-		
-
-			ctx.restore();
+	ctx.restore();
 		
 }
 

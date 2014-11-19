@@ -232,7 +232,8 @@ function requestPreloads() {
       logo	  : "sprites/logo.png",
       death	  : "sprites/death.png",
       victory : "sprites/victory.png",
-      credits : "sprites/credits.png"
+      credits : "sprites/credits.png",
+      Arrow   : "sprites/Arrow.png"
     };
 
 	preLoadAudio();
@@ -360,6 +361,16 @@ function preloadDone() {
 
 
     g_sprites.wall = new Sprite(constructorObjects);
+
+    //Arrow
+    var constructorObjects = {image : g_images.Arrow,
+                              sx    : 0,
+                              sy    : 0,
+                              Width : 30,
+                              Height : 2};
+
+
+    g_sprites.Arrow = new Sprite(constructorObjects);
 
     //Chest
     var constructorObjects = {image : g_images.Chest,

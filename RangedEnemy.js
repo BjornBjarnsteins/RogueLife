@@ -317,6 +317,7 @@ RangedEnemy.prototype.attack = function(targetX,targetY)
                               this.cy,
                               arrowSpeedX,
                               arrowSpeedY,
+                              angleToTarget,
                               entityManager._currentRoomID);
 
 };

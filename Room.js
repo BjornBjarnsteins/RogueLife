@@ -256,7 +256,7 @@ Room.prototype.interiorDesign = function (scheme) {
 				}
 			}
             if(scheme[row][col] === "R") {
-            	if(Math.random() > 0.7 ){
+            	if(Math.random() > 0.2 ){
 					this.insertRangedEnemy(row,col);
 				}
                 

@@ -119,12 +119,14 @@ Projectile.prototype.render = function (ctx) {
                                 this.direction,
                                 this.direction);
     } else {
-      util.fillBox(ctx,
-				           this.cx-this.halfWidth*2,
-				           this.cy-this.halfHeight*2,
-          				 this.halfWidth*2,
-				           this.halfHeight*2,
-				           "blue");
+      
+        ctx.save();
+        var x = this.cx-9;
+        var y = this.cy- 2;
+
+        g_sprites.Arrow.drawCentredAt(ctx, this.cx, this.cy, this.rotation, false);
+        ctx.restore();
+        //(ctx, cx, cy, rotation, flip
     }
 };
 

@@ -382,7 +382,7 @@ Character.prototype.update = function(dt)
 	if(this.introAnimation > 0){
 		this.introAnimation -= dt;
 	}
-	console.log(this.introAnimation)
+	//console.log(this.introAnimation)
 
 	this.currentInvulnDur--;
 	this.inputsLocked = this.currentInvulnDur > 0;
@@ -609,8 +609,11 @@ Character.prototype.jump = function() {
 	if (this.energy < 20) return;
 
 	this.energy -= 20;
-	this.velY -= 30;
+	this.velY -= 20;
 	this.jumpsLeft--;
+	if(this.jumpsLeft < this.maxJumps-1){
+		this.velY -= 10;
+	}
 	this.inAir = true;
 	this.wasJumping = true;
 	if(this.state !== this.STATE_ATTACKING){
@@ -731,8 +734,11 @@ Character.prototype.gainLife = function (amount) {
 };
 
 Character.prototype.death = function() {
-	g_deathscreen = true;
-	this.deathysound = false;
+	g_deathfade = !g_deathfade;
+	if (g_deathfade === true) g_dofade = true;
+	if (g_deathfade === true) this.deathysound = false;
+	
+	if (g_deathfade === false) {
 	
 	this.state = this.STATE_STANDING;
 	this.life = this.maxLife;
@@ -741,6 +747,7 @@ Character.prototype.death = function() {
 	this.deathAnimationTimeIndex = 0;
 	this.direction = 1;
 	this.mark = true;
+	this.introAnimation = 600;
 
 	spatialManager.cleanOut();
 	dungeon.clearDungeon();
@@ -750,6 +757,9 @@ Character.prototype.death = function() {
 	entityManager._oldRoomID = 1;
 	this.resetTemporaryVars();
 	dungeon._nextRoomID = 1;
+	}
+	
+	
 };
 
 Character.prototype.resetTemporaryVars = function() {

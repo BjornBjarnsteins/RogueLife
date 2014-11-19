@@ -39,8 +39,8 @@ function gatherInputs() {
 
 function updateSimulation(du) {
     processDiagnostics();
-      		
-    if (!g_startscreen && !g_deathscreen && !g_victoryscreen) {
+     
+    if (!g_startscreen && !g_deathfade && !g_finished) {
     entityManager.update(du);
 
 	HUD.update(du);
@@ -48,6 +48,7 @@ function updateSimulation(du) {
 	dungeon.update(du);
 	
 	if (entityManager._currentRoomID === 101 && entityManager._getPlayer().hasKey) {
+		if (!g_victoryscreen) g_dofade = true;
 		g_victoryscreen = true;
 		}
 
@@ -57,7 +58,7 @@ function updateSimulation(du) {
     g_audio.deathsound.reset();
     g_audio.victory.sound.pause();
     
-    if(entityManager._getPlayer()){
+    if(entityManager._getPlayer() && !g_victoryscreen){
   		if (entityManager._getPlayer().life > 20) {
   				if (g_audio.soundtrack2 && g_audio.soundtrack2.sound) g_audio.soundtrack2.sound.pause();
   				if (g_audio.soundtrack) g_audio.soundtrack.soundtrackPlay();
@@ -79,8 +80,11 @@ function updateSimulation(du) {
 	}
 	
 	else if (!g_musicmute) {
-		if (g_startscreen) g_audio.startsound.soundtrackPlay();
-		else if (g_deathscreen) {
+		if (g_startscreen) {
+			if (g_fadeout) g_audio.startsound.sound.pause();
+			 g_audio.startsound.soundtrackPlay();
+			 }
+		else if (g_deathfade) {
 			g_audio.soundtrack2.sound.pause();
 			g_audio.soundtrack.sound.pause();
 			g_audio.soundtrack2.reset();
@@ -111,6 +115,12 @@ var g_musicmute = false;
 var g_startscreen = true;
 var g_deathscreen = false;
 var g_victoryscreen = false;
+var g_credits = false;
+var g_fadeout = 1.0;
+var g_dofade = false;
+var g_fadein = false;
+var g_deathfade = false;
+var g_finished = false;
 
 var KEY_MIXED   = keyCode('M');
 var KEY_AVE_VEL = keyCode('V');
@@ -119,6 +129,7 @@ var KEY_GRID_TOGGLE = keyCode('G');
 var KEY_MUTE_TOGGLE = keyCode('O');
 var KEY_MUSICMUTE_TOGGLE = keyCode('L');
 var KEY_STARTSCREEN = 13;
+var KEY_CREDITS = 27;
 
 function processDiagnostics() {
 
@@ -136,11 +147,19 @@ function processDiagnostics() {
 	if (eatKey(KEY_MUSICMUTE_TOGGLE)) g_musicmute = !g_musicmute;
 	
 	if (g_startscreen) {
-		if (eatKey(KEY_STARTSCREEN)) g_startscreen = !g_startscreen;
+		if (eatKey(KEY_CREDITS)) g_credits = !g_credits;
+	}
+	
+	if (g_startscreen && !g_dofade) {
+		if (eatKey(KEY_STARTSCREEN)) g_dofade = true;
 	}
 	if (g_deathscreen) {
-		if (eatKey(KEY_STARTSCREEN)) g_deathscreen = !g_deathscreen;
+		if (eatKey(KEY_STARTSCREEN)) {
+									g_dofade = true;
+									}
 	}
+	
+	
 }
 
 
@@ -159,24 +178,27 @@ function processDiagnostics() {
 // GAME-SPECIFIC RENDERING
 
 function renderSimulation(ctx) {
+	if (g_startscreen && g_credits) startscreen.creditsrender(ctx);
+	else {
+		if (g_finished) startscreen.victoryrender(ctx);
+		if (g_deathscreen) startscreen.deathrender(ctx); 
+    	if (!g_startscreen && !g_deathscreen || g_fadein) {
+    
+   			if (!g_deathscreen && !g_finished) {
+    		entityManager.render(ctx);
 
-    if (!g_startscreen && !g_deathscreen && !g_victoryscreen) {
-    entityManager.render(ctx);
+			HUD.render(ctx);
 
-	HUD.render(ctx);
+			dungeon.render(ctx);
+		
+    		if (g_renderSpatialDebug) spatialManager.render(ctx);
 
-	dungeon.render(ctx);
-
-    if (g_renderSpatialDebug) spatialManager.render(ctx);
-
-	if (g_toggleGrid) dungeon._currentRoom.render(ctx);
+			if (g_toggleGrid) dungeon._currentRoom.render(ctx);
+	
+			}
+		}	
+		fade.clusterfuck(ctx);	
 	}
-	
-	else if (g_startscreen) startscreen.startrender(ctx);
-	else if (g_deathscreen) startscreen.deathrender(ctx);
-	else startscreen.victoryrender(ctx);
-	
-	
 }
 
 
@@ -208,7 +230,8 @@ function requestPreloads() {
       Key     : "sprites/key.png",
       logo	  : "sprites/logo.png",
       death	  : "sprites/death.png",
-      victory : "sprites/victory.png"
+      victory : "sprites/victory.png",
+      credits : "sprites/credits.png"
     };
 
 	preLoadAudio();
@@ -491,6 +514,14 @@ function preloadDone() {
 							  Height: 500};
 							  
 	g_sprites.victory = new Sprite(constructorObjects);
+	
+	var constructorObjects = {image : g_images.credits,
+							  sx	: 0,
+							  sy	: 0,
+							  Width	: 750,
+							  Height: 500};
+							  
+	g_sprites.credits = new Sprite(constructorObjects);
 
 	
 

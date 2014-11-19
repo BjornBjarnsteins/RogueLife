@@ -152,8 +152,8 @@ MeleeEnemy.prototype.update = function(dt)
     }
     if(this.currentWalkLengt<this.range)
     {
-	this.cx+=this.direction*5;
-	this.currentWalkLength +=5;
+	this.cx+=this.direction*5*dt;
+	this.currentWalkLength +=5*dt;
     }
     else
     {
@@ -193,8 +193,8 @@ MeleeEnemy.prototype.update = function(dt)
 MeleeEnemy.prototype.attack = function(dt)
 {
 
-    this.cx += this.direction*15;
-    this.currentWalkLength += 15;
+    this.cx += this.direction*15*dt;
+    this.currentWalkLength += 15*dt;
     if(this.currentWalkLength>this.range/3)
 	this.isAttacking=false;
 

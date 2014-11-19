@@ -53,7 +53,7 @@ Chest.prototype.update = function(dt){
 
 Chest.prototype.dropPowerUp = function(){
 
-	var randomxVel = Math.floor(Math.random()*5);
+	var randomxVel = Math.floor(Math.random()*2);
 
 	if(Math.random() > 0.5){
 		randomxVel = -randomxVel;

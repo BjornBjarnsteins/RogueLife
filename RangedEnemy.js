@@ -178,6 +178,12 @@ RangedEnemy.prototype.update = function(dt)
 
     this.state = this.STATE_DEAD;
     if(this.deathAnimationTimeIndex > 110){
+      for(var i = 0; i < 5; i++){
+      entityManager._generateParticles({  cx : this.cx,
+                    cy : this.cy,
+                    colr : "white"},
+                    entityManager._currentRoomID);
+    }
       return entityManager.KILL_ME_NOW;
     }else{
       this.deathAnimationTimeIndex += dt;

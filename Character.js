@@ -110,8 +110,6 @@ Character.prototype.update = function(dt)
 			 this.state === this.STATE_FALLING
 			) {
 
-
-
 		if( this.velY === 0 				  &&
 		   this.state === this.STATE_FALLING ){
 

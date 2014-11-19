@@ -268,7 +268,7 @@ Character.prototype.update = function(dt)
 	this.applyAccel(accelX,accelY,dt);
 
 	// s = s + v_ave * t
-	var nextX = this.cx + this.aveVelX * dt;
+	var nextX = this.cx;
 	var nextY = this.cy + this.aveVelY * dt;
 
 	var hitEntity = this.findHitEntity();
@@ -294,11 +294,24 @@ Character.prototype.update = function(dt)
 		if(collisionCode === -1){break;}
 	}
 
+
+	//console.log("velX: " + this.velX + " velY: " + this.velY);
+	//console.log("aveVelX: " + aveVel.X + " aveVelY: " + aveVel.Y);
+
+
 	// s = s + v_ave * t
 	this.cx += dt * this.aveVelX;
 	this.cy += dt * this.aveVelY;
 
-	if (this.velY > 0) {}
+	if (this.velY > 0) {}//this.state = this.STATE_FALLING;
+
+	/*var oldCy = this.cy;
+	this.clampToBounds();
+
+	if (this.cy !== oldCy) {
+		this.velY = 0;
+		if (this.cy > 500){} //this.state = this.STATE_STANDING;
+	}*/
 
 	// Handle room changes
 	if (this.cy < 0) {
@@ -369,6 +382,7 @@ Character.prototype.update = function(dt)
 	if(this.introAnimation > 0){
 		this.introAnimation -= dt;
 	}
+	//console.log(this.introAnimation)
 
 	this.currentInvulnDur--;
 	this.inputsLocked = this.currentInvulnDur > 0;
@@ -409,6 +423,7 @@ Character.prototype.resolveCollision = function(collisionCode) {
 	} else if (collisionCode === this.SIDE_COLLISION) {
 		this.velX = 0;
 		this.aveVelX = 0;
+		//this.cx +=  * this.direction*(-1);
 	} else if(collisionCode === -1) {
 
 

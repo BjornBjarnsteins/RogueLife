@@ -685,8 +685,6 @@ Character.prototype.getRadius = function() {
 };
 
 Character.prototype.takeDamage = function(amount){
-	console.log(this.currentInvulnDur);
-
 	if (this.currentInvulnDur > 0) return;
 
 	this.sendMessage(amount, "red");

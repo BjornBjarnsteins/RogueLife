@@ -67,8 +67,9 @@ Projectile.prototype.update = function (dt) {
 
     var hitEntity = this.findHitEntity();
     if (hitEntity) {
-        var canTakeHit = hitEntity.takeDamage(5);
-        if (canTakeHit) canTakeHit.call(hitEntity);
+		util.maybeCall(hitEntity.takeDamage(5),
+				   		hitEntity,
+				   		[this]);
         return entityManager.KILL_ME_NOW;
     }
 
@@ -88,7 +89,7 @@ Projectile.prototype.update = function (dt) {
         this.resolveCollision(collisionCode);
         if(collisionCode === -1){break;}
     }
-    
+
     this.cx += this.velX * dt;
     this.cy += this.velY * dt;
 
@@ -135,7 +136,7 @@ Projectile.prototype.stopMe = function (entity, side){
 
 // Assumes entity is within the bounding circle
 Projectile.prototype.collidesWith = function (entity, oldX, oldY, nextX, nextY) {
-   
+
     console.log("here")
     var entUpperBound = nextY - entity.halfHeight;
     var entLowerBound = nextY + entity.halfHeight;

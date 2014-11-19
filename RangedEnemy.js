@@ -249,7 +249,10 @@ RangedEnemy.prototype.update = function(dt)
 	 var nextX = this.cx + this.aveVelX * dt;
 	 var nextY = this.cy + this.aveVelY * dt;
 
-     spatialManager.register(this);
+  if(this.roomID === entityManager._currentRoomID){
+    spatialManager.register(this);
+  }
+    
 
 	 var hitObstacles = dungeon.getCurrentRoom().getObstaclesInRange(this);
 

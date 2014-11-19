@@ -103,6 +103,15 @@ RangedEnemy.prototype.update = function(dt)
     
      spatialManager.register(this);
 	    
+       /*
+     var hitEntity= this.findHitEntity();
+     for(var i=0;i<characters.length;i++)
+     {
+        if(characters[i]===hitEntity)
+            hitEntity.takeDamage(15);
+     }
+     */
+           
 	 var hitObstacles = dungeon.getCurrentRoom().getObstaclesInRange(this);
 
      var collisionCode = -1;

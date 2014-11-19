@@ -130,6 +130,8 @@ MeleeEnemy.prototype.render = function(ctx)
 MeleeEnemy.prototype.update = function(dt)
 {
     spatialManager.unregister(this);
+    if(this.currentInvulnTime>0)
+        this.currentInvulnTime -=dt;
 
 	var accelX=0;
 	var accelY=this.computeGravity();
@@ -150,10 +152,10 @@ MeleeEnemy.prototype.update = function(dt)
 	this.attack(dt);
 	return;
     }
-    if(this.currentWalkLengt<this.range)
+    if(this.currentWalkLength<this.range)
     {
-	this.cx+=this.direction*5;
-	this.currentWalkLength +=5
+	this.cx+=this.direction*5*dt;
+	this.currentWalkLength +=5*dt;
     }
     else
     {
@@ -193,8 +195,8 @@ MeleeEnemy.prototype.update = function(dt)
 MeleeEnemy.prototype.attack = function(dt)
 {
 
-    this.cx += this.direction*15;
-    this.currentWalkLength += 15;
+    this.cx += this.direction*15*dt;
+    this.currentWalkLength += 15*dt;
     if(this.currentWalkLength>this.range/3)
 	this.isAttacking=false;
 
@@ -223,4 +225,12 @@ MeleeEnemy.prototype.getRadius = function()
     return Math.max(this.halfWidth,this.halfHeight);
 };
 
+MeleeEnemy.prototype.takeDamage =function(pain)
+{
+    if(this.currentInvulnTime>0)
+        return;
+    this.hitPoints -= pain;
+    this.sendMessage(pain, "red");
+    this.currentInvulnTime=this.invulnTime;
+};
 

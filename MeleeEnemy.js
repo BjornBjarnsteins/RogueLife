@@ -9,6 +9,8 @@ function MeleeEnemy(descr)
 }
 MeleeEnemy.prototype=new Entity();
 
+MeleeEnemy.prototype.hitPoints=40;
+
 MeleeEnemy.prototype.cy =g_canvas.height-150;
 MeleeEnemy.prototype.cx=g_canvas.width/2;
 MeleeEnemy.prototype.halfHeight=40;
@@ -33,6 +35,7 @@ MeleeEnemy.prototype.STATE_DEAD = 4;
 MeleeEnemy.prototype.state = 3;
 MeleeEnemy.prototype.deathAnimationTimeIndex = 0;
 MeleeEnemy.prototype.hitPoints = 40;
+MeleeEnemy.prototype.deadsound = false;
 
 MeleeEnemy.prototype.isAttacking=false;
 
@@ -87,7 +90,16 @@ MeleeEnemy.prototype.render = function(ctx)
 	else if(this.state === this.STATE_DEAD)
 	{
 
+<<<<<<< HEAD
 		index = Math.floor(this.deathAnimationTimeIndex/20);
+=======
+		if (!this.deadsound) {
+			g_audio.orcdeath.Play();
+			this.deadsound = !this.deadsound;
+			}
+		
+		index = 1;//Math.floor(this.deathAnimationTimeIndex/20);
+>>>>>>> 2129fb7a0729c72c5361cb2ccd81400c55ce87bf
 
 		sx = g_sprites.E2Die[index].sx;
 		sy = g_sprites.E2Die[index].sy;
@@ -245,6 +257,8 @@ MeleeEnemy.prototype.getRadius = function()
 
 MeleeEnemy.prototype.takeDamage =function(pain)
 {
+    g_audio.orcpain.Play();
+    
     if(this.currentInvulnTime>0)
         return;
     this.hitPoints -= pain;

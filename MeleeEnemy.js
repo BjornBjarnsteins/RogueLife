@@ -9,6 +9,8 @@ function MeleeEnemy(descr)
 }
 MeleeEnemy.prototype=new Entity();
 
+MeleeEnemy.prototype.hitPoints=40;
+
 MeleeEnemy.prototype.cy =g_canvas.height-150;
 MeleeEnemy.prototype.cx=g_canvas.width/2;
 MeleeEnemy.prototype.halfHeight=40;

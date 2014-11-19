@@ -134,7 +134,6 @@ var KEY_MUTE_TOGGLE = keyCode('O');
 var KEY_MUSICMUTE_TOGGLE = keyCode('L');
 var KEY_STARTSCREEN = 13;
 var KEY_CREDITS = 27;
-var killkey = keyCode('J');
 
 function processDiagnostics() {
 

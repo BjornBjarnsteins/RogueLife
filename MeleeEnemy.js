@@ -243,6 +243,8 @@ MeleeEnemy.prototype.resolveCollision = function(collisionCode)
     {
 		this.velY = 0;
 		this.aveVelY = 0;
+		this.velX = 0;
+		this.aveVelX = 0;
 
     }
 	else if (collisionCode === this.SIDE_COLLISION) {
@@ -260,6 +262,7 @@ MeleeEnemy.prototype.getRadius = function()
 
 MeleeEnemy.prototype.takeDamage =function(pain)
 {
+	player = entityManager._getPlayer();
     g_audio.orcpain.Play();
     
     if(this.currentInvulnTime>0)
@@ -267,5 +270,8 @@ MeleeEnemy.prototype.takeDamage =function(pain)
     this.hitPoints -= pain;
     this.sendMessage(pain, "red");
     this.currentInvulnTime=this.invulnTime;
+    this.velX = player.direction*7;
+    this.velY = -7;
+    this.direction = -this.direction;
 };
 

@@ -175,9 +175,12 @@ RangedEnemy.prototype.update = function(dt)
 	var oldY = this.cy;
 
    if(this.hitPoints<=0){
+	   var player = entityManager._getPlayer();
+
 
     this.state = this.STATE_DEAD;
     if(this.deathAnimationTimeIndex > 110){
+		player.score += 10;
       for(var i = 0; i < 5; i++){
       entityManager._generateParticles({  cx : this.cx,
                     cy : this.cy,

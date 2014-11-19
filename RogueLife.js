@@ -40,7 +40,7 @@ function gatherInputs() {
 function updateSimulation(du) {
     processDiagnostics();
      
-    if (!g_startscreen && !g_deathfade && !g_finished) {
+    if (!g_stopscreen && !g_deathfade && !g_finished) {
     entityManager.update(du);
 
 	HUD.update(du);
@@ -91,7 +91,7 @@ function updateSimulation(du) {
 			g_audio.soundtrack.reset();
 			g_audio.deathsound.soundtrackPlay();
 		}
-		else {
+		else if (g_victoryscreen) {
 			g_audio.soundtrack2.sound.pause();
 			g_audio.soundtrack.sound.pause();
 			g_audio.soundtrack2.reset();
@@ -116,11 +116,15 @@ var g_startscreen = true;
 var g_deathscreen = false;
 var g_victoryscreen = false;
 var g_credits = false;
-var g_fadeout = 1.0;
+var g_fadeout = 0.0;
 var g_dofade = false;
 var g_fadein = false;
 var g_deathfade = false;
 var g_finished = false;
+var g_stopscreen = true;
+var g_showstart = true;
+var g_lastfade = false;
+var g_stop = false;
 
 var KEY_MIXED   = keyCode('M');
 var KEY_AVE_VEL = keyCode('V');
@@ -150,16 +154,12 @@ function processDiagnostics() {
 		if (eatKey(KEY_CREDITS)) g_credits = !g_credits;
 	}
 	
-	if (g_startscreen && !g_dofade) {
+	if (g_startscreen) {
 		if (eatKey(KEY_STARTSCREEN)) g_dofade = true;
 	}
 	if (g_deathscreen) {
-		if (eatKey(KEY_STARTSCREEN)) {
-									g_dofade = true;
-									}
+		if (eatKey(KEY_STARTSCREEN)) g_dofade = true;
 	}
-	
-	
 }
 
 
@@ -180,24 +180,42 @@ function processDiagnostics() {
 function renderSimulation(ctx) {
 	if (g_startscreen && g_credits) startscreen.creditsrender(ctx);
 	else {
-		if (g_finished) startscreen.victoryrender(ctx);
-		if (g_deathscreen) startscreen.deathrender(ctx); 
-    	if (!g_startscreen && !g_deathscreen || g_fadein) {
-    
-   			if (!g_deathscreen && !g_finished) {
-    		entityManager.render(ctx);
-
-			HUD.render(ctx);
-
-			dungeon.render(ctx);
 		
-    		if (g_renderSpatialDebug) spatialManager.render(ctx);
+		//fade.clusterfuck(ctx);
+		
+			
+		if (g_finished) startscreen.victoryrender(ctx);
+		if (!g_stop) {
+			if (g_deathscreen) startscreen.deathrender(ctx); 
+			if (g_startscreen && g_showstart) startscreen.startrender(ctx);
+    	
+    		if (!g_startscreen && !g_deathscreen|| g_fadein) {
+    			if (!g_deathscreen && !g_finished) {
+    			entityManager.render(ctx);
 
-			if (g_toggleGrid) dungeon._currentRoom.render(ctx);
+				HUD.render(ctx);
+
+				dungeon.render(ctx);
+		
+    			if (g_renderSpatialDebug) spatialManager.render(ctx);
+
+				if (g_toggleGrid) dungeon._currentRoom.render(ctx);
 	
-			}
-		}	
-		fade.clusterfuck(ctx);	
+				}
+			}	
+		
+			if (g_startscreen && g_dofade) fade.startfadeout(ctx);
+			if (g_fadein && g_startscreen) fade.startfadein(ctx);
+			//
+			if (g_deathfade && !g_deathscreen && !g_lastfade) fade.startfadeout(ctx);
+			if (g_deathfade && g_deathscreen && !g_dofade) fade.startfadein(ctx);
+			if (g_deathfade && g_deathscreen && g_dofade) fade.startfadeout(ctx);
+			if (g_lastfade) fade.startfadein(ctx);
+			//
+			if (g_victoryscreen && g_dofade) fade.startfadeout(ctx);
+			if (g_finished) fade.startfadein(ctx);
+		}
+		
 	}
 }
 

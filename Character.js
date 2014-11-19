@@ -110,8 +110,6 @@ Character.prototype.update = function(dt)
 			 this.state === this.STATE_FALLING
 			) {
 
-
-
 		if( this.velY === 0 				  &&
 		   this.state === this.STATE_FALLING ){
 
@@ -756,4 +754,8 @@ Character.prototype.death = function() {
 
 Character.prototype.resetTemporaryVars = function() {
 	this.tempSpeedBonus = 0;
+};
+
+Character.prototype.increaseAttack = function (amount) {
+	this.weapon.attack += amount;
 };

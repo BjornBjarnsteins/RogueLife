@@ -69,6 +69,7 @@ Powerup.prototype.resolveCollision = function(collisionCode) {
 
 Powerup.prototype.resolveEffect = function (player) {
 	this.effect(player);
+	player.score += 5;
 	entityManager._removePowerup(this, entityManager._currentRoomID);
 	spatialManager.unregister(this);
 };
@@ -120,6 +121,11 @@ Powerup.prototype.initializeEffects = function () {
 		{effect : function (player) {
 			player.maxJumps++;
 			player.sendMessage("+1 air jump", "yellow");
+		}
+		},
+		{effect : function (player) {
+			player.increaseAttack(2);
+			player.sendMessage("+2 attack power", "yellow");
 		}
 		}
 

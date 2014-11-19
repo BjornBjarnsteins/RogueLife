@@ -173,6 +173,12 @@ MeleeEnemy.prototype.update = function(dt)
 	var nextX = this.cx + this.aveVelX * dt;
 	var nextY = this.cy + this.aveVelY * dt;
 
+    hitEntity=this.findHitEntity();
+    characters=entityManager.getPlayerList();
+    for(var i=0;i<characters.length;i++)
+        if(hitEntity===characters[i])
+            hitEntity.takeDamage(10);
+
     spatialManager.register(this);
 	var hitObstacles = dungeon.getCurrentRoom().getObstaclesInRange(this);
 

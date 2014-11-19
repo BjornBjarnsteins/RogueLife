@@ -182,7 +182,7 @@ function processDiagnostics() {
 
 function renderSimulation(ctx) {
 	if (g_startscreen && g_credits) startscreen.creditsrender(ctx);
-	if (g_startscreen && g_story) startscreen.storyrender(ctx);
+	else if (g_startscreen && g_story) startscreen.storyrender(ctx);
 	else {
 		
 		//fade.clusterfuck(ctx);

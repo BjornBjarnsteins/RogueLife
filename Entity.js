@@ -98,6 +98,16 @@ Entity.prototype.computeGravity = function()
     return 1.2;
 };
 
+Entity.prototype.sendMessage = function (msg, style) {
+	if (!style) var style = "black";
+
+	entityManager._generateMessage({message : msg,
+
+									cx : this.cx,
+									cy : this.cy - this.halfHeight,
+
+									fillStyle : style});
+};
 Entity.prototype.applyAccel = function(accelX,accelY,dt)
 {
 

@@ -14,8 +14,12 @@ RangedEnemy.prototype.halfHeight=40;
 RangedEnemy.prototype.halfWidth=40;
 
 RangedEnemy.prototype.direction=1;
+RangedEnemy.prototype.velX=0;
+RangedEnemy.prototype.velY=0;
+RangedEnemy.prototype.aveVelX=0;
+RangedEnemy.prototype.aveVelY=0;
 
-RangedEnemy.prototype.flinchTime=0.5*SECS_TO_NOMINALS;
+RangedEnemy.prototype.flinchTime=0.25*SECS_TO_NOMINALS;
 RangedEnemy.prototype.currentFlinchTime=0;
 RangedEnemy.prototype.flinchDirection=-1;
 
@@ -134,7 +138,6 @@ RangedEnemy.prototype.render = function(ctx)
     }
 
   }
-		   		
     ctx.restore();
 
 };
@@ -143,6 +146,16 @@ RangedEnemy.prototype.update = function(dt)
 {
 
    spatialManager.unregister(this);
+
+	var accelX=0;
+	var accelY=this.computeGravity();
+    var fallsThrough =false;
+
+	var oldX = this.cx;
+	var oldY = this.cy;
+
+   if(this.hitPoints<=0)
+        return entityManager.KILL_ME_NOW;
    var characters = entityManager.getPlayerList();
 
     //Face player 1
@@ -151,7 +164,7 @@ RangedEnemy.prototype.update = function(dt)
         this.direction=-1;
     else
         this.direction=1;
-    
+
     this.flinchMaybe(dt);
 
     //attack player
@@ -160,7 +173,7 @@ RangedEnemy.prototype.update = function(dt)
         for(var i=0;i<characters.length;i++)
         {
             var target=characters[i];
-    
+
             var distToTarget=util.distSq(this.cx,
                                         this.cy,
                                         target.cx,
@@ -195,20 +208,46 @@ RangedEnemy.prototype.update = function(dt)
           this.state = this.STATE_ATTACKING;
      }
 
+     this.applyAccel(accelX,accelY,dt);
+
+	 var nextX = this.cx + this.aveVelX * dt;
+	 var nextY = this.cy + this.aveVelY * dt;
+
      spatialManager.register(this);
-	    
+
+	 var hitObstacles = dungeon.getCurrentRoom().getObstaclesInRange(this);
+
+     var collisionCode = -1;
+
+	for (var i = 0; i < hitObstacles.length; i++) {
+		if(!hitObstacles[i]._isDeadNow){
+			collisionCode = util.maybeCall(hitObstacles[i].collidesWith,
+										   hitObstacles[i],
+										   [this, oldX, oldY, nextX, nextY, fallsThrough]);
+		}
+
+		this.resolveCollision(collisionCode);
+		if(collisionCode === -1){break;}
+    }
+
+	this.cx += dt * this.aveVelX;
+	this.cy += dt * this.aveVelY;
+
 };
 
 RangedEnemy.prototype.takeDamage = function(pain)
 {
+    if(this.currentFlinchTime!==0)
+        return;
     this.hitPoints -= pain;
+    this.sendMessage(pain, "red");
     //flinch away from player
     this.currentFlinchTime = this.flinchTime;
 };
-    
+
 RangedEnemy.prototype.getRadius = function()
 {
-    return Math.max(this.halfWidth,this.halfHeigt);
+    return Math.max(this.halfWidth,this.halfHeight);
 }
 
 RangedEnemy.prototype.attack = function(targetX,targetY)
@@ -238,7 +277,7 @@ RangedEnemy.prototype.attack = function(targetX,targetY)
 
 
      entityManager.looseArrow(this.cx+this.direction*this.halfWidth*1.1,
-                              this.cy+this.halfHeight,
+                              this.cy,
                               arrowSpeedX,
                               arrowSpeedY,
                               entityManager._currentRoomID);
@@ -259,6 +298,33 @@ RangedEnemy.prototype.flinchMaybe = function(dt)
     }
 };
 
+
+RangedEnemy.prototype.resolveCollision = function(collisionCode)
+{
+	if (collisionCode === this.TOP_COLLISION ||
+		collisionCode === this.BOTTOM_COLLISION)
+    {
+		this.velY = 0;
+		this.aveVelY = 0;
+/*		if(this.state !== this.STATE_DASHING){
+			this.velX = 0;
+		}*/
+
+    }
+	else if (collisionCode === this.SIDE_COLLISION) {
+		this.velX = 0;
+		this.aveVelX = 0;
+	}
+
+
+};
+
+RangedEnemy.prototype.landOn = function(surfaceY) {
+
+	this.cy = surfaceY - this.halfHeight;
+	this.velY = 0;
+
+};
 
 
 

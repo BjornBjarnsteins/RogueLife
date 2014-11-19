@@ -7,7 +7,8 @@ var keys = [];
 function handleKeydown(evt) {
     keys[evt.keyCode] = true;
 
-	if (evt.keyCode === 9) evt.preventDefault();
+	if (evt.keyCode === 9 ||
+	    evt.keyCode === keyCode(" ")) evt.preventDefault();
 }
 
 function handleKeyup(evt) {

@@ -126,6 +126,7 @@ var g_showstart = true;
 var g_lastfade = false;
 var g_stop = false;
 var g_story = false;
+var g_story2 = false;
 
 var KEY_MIXED   = keyCode('M');
 var KEY_AVE_VEL = keyCode('V');
@@ -153,8 +154,17 @@ function processDiagnostics() {
 	if (eatKey(KEY_MUSICMUTE_TOGGLE)) g_musicmute = !g_musicmute;
 	
 	if (g_startscreen) {
+		console.log("g_story = " + g_story);
+		console.log("g_story2 = " + g_story2);
 		if (eatKey(KEY_CREDITS)) g_credits = !g_credits;
-		if (eatKey(KEY_STORY)) g_story = !g_story;
+		if (eatKey(KEY_STORY)) {
+			if (!g_story && !g_story2) g_story = true;
+			else if (g_story && !g_story2) g_story2 = !g_story2
+			else if (g_story && g_story2) {
+										g_story = !g_story;
+										g_story2 = !g_story2;
+									}
+		}
 	}
 	
 	if (g_startscreen) {
@@ -257,7 +267,8 @@ function requestPreloads() {
       victory : "sprites/victory.png",
       credits : "sprites/credits.png",
       Arrow   : "sprites/Arrow.png",
-      epic	  : "sprites/epic.png"
+      epic	  : "sprites/epic.png",
+      epic2	  : "sprites/epic2.png"
     };
 
 	preLoadAudio();
@@ -566,6 +577,14 @@ function preloadDone() {
 							  Height: 500};
 							  
 	g_sprites.epic = new Sprite(constructorObjects);
+	
+	var constructorObjects = {image : g_images.epic2,
+							  sx	: 0,
+							  sy	: 0,
+							  Width	: 750,
+							  Height: 500};
+							  
+	g_sprites.epic2 = new Sprite(constructorObjects);
 
 	//enemy walk
     var cellHeight = 64;

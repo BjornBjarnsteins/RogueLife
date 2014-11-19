@@ -30,7 +30,8 @@ var startscreen = {
 	
 	storyrender : function(ctx) {
 		ctx.save();
-		g_sprites.epic.drawAt(ctx,0,0);
+		if (!g_story2) g_sprites.epic.drawAt(ctx,0,0);
+		else g_sprites.epic2.drawAt(ctx,0,0);
 		ctx.restore();
 	}
 

@@ -122,6 +122,11 @@ Weapon.prototype.render = function(ctx)
 
 };
 
+Weapon.prototype.takeDamage = function(a){
+
+    return;
+};
+
 
 
 

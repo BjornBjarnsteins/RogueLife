@@ -186,6 +186,17 @@ RangedEnemy.prototype.update = function(dt)
 	this.state = this.STATE_DEAD;
 
     if(this.deathAnimationTimeIndex > 110){
+
+
+    var ran = Math.random();
+    if(ran < 0.2 ){
+      entityManager._spawnPowerup({ cx : this.cx,
+                  cy : this.cy,
+                  velX : 0,
+                  velY : -5},
+                  entityManager._currentRoomID);
+
+      }
 		player.score += 10;
       for(var i = 0; i < 5; i++){
       entityManager._generateParticles({  cx : this.cx,
@@ -193,6 +204,7 @@ RangedEnemy.prototype.update = function(dt)
                     colr : "white"},
                     entityManager._currentRoomID);
     }
+
       return entityManager.KILL_ME_NOW;
     }else{
       this.deathAnimationTimeIndex += dt;

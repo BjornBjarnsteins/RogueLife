@@ -169,6 +169,15 @@ MeleeEnemy.prototype.update = function(dt)
 	    }
 
 		player.score += 15;
+		var ran = Math.random();
+	    if(ran < 0.2 ){
+	      entityManager._spawnPowerup({ cx : this.cx,
+	                  cy : this.cy,
+	                  velX : 0,
+	                  velY : -5},
+	                  entityManager._currentRoomID);
+
+	      }
 	      return entityManager.KILL_ME_NOW;
 	    }else{
 	      this.deathAnimationTimeIndex += dt;
@@ -186,7 +195,7 @@ MeleeEnemy.prototype.update = function(dt)
 		}
 		return;
     }
-    
+
     if(this.currentWalkLength<this.range)
     {
 		this.cx+=this.direction*this.stepLength*dt;

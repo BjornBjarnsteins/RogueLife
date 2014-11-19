@@ -610,7 +610,7 @@ Character.prototype.jump = function() {
 	if (this.energy < 20) return;
 
 	this.energy -= 10;
-	this.velY -= 22;
+	this.velY -= 25;
 	this.jumpsLeft--;
 
 	this.inAir = true;
@@ -737,6 +737,7 @@ Character.prototype.death = function() {
 	this.direction = 1;
 	this.mark = true;
 	this.introAnimation = 600;
+	this.ammo = 3;
 
 	spatialManager.cleanOut();
 	dungeon.clearDungeon();

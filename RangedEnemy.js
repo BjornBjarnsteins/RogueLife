@@ -326,5 +326,8 @@ RangedEnemy.prototype.landOn = function(surfaceY) {
 
 };
 
-
+RangedEnemy.prototype.snapTo = function (destX, destY) {
+  this.cx = destX;
+  this.cy = destY;
+};
 

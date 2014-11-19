@@ -125,6 +125,7 @@ var g_stopscreen = true;
 var g_showstart = true;
 var g_lastfade = false;
 var g_stop = false;
+var g_story = false;
 
 var KEY_MIXED   = keyCode('M');
 var KEY_AVE_VEL = keyCode('V');
@@ -134,6 +135,7 @@ var KEY_MUTE_TOGGLE = keyCode('O');
 var KEY_MUSICMUTE_TOGGLE = keyCode('L');
 var KEY_STARTSCREEN = 13;
 var KEY_CREDITS = 27;
+var KEY_STORY = 8;
 
 function processDiagnostics() {
 
@@ -152,6 +154,7 @@ function processDiagnostics() {
 	
 	if (g_startscreen) {
 		if (eatKey(KEY_CREDITS)) g_credits = !g_credits;
+		if (eatKey(KEY_STORY)) g_story = !g_story;
 	}
 	
 	if (g_startscreen) {
@@ -179,6 +182,7 @@ function processDiagnostics() {
 
 function renderSimulation(ctx) {
 	if (g_startscreen && g_credits) startscreen.creditsrender(ctx);
+	if (g_startscreen && g_story) startscreen.storyrender(ctx);
 	else {
 		
 		//fade.clusterfuck(ctx);
@@ -252,7 +256,8 @@ function requestPreloads() {
       death	  : "sprites/death.png",
       victory : "sprites/victory.png",
       credits : "sprites/credits.png",
-      Arrow   : "sprites/Arrow.png"
+      Arrow   : "sprites/Arrow.png",
+      epic	  : "sprites/epic.png"
     };
 
 	preLoadAudio();
@@ -553,6 +558,14 @@ function preloadDone() {
 							  Height: 500};
 							  
 	g_sprites.credits = new Sprite(constructorObjects);
+	
+	var constructorObjects = {image : g_images.epic,
+							  sx	: 0,
+							  sy	: 0,
+							  Width	: 750,
+							  Height: 500};
+							  
+	g_sprites.epic = new Sprite(constructorObjects);
 
 	//enemy walk
     var cellHeight = 64;

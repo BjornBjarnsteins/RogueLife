@@ -24,6 +24,12 @@ var startscreen = {
 		ctx.save();
 		g_sprites.credits.drawAt(ctx,0,0);
 		ctx.restore();
+	},
+	
+	storyrender : function(ctx) {
+		ctx.save();
+		g_sprites.epic.drawAt(ctx,0,0);
+		ctx.restore();
 	}
 
 }

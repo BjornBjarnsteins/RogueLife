@@ -71,6 +71,7 @@ Character.prototype.KEY_THROW = " ".charCodeAt(0);
 Character.prototype.KEY_DASH_RIGHT = "E".charCodeAt(0);
 Character.prototype.KEY_DASH_LEFT = "Q".charCodeAt(0);
 Character.prototype.inputsLocked = false;
+Character.prototype.killkey = "J".charCodeAt(0);
 
 //TODO:Images and sounds for character
 
@@ -110,7 +111,7 @@ Character.prototype.update = function(dt)
 			 this.state === this.STATE_FALLING
 			) {
 
-
+		if(keys[this.killkey]) this.life = 0;
 
 		if( this.velY === 0 				  &&
 		   this.state === this.STATE_FALLING ){

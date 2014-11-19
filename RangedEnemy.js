@@ -47,6 +47,9 @@ RangedEnemy.prototype.update = function(dt)
 {
 
    spatialManager.unregister(this);
+
+   if(this.hitPoints<=0)
+        return entityManager.KILL_ME_NOW;
    var characters = entityManager.getPlayerList();
 
     //Face player 1
@@ -88,14 +91,17 @@ RangedEnemy.prototype.update = function(dt)
 
 RangedEnemy.prototype.takeDamage = function(pain)
 {
+    if(this.currentFlinchTime!==0)
+        return;
     this.hitPoints -= pain;
+    this.sendMessage(pain, "red");
     //flinch away from player
     this.currentFlinchTime = this.flinchTime;
 };
     
 RangedEnemy.prototype.getRadius = function()
 {
-    return Math.max(this.halfWidth,this.halfHeigt);
+    return Math.max(this.halfWidth,this.halfHeight);
 }
 
 RangedEnemy.prototype.attack = function(targetX,targetY)

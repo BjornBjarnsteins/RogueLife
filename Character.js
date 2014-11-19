@@ -717,16 +717,6 @@ Character.prototype.takeDamage = function(amount){
 
 };
 
-Character.prototype.sendMessage = function (msg, style) {
-	if (!style) var style = "black";
-
-	entityManager._generateMessage({message : msg,
-
-									cx : this.cx,
-									cy : this.cy - this.halfHeight,
-
-									fillStyle : style});
-};
 
 Character.prototype.gainLife = function (amount) {
 	this.life += amount;

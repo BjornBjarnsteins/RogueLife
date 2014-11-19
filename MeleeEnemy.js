@@ -207,7 +207,9 @@ MeleeEnemy.prototype.update = function(dt)
         if(hitEntity===characters[i])
             hitEntity.takeDamage(10);
 
+    if(this.roomID === entityManager._currentRoomID){
     spatialManager.register(this);
+  }
 	var hitObstacles = dungeon.getCurrentRoom().getObstaclesInRange(this);
 
     var collisionCode = -1;
@@ -231,9 +233,9 @@ MeleeEnemy.prototype.update = function(dt)
 MeleeEnemy.prototype.attack = function(dt)
 {
 
-    this.cx += this.direction*this.stepLength*3*dt;
-    this.currentWalkLength += this.stepLength*3*dt;
-    if(this.currentWalkLength>this.range/3)
+    this.cx += this.direction*this.stepLength*1.5*dt;
+    this.currentWalkLength += this.stepLength*1.5*dt;
+    if(this.currentWalkLength>this.range/1.5)
 	this.isAttacking=false;
 
 
@@ -260,7 +262,7 @@ MeleeEnemy.prototype.resolveCollision = function(collisionCode)
 
 MeleeEnemy.prototype.getRadius = function()
 {
-    return Math.max(this.halfWidth,this.halfHeight);
+    return 25;
 };
 
 MeleeEnemy.prototype.takeDamage =function(pain)

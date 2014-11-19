@@ -124,7 +124,9 @@ var requiredSounds = {
 	key 		: "sounds/key.ogg",
 	Door		: "sounds/Door.ogg",
 	poof		: "sounds/poof.ogg",
-	breaking	: "sounds/breaking.ogg"
+	breaking	: "sounds/breaking.ogg",
+	bones		: "sounds/bones.ogg",
+	skelly		: "sounds/skelly.ogg"
 
 };
 

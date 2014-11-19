@@ -38,6 +38,7 @@ RangedEnemy.prototype.state = 1;
 RangedEnemy.prototype.drawTime =  1.3*SECS_TO_NOMINALS;
 RangedEnemy.prototype.drawTime2 =  0.3*SECS_TO_NOMINALS;
 RangedEnemy.prototype.shot = false;
+RangedEnemy.prototype.deadsound = false;
 
 
 RangedEnemy.prototype.deathAnimationTimeIndex = 0;
@@ -175,10 +176,15 @@ RangedEnemy.prototype.update = function(dt)
 	var oldY = this.cy;
 
    if(this.hitPoints<=0){
-	   var player = entityManager._getPlayer();
+	
+	if (!this.deadsound) {
+		g_audio.skelly.Play();
+		this.deadsound = !this.deadsound;
+		}
+	
+	player = entityManager._getPlayer();
+	this.state = this.STATE_DEAD;
 
-
-    this.state = this.STATE_DEAD;
     if(this.deathAnimationTimeIndex > 110){
 		player.score += 10;
       for(var i = 0; i < 5; i++){
@@ -283,6 +289,8 @@ RangedEnemy.prototype.takeDamage = function(pain)
     this.sendMessage(pain, "red");
     //flinch away from player
     this.currentFlinchTime = this.flinchTime;
+    
+    g_audio.bones.Play();
 };
 
 RangedEnemy.prototype.getRadius = function()

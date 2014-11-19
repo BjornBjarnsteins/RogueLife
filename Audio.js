@@ -126,7 +126,9 @@ var requiredSounds = {
 	poof		: "sounds/poof.ogg",
 	breaking	: "sounds/breaking.ogg",
 	bones		: "sounds/bones.ogg",
-	skelly		: "sounds/skelly.ogg"
+	skelly		: "sounds/skelly.ogg",
+	orcdeath	: "sounds/orcdeath.ogg",
+	orcpain		: "sounds/orcpain.ogg"
 
 };
 

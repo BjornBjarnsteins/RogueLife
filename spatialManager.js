@@ -12,12 +12,10 @@ e.g. general collision detection.
 "use strict";
 
 /* jshint browser: true, devel: true, globalstrict: true */
-
 /*
 0        1         2         3         4         5         6         7         8
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 */
-
 var spatialManager = {
 
 // "PRIVATE" DATA
@@ -43,10 +41,10 @@ getNewSpatialID : function() {
 },
 
 cleanOut : function(){
-	
+
 	this._entities.splice(0,this._entities.length);
 	this._nextSpatialID = 1;
-	
+
 },
 
 register: function(entity) {
@@ -93,7 +91,7 @@ findEntityInRange: function(posX, posY, radius) {
 	var pos = entity.getPos();
 	var distance =util.wrappedDistSq(posX,
 					 posY,
-					 pos.posX,
+				 pos.posX,
 					 pos.posY,
 					 g_canvas.width,
 					 g_canvas.height);
@@ -103,7 +101,7 @@ findEntityInRange: function(posX, posY, radius) {
 	    /*console.log("it's a hit!-------------------------");
 	    console.log(radius);
 	    console.log(entity.getRadius());
-	    console.log(posX,posY);
+    console.log(posX,posY);
 	    console.log(pos.posX,pos.posY);*/
 	    return entity;
 	}
@@ -130,4 +128,4 @@ render: function(ctx) {
     ctx.strokeStyle = oldStyle;
 }
 
-}
+};

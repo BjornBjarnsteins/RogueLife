@@ -1,12 +1,12 @@
 
 //TODO:gravity and flinching, will be the same for MeleeEnemy
 
-this.prototype=new Entity();
 
 function RangedEnemy(descr)
 {
     this.setup(descr);
 }
+RangedEnemy.prototype=new Entity();
 
 RangedEnemy.prototype.cy =g_canvas.height-150;
 RangedEnemy.prototype.cx=g_canvas.width/2;
@@ -25,11 +25,13 @@ RangedEnemy.prototype.isAttacking=false;
 RangedEnemy.prototype.arrowSpeed=7;
 RangedEnemy.prototype.attackCooldown=1*SECS_TO_NOMINALS;
 RangedEnemy.prototype.currentAttackCooldown=1*SECS_TO_NOMINALS;
+RangedEnemy.prototype.range=300;
 
 
 RangedEnemy.prototype.render = function(ctx)
 {
 	//placeholder
+    ctx.save()
 
     ctx.fillStyle ="blue";
     ctx.fillRect(this.cx-this.halfWidth,
@@ -37,17 +39,19 @@ RangedEnemy.prototype.render = function(ctx)
 		 this.halfWidth*2,
 		 this.halfHeight*2);
 		   		
+    ctx.restore();
 
 };
 
 RangedEnemy.prototype.update = function(dt)
 {
 
-   var characters = entityManager.getPlayers();
+   spatialManager.unregister(this);
+   var characters = entityManager.getPlayerList();
 
     //Face player 1
     var playerX =characters[0].cx;
-    if(playerX<This.cx)
+    if(playerX<this.cx)
         this.direction=-1;
     else
         this.direction=1;
@@ -55,42 +59,48 @@ RangedEnemy.prototype.update = function(dt)
     this.flinchMaybe(dt);
 
     //attack player
-    if(this.currentCooldownTime<0)
+    if(this.currentAttackCooldown<0)
     {
         for(var i=0;i<characters.length;i++)
         {
             var target=characters[i];
     
-            var distToTarget=util.getDistSq(this.cx,
+            var distToTarget=util.distSq(this.cx,
                                         this.cy,
                                         target.cx,
                                         target.cy);
-            if(distToTarget<this.range)
+            if(distToTarget<util.square(this.range))
             {
                 this.attack(target.cx,target.cy);
-                this.currentCooldownTime=this.attackCooldown;
+                this.currentAttackCooldown=this.attackCooldown;
                 break;
             }
         }
      }
      else
      {
-        this.currentCooldownTime -= dt;
+        this.currentAttackCooldown -= dt;
      }
+
+     spatialManager.register(this);
 	    
 };
 
-RangedEnemy.prototype.takeDamage(pain)
+RangedEnemy.prototype.takeDamage = function(pain)
 {
     this.hitPoints -= pain;
     //flinch away from player
     this.currentFlinchTime = this.flinchTime;
-}
+};
     
+RangedEnemy.prototype.getRadius = function()
+{
+    return Math.max(this.halfWidth,this.halfHeigt);
+}
 
 RangedEnemy.prototype.attack = function(targetX,targetY)
 {
-    var = angleToTarget=0;
+    var angleToTarget=0;
 
     //the bigger if is to avoid dividing by zero when player is directly
     //above or below
@@ -107,21 +117,21 @@ RangedEnemy.prototype.attack = function(targetX,targetY)
      }
      else
      {
-        angleToTarget=atan((targetY-this.cy)/(targetX-this.cx));
+        angleToTarget=Math.atan((targetY-this.cy)/(targetX-this.cx));
      }
 
-     arrowSpeedX=cos(angleToTarget)*this.arrowSpeed;
-     arrowSpeedY=sin(angleToTarget*this.arrowSpeed;
+     arrowSpeedX=Math.cos(angleToTarget)*this.arrowSpeed*this.direction;
+     arrowSpeedY=Math.sin(angleToTarget)*this.arrowSpeed*this.direction;
 
-     entityManager.LooseArrow(this.cx+this.halfwidth*1.1,
-                              this.cy+this.halfwitdh,
+     entityManager.looseArrow(this.cx+this.direction*this.halfWidth*1.1,
+                              this.cy+this.halfHeight,
                               arrowSpeedX,
                               arrowSpeedY,
                               entityManager._currentRoomID);
 
 };
 
-RangedEnemy.prototype.flinchMaybe(dt);
+RangedEnemy.prototype.flinchMaybe = function(dt)
 {
     if(this.currentFlinchTime>0)
     {
@@ -133,7 +143,7 @@ RangedEnemy.prototype.flinchMaybe(dt);
         this.flinchDirection = -this.direction;
         this.currentFlinchTime =0;
     }
-}
+};
 
 
 

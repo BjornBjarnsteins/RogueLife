@@ -18,6 +18,12 @@ var startscreen = {
 		ctx.save();
 		g_sprites.victory.drawAt(ctx,0,0);
 		ctx.restore();
+	},
+	
+	creditsrender : function(ctx) {
+		ctx.save();
+		g_sprites.credits.drawAt(ctx,0,0);
+		ctx.restore();
 	}
 
 }

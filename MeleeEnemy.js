@@ -15,7 +15,7 @@ MeleeEnemy.prototype.halfHeight=40;
 MeleeEnemy.prototype.halfWidth=40;
 
 MeleeEnemy.prototype.direction=1;
-MeleeEnemy.prototype.range=210;
+MeleeEnemy.prototype.range=410;
 
 MeleeEnemy.prototype.currentWalkLength=0;
 MeleeEnemy.currentWalkLength=0;
@@ -23,6 +23,9 @@ MeleeEnemy.prototype.velX=0;
 MeleeEnemy.prototype.velY=0;
 MeleeEnemy.prototype.aveVelX=0;
 MeleeEnemy.prototype.aveVelY=0;
+
+MeleeEnemy.prototype.invulnTime=0.1*SECS_TO_NOMINALS;
+MeleeEnemy.prototype.currentInvulnTime = 0;
 
 MeleeEnemy.prototype.STATE_STANDING = 1;
 MeleeEnemy.prototype.STATE_ATTACKING = 2;
@@ -57,7 +60,7 @@ MeleeEnemy.prototype.render = function(ctx)
 		sy = g_sprites.walk[0].sy;
 		height = g_sprites.walk[0].height;
 		width = g_sprites.walk[0].width;
-		image = g_sprites.walk[0];
+		image = g_sprites.E2walk[0];
 
 		g_sprites.E2walk[0].drawCharacter(ctx, image, sx, sy, x, y, height, width, flip);
 	}
@@ -159,13 +162,13 @@ MeleeEnemy.prototype.update = function(dt)
 	this.isAttacking=true;
 	this.attack(dt);
     }
-    
-   
+
+
     this.applyAccel(accelX,accelY,dt);
 
 	var nextX = this.cx + this.aveVelX * dt;
 	var nextY = this.cy + this.aveVelY * dt;
-    
+
     spatialManager.register(this);
 	var hitObstacles = dungeon.getCurrentRoom().getObstaclesInRange(this);
 
@@ -189,12 +192,12 @@ MeleeEnemy.prototype.update = function(dt)
 
 MeleeEnemy.prototype.attack = function(dt)
 {
-    
+
     this.cx += this.direction*15;
     this.currentWalkLength += 15;
     if(this.currentWalkLength>this.range/3)
 	this.isAttacking=false;
-	
+
 
 };
 
@@ -220,4 +223,12 @@ MeleeEnemy.prototype.getRadius = function()
     return Math.max(this.halfWidth,this.halfHeight);
 };
 
+MeleeEnemy.prototype.takeDamage =function(pain)
+{
+    if(this.currentInvulnTime>0)
+        return;
+    this.hitPoints -= pain;
+    this.sendMessage(pain, "red");
+    this.currentInvulnTime=this.invulnTime;
+}
 

@@ -751,6 +751,13 @@ Character.prototype.death = function() {
 	this.introAnimation = 600;
 	this.ammo = 3;
 	this.hasKey = false
+	this.maxLife = 100;
+	this.score = 0;
+	this.speed = 5;
+	this.tempSpeedBonus = 0;
+	this.energyRegen = 20/SECS_TO_NOMINALS;
+	this.maxEnergy = 100;
+	this.maxJumps = 2;
 
 	spatialManager.cleanOut();
 	dungeon.clearDungeon();

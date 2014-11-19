@@ -124,7 +124,7 @@ Powerup.prototype.initializeEffects = function () {
 		}
 		},
 		{effect : function (player) {
-			player.increaseAttack(2);
+			player.increaseAttack(5);
 			player.sendMessage("+2 attack power", "yellow");
 		}
 		}

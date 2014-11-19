@@ -90,16 +90,13 @@ MeleeEnemy.prototype.render = function(ctx)
 	else if(this.state === this.STATE_DEAD)
 	{
 
-<<<<<<< HEAD
 		index = Math.floor(this.deathAnimationTimeIndex/20);
-=======
+
 		if (!this.deadsound) {
 			g_audio.orcdeath.Play();
 			this.deadsound = !this.deadsound;
 			}
 		
-		index = 1;//Math.floor(this.deathAnimationTimeIndex/20);
->>>>>>> 2129fb7a0729c72c5361cb2ccd81400c55ce87bf
 
 		sx = g_sprites.E2Die[index].sx;
 		sy = g_sprites.E2Die[index].sy;

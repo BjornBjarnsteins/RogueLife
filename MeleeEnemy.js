@@ -180,6 +180,10 @@ MeleeEnemy.prototype.update = function(dt)
     if(this.isAttacking)
     {
 	this.attack(dt);
+
+	if(this.roomID === entityManager._currentRoomID){
+	    spatialManager.register(this);
+	}
 	return;
     }
     if(this.currentWalkLength<this.range)

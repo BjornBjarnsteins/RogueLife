@@ -17,6 +17,8 @@ var startscreen = {
 	victoryrender : function(ctx) {
 		ctx.save();
 		g_sprites.victory.drawAt(ctx,0,0);
+		ctx.font = "25px Levetica";
+		ctx.fillText("Your Score: " + entityManager._getPlayer().score, 800, 50);
 		ctx.restore();
 	},
 	

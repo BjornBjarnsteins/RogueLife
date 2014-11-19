@@ -116,11 +116,6 @@ Powerup.prototype.initializeEffects = function () {
 		}
 		},
 		{effect : function (player) {
-			//player.attack += x
-			player.sendMessage("+x attack", "yellow");
-		}
-		},
-		{effect : function (player) {
 			player.maxJumps++;
 			player.sendMessage("+1 air jump", "yellow");
 		}

@@ -18,7 +18,10 @@ Powerup.prototype.takeDamage = function(a){
 
 Powerup.prototype.update = function (du) {
 
-	console.log("cx = " + this.cx)
+	player = entityManager._getPlayer();
+	this.resolveEffect(player);
+
+	/*console.log("cx = " + this.cx)
 	spatialManager.unregister(this);
 
 	var accelX = 0;
@@ -47,7 +50,7 @@ Powerup.prototype.update = function (du) {
 	//this.cx += this.aveVelX * du;
 	this.cy += this.aveVelY * du;
 
-	spatialManager.register(this);
+	spatialManager.register(this);*/
 };
 
 Powerup.prototype.resolveCollision = function(collisionCode) {

@@ -87,7 +87,13 @@ Projectile.prototype.update = function (dt) {
         }
 
         this.resolveCollision(collisionCode);
+
         if(collisionCode === -1){break;}
+		else if (collisionCode === this.TOP_COLLISION ||
+				 collisionCode === this.SIDE_COLLISION ||
+				 collisionCode === this.BOTTOM_COLLISION){
+			return entityManager.KILL_ME_NOW;
+		}
     }
 
     this.cx += this.velX * dt;
@@ -171,25 +177,22 @@ Projectile.prototype.collidesWith = function (entity, oldX, oldY, nextX, nextY) 
 }
 
 Projectile.prototype.resolveCollision = function(collisionCode) {
-    if (collisionCode === this.TOP_COLLISION ||
+    /*if (collisionCode === this.TOP_COLLISION ||
         collisionCode === this.BOTTOM_COLLISION) {
-        this.velY = 0;
-        this.aveVelY = 0;
-        if(this.state !== this.STATE_DASHING){
-            this.velX = 0;
-        }
-
-        if (collisionCode === this.BOTTOM_COLLISION){} //g_audio.coll.Play();
+        return entityManager.KILL_ME_NOW;
 
     } else if (collisionCode === this.SIDE_COLLISION) {
         this.velX = 0;
         this.aveVelX = 0;
-    } else if(collisionCode === -1) {
-
-
+    }*/
+	if(collisionCode === -2) {
         this.velX = -this.direction * 7;
         this.velY = -15;
+
+		return 10;
     }
+
+	return entityManager.KILL_ME_NOW;
 };
 
 Projectile.prototype.snapTo = function (destX, destY) {

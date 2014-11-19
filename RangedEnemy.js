@@ -29,7 +29,7 @@ RangedEnemy.prototype.isAttacking=false;
 RangedEnemy.prototype.arrowSpeed=7;
 RangedEnemy.prototype.attackCooldown=1*SECS_TO_NOMINALS;
 RangedEnemy.prototype.currentAttackCooldown=1*SECS_TO_NOMINALS;
-RangedEnemy.prototype.range=300;
+RangedEnemy.prototype.range=500;
 RangedEnemy.prototype.STATE_STANDING = 1;
 RangedEnemy.prototype.STATE_ATTACKING = 2;
 RangedEnemy.prototype.STATE_RUNNING = 3;
@@ -91,7 +91,7 @@ RangedEnemy.prototype.render = function(ctx)
     if (index === 1) g_audio.walk.Play();
 
   }else if(this.state === this.STATE_ATTACKING)
-  { 
+  {
     var time;
     if(!this.shot){
       time = this.drawTime;
@@ -189,9 +189,9 @@ RangedEnemy.prototype.update = function(dt)
       this.deathAnimationTimeIndex += dt;
       return;
     }
-    
+
    }
-        
+
    var characters = entityManager.getPlayerList();
 
     //Face player 1

@@ -20,11 +20,12 @@ MeleeEnemy.prototype.direction=1;
 MeleeEnemy.prototype.range=210;
 
 MeleeEnemy.prototype.currentWalkLength=0;
-MeleeEnemy.currentWalkLength=0;
 MeleeEnemy.prototype.velX=0;
 MeleeEnemy.prototype.velY=0;
 MeleeEnemy.prototype.aveVelX=0;
 MeleeEnemy.prototype.aveVelY=0;
+
+MeleeEnemy.prototype.stepLength=3;
 
 MeleeEnemy.prototype.invulnTime=0.1*SECS_TO_NOMINALS;
 MeleeEnemy.prototype.currentInvulnTime = 0;
@@ -96,7 +97,7 @@ MeleeEnemy.prototype.render = function(ctx)
 			g_audio.orcdeath.Play();
 			this.deadsound = !this.deadsound;
 			}
-		
+
 
 		sx = g_sprites.E2Die[index].sx;
 		sy = g_sprites.E2Die[index].sy;
@@ -155,7 +156,7 @@ MeleeEnemy.prototype.update = function(dt)
 
     if(this.hitPoints<=0)
     {
-    	player = entityManager._getPlayer();
+    	var player = entityManager._getPlayer();
 		this.state = this.STATE_DEAD;
 
 	    if(this.deathAnimationTimeIndex > 110){
@@ -166,6 +167,8 @@ MeleeEnemy.prototype.update = function(dt)
 	                    colr : "green"},
 	                    entityManager._currentRoomID);
 	    }
+
+		player.score += 15;
 	      return entityManager.KILL_ME_NOW;
 	    }else{
 	      this.deathAnimationTimeIndex += dt;
@@ -181,8 +184,8 @@ MeleeEnemy.prototype.update = function(dt)
     }
     if(this.currentWalkLength<this.range)
     {
-	this.cx+=this.direction*5*dt;
-	this.currentWalkLength +=5*dt;
+	this.cx+=this.direction*this.stepLength*dt;
+	this.currentWalkLength +=this.stepLength*dt;
     }
     else
     {
@@ -228,8 +231,8 @@ MeleeEnemy.prototype.update = function(dt)
 MeleeEnemy.prototype.attack = function(dt)
 {
 
-    this.cx += this.direction*15*dt;
-    this.currentWalkLength += 15*dt;
+    this.cx += this.direction*this.stepLength*3*dt;
+    this.currentWalkLength += this.stepLength*3*dt;
     if(this.currentWalkLength>this.range/3)
 	this.isAttacking=false;
 
@@ -264,7 +267,7 @@ MeleeEnemy.prototype.takeDamage =function(pain)
 {
 	player = entityManager._getPlayer();
     g_audio.orcpain.Play();
-    
+
     if(this.currentInvulnTime>0)
         return;
     this.hitPoints -= pain;

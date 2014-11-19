@@ -381,6 +381,8 @@ Character.prototype.update = function(dt)
 	}
 	if(this.introAnimation > 0){
 		this.introAnimation -= dt;
+	}else{
+		this.ShouldPlay = true;
 	}
 	//console.log(this.introAnimation)
 

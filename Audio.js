@@ -135,9 +135,9 @@ var requiredSounds = {
 
 var g_sounds = [];
 
-function preLoadAudio() {
+function preLoadAudio(onFinish) {
 
-	soundsPreload(requiredSounds, g_sounds, audioPreloadDone);
+	soundsPreload(requiredSounds, g_sounds, audioPreloadDone, onFinish);
 }
 
 

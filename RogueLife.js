@@ -39,14 +39,14 @@ function gatherInputs() {
 
 function updateSimulation(du) {
     processDiagnostics();
-     
+
     if (!g_stopscreen && !g_deathfade && !g_finished) {
     entityManager.update(du);
 
 	HUD.update(du);
 
 	dungeon.update(du);
-	
+
 	if (entityManager._currentRoomID === 101 && entityManager._getPlayer().hasKey) {
 		if (!g_victoryscreen) g_dofade = true;
 		g_victoryscreen = true;
@@ -57,7 +57,7 @@ function updateSimulation(du) {
     g_audio.deathsound.sound.pause();
     g_audio.deathsound.reset();
     g_audio.victory.sound.pause();
-    
+
     if(entityManager._getPlayer() && !g_victoryscreen){
   		if (entityManager._getPlayer().life > 20) {
   				if (g_audio.soundtrack2 && g_audio.soundtrack2.sound) g_audio.soundtrack2.sound.pause();
@@ -68,8 +68,8 @@ function updateSimulation(du) {
   			}
   		}
   	}
-    
-	
+
+
 		else {
 			g_audio.soundtrack2.sound.pause();
 			g_audio.soundtrack.sound.pause();
@@ -78,7 +78,7 @@ function updateSimulation(du) {
 			g_audio.victory.sound.pause();
 		}
 	}
-	
+
 	else if (!g_musicmute) {
 		if (g_startscreen) {
 			if (g_fadeout) g_audio.startsound.sound.pause();
@@ -99,7 +99,7 @@ function updateSimulation(du) {
 			g_audio.victory.soundtrackPlay();
 		}
 	}
-		
+
 }
 
 // GAME-SPECIFIC DIAGNOSTICS
@@ -152,7 +152,7 @@ function processDiagnostics() {
 	if (eatKey(KEY_MUTE_TOGGLE)) g_mute = !g_mute;
 
 	if (eatKey(KEY_MUSICMUTE_TOGGLE)) g_musicmute = !g_musicmute;
-	
+
 	if (g_startscreen) {
 		console.log("g_story = " + g_story);
 		console.log("g_story2 = " + g_story2);
@@ -166,7 +166,7 @@ function processDiagnostics() {
 									}
 		}
 	}
-	
+
 	if (g_startscreen) {
 		if (eatKey(KEY_STARTSCREEN)) g_dofade = true;
 	}
@@ -194,15 +194,15 @@ function renderSimulation(ctx) {
 	if (g_startscreen && g_credits) startscreen.creditsrender(ctx);
 	else if (g_startscreen && g_story) startscreen.storyrender(ctx);
 	else {
-		
+
 		//fade.clusterfuck(ctx);
-		
-			
+
+
 		if (g_finished) startscreen.victoryrender(ctx);
 		if (!g_stop) {
-			if (g_deathscreen) startscreen.deathrender(ctx); 
+			if (g_deathscreen) startscreen.deathrender(ctx);
 			if (g_startscreen && g_showstart) startscreen.startrender(ctx);
-    	
+
     		if (!g_startscreen && !g_deathscreen|| g_fadein) {
     			if (!g_deathscreen && !g_finished) {
     			entityManager.render(ctx);
@@ -210,14 +210,14 @@ function renderSimulation(ctx) {
 				HUD.render(ctx);
 
 				dungeon.render(ctx);
-		
+
     			if (g_renderSpatialDebug) spatialManager.render(ctx);
 
 				if (g_toggleGrid) dungeon._currentRoom.render(ctx);
-	
+
 				}
-			}	
-		
+			}
+
 			if (g_startscreen && g_dofade) fade.startfadeout(ctx);
 			if (g_fadein && g_startscreen) fade.startfadein(ctx);
 			//
@@ -229,7 +229,7 @@ function renderSimulation(ctx) {
 			if (g_victoryscreen && g_dofade) fade.startfadeout(ctx);
 			if (g_finished) fade.startfadein(ctx);
 		}
-		
+
 	}
 }
 
@@ -271,8 +271,10 @@ function requestPreloads() {
       epic2	  : "sprites/epic2.png"
     };
 
-	preLoadAudio();
-    imagesPreload(requiredImages, g_images, preloadDone);
+	preLoadAudio(function () {
+		imagesPreload(requiredImages, g_images, preloadDone);
+	});
+    //imagesPreload(requiredImages, g_images, preloadDone);
 
 
 }
@@ -415,7 +417,7 @@ function preloadDone() {
                               Height : 100};
 
 
-    g_sprites.Chest = new Sprite(constructorObjects); 
+    g_sprites.Chest = new Sprite(constructorObjects);
 
 
     //Gate
@@ -505,7 +507,7 @@ function preloadDone() {
 
 
     g_sprites.Ground = new Sprite(constructorObjects);
-    
+
 
     //Key
     var constructorObjects = {image : g_images.Key,
@@ -536,54 +538,54 @@ function preloadDone() {
                               Height : 20};
 
 	g_sprites.plusMaxHealth = new Sprite(constructorObjects);
-	
+
 	//Me abusing the sprites to make a start screen
 	var constructorObjects = {image : g_images.logo,
 							  sx	: 0,
 							  sy	: 0,
 							  Width	: 750,
 							  Height: 500};
-							
+
 	g_sprites.logo = new Sprite(constructorObjects);
-	
+
 	var constructorObjects = {image : g_images.death,
 							  sx	: 0,
 							  sy	: 0,
 							  Width	: 750,
 							  Height: 500};
-							  
+
 	g_sprites.death = new Sprite(constructorObjects);
-	
+
 	var constructorObjects = {image : g_images.victory,
 							  sx	: 0,
 							  sy	: 0,
 							  Width	: 750,
 							  Height: 500};
-							  
+
 	g_sprites.victory = new Sprite(constructorObjects);
-	
+
 	var constructorObjects = {image : g_images.credits,
 							  sx	: 0,
 							  sy	: 0,
 							  Width	: 750,
 							  Height: 500};
-							  
+
 	g_sprites.credits = new Sprite(constructorObjects);
-	
+
 	var constructorObjects = {image : g_images.epic,
 							  sx	: 0,
 							  sy	: 0,
 							  Width	: 750,
 							  Height: 500};
-							  
+
 	g_sprites.epic = new Sprite(constructorObjects);
-	
+
 	var constructorObjects = {image : g_images.epic2,
 							  sx	: 0,
 							  sy	: 0,
 							  Width	: 750,
 							  Height: 500};
-							  
+
 	g_sprites.epic2 = new Sprite(constructorObjects);
 
 	//enemy walk
@@ -750,14 +752,14 @@ function preloadDone() {
     g_sprites.E2attackSw = E2attacking;
 
 	console.log("g_sprites: " + g_sprites);
-    
+
     //creates initial objects
-    
+
 	dungeon.init();
-    entityManager.init(); 
+    entityManager.init();
 
     main.init();
-    
+
 }
 
 function restart(){

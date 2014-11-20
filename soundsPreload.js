@@ -26,7 +26,8 @@ Audio.prototype.asyncLoad = function(src, asyncCallback) {
 
 function soundsPreload(requiredSounds,
                        loadedSounds,
-                       completionCallback) {
+                       completionCallback,
+					   finalCallback) {
 
     var numSoundsRequired,
         numSoundsHandled = 0,

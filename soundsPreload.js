@@ -81,4 +81,6 @@ function soundsPreload(requiredSounds,
             currentSound.asyncLoad(requiredSounds[currentName], preloadHandler);
         }
     }
+
+	finalCallback();
 }
